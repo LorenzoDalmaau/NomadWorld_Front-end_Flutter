@@ -1,104 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nomadworld/controllers/register_controller.dart';
-import 'package:nomadworld/ui/widgets/custom_textfield.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
-class RegisterScreen extends StatelessWidget {
-  final RegisterController controller = Get.put(RegisterController());
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
-  RegisterScreen({super.key});
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  void registerUser(String username, String email, String password) async {
+    var url = Uri.parse('http://127.0.0.1:8000/register');
+    var response = await http.post(url, body: {
+      'username': username,
+      'email': email,
+      'password': password,
+    });
+
+    if (response.statusCode == 200) {
+      var jsonResponse = convert.jsonDecode(response.body);
+      if (jsonResponse['success'] == true) {
+        Get.offAllNamed('/login');
+      } else {
+        
+      }
+    } else {
+      
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            colors: [
-              Color(0xFF195F47),
-              Color.fromARGB(255, 20, 134, 94),
-            ],
-          ),
-        ),
+      appBar: AppBar(title: const Text('Register')),
+      body: Padding(
+        padding: const EdgeInsets.all(50.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            const SizedBox(height: 10),
-            const Padding(
-              padding: EdgeInsets.all(20),
-              child: Icon(
-                Icons.logo_dev_rounded,
-                size: 150,
-                color: Colors.white,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextFormField(
+              controller: usernameController,
+              decoration: const InputDecoration(
+                hintText: 'Username',
               ),
             ),
-            Expanded(
-              child: Container(
-                decoration: const BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color.fromARGB(150, 0, 0, 0), blurRadius: 50)
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: <Widget>[
-                      const SizedBox(height: 40),
-                      CustomTextField(
-                        controller: controller.usernameController,
-                        hintText: 'Nombre de usuario',
-                        isPassword: false,
-                      ),
-                      const SizedBox(height: 20),
-                      CustomTextField(
-                        controller: controller.emailController,
-                        hintText: 'Correo electrónico',
-                        isPassword: false,
-                      ),
-                      const SizedBox(height: 20),
-                      CustomTextField(
-                        controller: controller.passwordController,
-                        hintText: 'Contraseña',
-                        isPassword: true,
-                      ),
-                      const SizedBox(height: 20),
-                      CustomTextField(
-                        controller: controller.repeatPasswordController,
-                        hintText: 'Repetir Contraseña',
-                        isPassword: true,
-                      ),
-                      const SizedBox(height: 40),
-                      ElevatedButton(
-                        onPressed: () => controller.registerUser(),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF195F47),
-                          padding: const EdgeInsets.symmetric(horizontal: 100),
-                          textStyle: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          elevation: 20,
-                        ),
-                        child: const Text(
-                          'Register',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+
+            const SizedBox(height: 20),
+            TextFormField(
+              controller: emailController,
+              decoration: const InputDecoration(
+                hintText: 'aaaaa@gmail.com',
               ),
+            ),
+
+            const SizedBox(height: 20),
+            TextFormField(
+              controller: passwordController,
+              decoration: const InputDecoration(
+                hintText: 'password',
+              ),
+            ),
+
+            const SizedBox(height: 40),
+            ElevatedButton(
+              onPressed: () {
+                registerUser(usernameController.text.toString(), emailController.text.toString(), passwordController.text.toString());
+              },
+              child: const Text('Register!'),
             ),
           ],
         ),
@@ -106,4 +82,3 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 }
-

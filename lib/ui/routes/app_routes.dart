@@ -7,7 +7,7 @@ import 'package:nomadworld/ui/screens/RegisterScreen/register_screen.dart';
 class AppRoutes {
   static final List<GetPage> routes = [
     GetPage(name: '/login', page: () => const LoginScreen()),
-    GetPage(name: '/register', page: () => RegisterScreen()),
+    GetPage(name: '/register', page: () => const RegisterScreen()),
     GetPage(name: '/home', page: () => const HomeScreen()),
   ];
 }

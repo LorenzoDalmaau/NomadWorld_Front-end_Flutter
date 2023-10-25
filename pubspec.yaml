@@ -29,6 +29,8 @@ dependencies:
   get: ^4.6.6
   # Http -> Esto es para el manejo de peticiones http
   http: ^1.1.0
+  # SharedPreferences -> Esto es para el manejo de datos en el dispositivo
+  shared_preferences: ^2.2.2
 
 
   # The following adds the Cupertino Icons font to your application.
