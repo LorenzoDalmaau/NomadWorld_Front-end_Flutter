@@ -1,4 +1,3 @@
-
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:nomadworld/ui/screens/HomeScreen/home_screen.dart';
 import 'package:nomadworld/ui/screens/LoginScreen/login_screen.dart';
@@ -10,6 +9,9 @@ class AppRoutes {
     GetPage(name: '/login', page: () => const LoginScreen()),
     GetPage(name: '/register', page: () => const RegisterScreen()),
     GetPage(name: '/home', page: () => HomeScreen()),
-    GetPage(name: '/route', page: () => RouteScreen()),
+    GetPage(
+      name: '/route',
+      page: () => RouteScreen(),
+    ),
   ];
 }
