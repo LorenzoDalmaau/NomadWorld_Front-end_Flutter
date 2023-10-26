@@ -11,28 +11,41 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   void registerUser(String username, String email, String password) async {
-    var url = Uri.parse('http://127.0.0.1:8000/register');
-    var response = await http.post(url, body: {
+    var url = Uri.parse('http://192.168.56.1:8080/register');
+
+    Map<String, dynamic> userMap = {
       'username': username,
       'email': email,
-      'password': password,
-    });
+      'password': password
+    };
 
-    if (response.statusCode == 200) {
-      var jsonResponse = convert.jsonDecode(response.body);
-      if (jsonResponse['success'] == true) {
+    // Sending the user object to the server
+    var response = await http.post(url,
+        body: convert.jsonEncode(userMap),
+        headers: {'Content-Type': 'application/json'});
+
+    // Checking the response
+    if (response.statusCode == 201) {
+      var jsonResponse = response.body;
+
+      if (jsonResponse.contains('User created successfully')) {
+        Get.snackbar('Success', 'Usuario registrado correctamente',
+            snackPosition: SnackPosition.BOTTOM);
         Get.offAllNamed('/login');
       } else {
-        
+        // Mostrar un mensaje de error si la respuesta no contiene el mensaje esperado
+        Get.snackbar('Error', 'Error en la respuesta del servidor',
+            snackPosition: SnackPosition.BOTTOM);
       }
     } else {
-      
+      // Mostrar el código de estado HTTP si la respuesta no es 201
+      Get.snackbar('Error', 'HTTP Error: ${response.statusCode}',
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 
@@ -52,7 +65,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 hintText: 'Username',
               ),
             ),
-
             const SizedBox(height: 20),
             TextFormField(
               controller: emailController,
@@ -60,7 +72,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 hintText: 'aaaaa@gmail.com',
               ),
             ),
-
             const SizedBox(height: 20),
             TextFormField(
               controller: passwordController,
@@ -68,11 +79,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 hintText: 'password',
               ),
             ),
-
             const SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
-                registerUser(usernameController.text.toString(), emailController.text.toString(), passwordController.text.toString());
+                registerUser(
+                    usernameController.text.toString(),
+                    emailController.text.toString(),
+                    passwordController.text.toString());
               },
               child: const Text('Register!'),
             ),
