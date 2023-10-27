@@ -11,13 +11,18 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  // Controllers for the text fields
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordConfirmationController =
+      TextEditingController();
 
+  // Function to register the user
   void registerUser(String username, String email, String password) async {
-    var url = Uri.parse('http://192.168.56.1:8080/register');
+    var url = Uri.parse('http://192.168.56.1:8000/register');
 
+    // Creating the user object
     Map<String, dynamic> userMap = {
       'username': username,
       'email': email,
@@ -34,7 +39,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       var jsonResponse = response.body;
 
       if (jsonResponse.contains('User created successfully')) {
-        Get.snackbar('Success', 'Usuario registrado correctamente',
+        Get.snackbar('Genial!', 'Usuario registrado correctamente',
             snackPosition: SnackPosition.BOTTOM);
         Get.offAllNamed('/login');
       } else {
@@ -52,42 +57,129 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Register')),
-      body: Padding(
-        padding: const EdgeInsets.all(50.0),
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        width: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            colors: [
+              Color(0xFF195F47),
+              Color.fromARGB(255, 20, 134, 94),
+            ],
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextFormField(
-              controller: usernameController,
-              decoration: const InputDecoration(
-                hintText: 'Username',
+          children: <Widget>[
+            const SizedBox(height: 10),
+            const Padding(
+              padding: EdgeInsets.all(20),
+              child: Icon(
+                Icons.logo_dev_rounded,
+                size: 150,
+                color: Colors.white,
               ),
             ),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: emailController,
-              decoration: const InputDecoration(
-                hintText: 'aaaaa@gmail.com',
+            Expanded(
+              child: SingleChildScrollView(
+                reverse: true,
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior
+                    .onDrag, // Controla el comportamiento del teclado
+                child: Container(
+                  decoration: const BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromARGB(150, 0, 0, 0),
+                        blurRadius: 50,
+                      ),
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(50),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 80),
+                    child: Column(
+                      children: <Widget>[
+                        const SizedBox(height: 40),
+                        // Username field
+                        TextFormField(
+                          controller: usernameController,
+                          decoration: const InputDecoration(
+                            hintText: 'Username',
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                        // Email field
+                        TextFormField(
+                          controller: emailController,
+                          decoration: const InputDecoration(
+                            hintText: 'email@example.com',
+                          ),
+                        ),
+
+                        const SizedBox(height: 40),
+                        // Password field
+                        TextFormField(
+                          controller: passwordController,
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                            hintText: 'Password',
+                          ),
+                        ),
+
+                        const SizedBox(height: 40),
+                        // Password confirmation
+                        TextFormField(
+                          controller: passwordConfirmationController,
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                            hintText: 'Password confirmation',
+                          ),
+                        ),
+
+                        const SizedBox(height: 80),
+                        // Register button
+                        ElevatedButton(
+                          onPressed: () {
+                            if (passwordController.text.toString() ==
+                                passwordConfirmationController.text
+                                    .toString()) {
+                              registerUser(
+                                  usernameController.text.toString(),
+                                  emailController.text.toString(),
+                                  passwordController.text.toString());
+                            } else {
+                              Get.snackbar(
+                                  'Error', 'Las contraseñas no coinciden',
+                                  snackPosition: SnackPosition.BOTTOM);
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF195F47),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 80),
+                            textStyle: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            elevation: 20,
+                          ),
+                          child: const Text(
+                            'Register',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: passwordController,
-              decoration: const InputDecoration(
-                hintText: 'password',
-              ),
-            ),
-            const SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () {
-                registerUser(
-                    usernameController.text.toString(),
-                    emailController.text.toString(),
-                    passwordController.text.toString());
-              },
-              child: const Text('Register!'),
             ),
           ],
         ),
