@@ -11,9 +11,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  late Size mediaSize;
+  
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  
   // Function to login the user
   void loginUser(String email, String password) async {
     var url = Uri.parse('http://192.168.56.1:8000/login');
@@ -49,124 +51,177 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    mediaSize = MediaQuery.of(context).size;
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            colors: [
-              Color(0xFF195F47),
-              Color.fromARGB(255, 20, 134, 94),
-            ],
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/travel3.jpg"),
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+            Color.fromARGB(192, 25, 95, 71),
+            BlendMode.darken,
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            const SizedBox(height: 30),
-            const Padding(
-              padding: EdgeInsets.all(60),
-              child: Icon(
-                Icons.logo_dev_rounded,
-                size: 150,
-                color: Colors.white,
-              ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          children: [
+            Positioned(
+              top: 40,
+              child: _buildTop(),
             ),
-            const SizedBox(height: 10),
-            Expanded(
-              child: Container(
-                decoration: const BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color.fromARGB(150, 0, 0, 0), blurRadius: 50)
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: <Widget>[
-                      const SizedBox(height: 40),
-                      TextFormField(
-                        controller: emailController,
-                        decoration: const InputDecoration(
-                          hintText: 'Email Address',
-                          hintStyle: TextStyle(color: Color(0xFF195F47)),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      TextFormField(
-                        obscureText: true,
-                        controller: passwordController,
-                        decoration: const InputDecoration(
-                          hintText: 'Password',
-                          hintStyle: TextStyle(color: Color(0xFF195F47)),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      const Text(
-                        'Forgot Password?',
-                        style: TextStyle(color: Color(0xFF195F47)),
-                      ),
-                      const SizedBox(height: 80),
-                      // ElevatedButton with color from gradient
-                      ElevatedButton(
-                        onPressed: () {
-                          loginUser(emailController.text.toString(),
-                              passwordController.text.toString());
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF195F47),
-                          padding: const EdgeInsets.symmetric(horizontal: 100),
-                          textStyle: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          elevation: 20,
-                        ),
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/register');
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF3ACCA2),
-                          padding: const EdgeInsets.symmetric(horizontal: 90),
-                          textStyle: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          elevation: 20,
-                        ),
-                        child: const Text(
-                          'Register',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            Positioned(
+              bottom: -3,
+              child: _buildBottom(),
+            )
           ],
         ),
       ),
     );
   }
+  
+  Widget _buildTop() {
+    return SizedBox(
+      width: mediaSize.width,
+      child: const Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image(
+            image: AssetImage("assets/Nomad.png"),
+            width: 200,
+            height: 200,
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBottom() {
+    return SizedBox(
+      width: mediaSize.width,
+      child: Card(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(50),
+            topRight: Radius.circular(50)
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: _buildForm(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildForm() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Welcome',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        _buildGreenText("Please login with your information"),
+        const SizedBox(height: 25),
+        _buildGreenText("Email address"),
+        _buildInputField(emailController),
+        const SizedBox(height: 20),
+        _buildGreenText("Password"),
+        _buildInputField(passwordController, isPassword: true),
+        const SizedBox(height: 10),
+        _buildRegisterText(),
+        const SizedBox(height: 30),
+        _buildLoginButton()
+      ],
+    );
+  }
+
+  Widget _buildGreenText(String text) {
+    return Text(
+      text,
+      style: const TextStyle(
+        color: Color(0xFF195F47),
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  Widget _buildInputField(TextEditingController controller, {isPassword = false}) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        suffixIcon: isPassword
+            ? const Icon(Icons.remove_red_eye)
+            : const Icon(Icons.person_2_outlined),
+      ),
+      obscureText: isPassword,
+    );
+  }
+
+  Widget _buildLoginButton() {
+    return Center(
+      child: ElevatedButton(
+        onPressed: () {
+          loginUser(emailController.text.toString(),
+              passwordController.text.toString());
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF195F47),
+          padding: const EdgeInsets.symmetric(horizontal: 100),
+          textStyle: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+          elevation: 20,
+        ),
+        child: const Text(
+          'Login',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRegisterText() {
+    return Row(
+      children: [
+        const Text(
+          "¿Todavía no tienes cuenta?",
+          style: TextStyle(fontSize: 13),
+        ),
+        InkWell(
+          onTap: () {
+            Get.toNamed('/register');
+          },
+          child: const Text(
+            " Crear una cuenta",
+            style: TextStyle(
+                fontSize: 13,
+                color: Color(0xFF195F47),
+                fontWeight: FontWeight.bold
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
 }
