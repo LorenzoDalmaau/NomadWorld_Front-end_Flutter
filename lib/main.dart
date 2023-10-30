@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       title: 'Nomad World',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        useMaterial3: true,
       ),
       initialRoute: '/login',
       getPages: AppRoutes.routes,
