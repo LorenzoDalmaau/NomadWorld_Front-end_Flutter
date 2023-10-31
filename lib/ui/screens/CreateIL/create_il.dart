@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nomadworld/ui/screens/CreateIL/Constants/constants.dart';
 
 class CreateIL extends StatelessWidget {
   const CreateIL({super.key});
@@ -33,21 +34,40 @@ class CreateIL extends StatelessWidget {
               child:  Column(
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height * 0.06),
-                  const Text('¿Qué te gustaría crear hoy?', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: Colors.white)),
+                  const Text(creationPageTitle, style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: Colors.white)),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                  const Text("¡Crea nuevas rutas y/o ubicaciones para que los demás usuarios puedan disfrutar de nuevas rutas!", style: TextStyle(color: Colors.white),)
+                  const Text(creationPageSubtitle, style: TextStyle(color: Colors.white),)
                 ],
               ),
             ),
           ),
-          //TODO Agregar Cards
-          //Card1
-          InkWell(
-            child: Container(
 
+          // Contenedor donde estarán las 2 opciones
+          Padding(
+            padding: const EdgeInsets.only(left: 40, right: 40, top: 40),
+            child: InkWell(
+              child: Container(
+                width: 300,
+                height: 150,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: const Color.fromARGB(115, 105, 103, 103),
+                  ),
+                ),
+                child: const Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 50),
+                      child: Icon(
+                          Icons.map_sharp,
+                          size: 40,
+                          color: Colors.black38),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
-          //Card2
         ],
       ),
     );
