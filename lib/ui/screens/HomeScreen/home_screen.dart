@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:nomadworld/models/Country.dart';
 import 'package:nomadworld/models/Location.dart';
 import 'package:nomadworld/ui/screens/HomeScreen/Widgets/PopularRoutesList.dart';
@@ -73,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           onPressed: () {
                             // Acción al presionar el botón
+                            Get.toNamed('/create-il');
                           },
                         ),
                       ],
