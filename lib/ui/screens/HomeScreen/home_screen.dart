@@ -124,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           Container(
-              height: MediaQuery.of(context).size.height * 0.5955,
+              height: MediaQuery.of(context).size.height * 0.59,
               child: FutureBuilder<List<Country>>(
                 future: widget.country_list,
                 builder: (context, snapshot) {
