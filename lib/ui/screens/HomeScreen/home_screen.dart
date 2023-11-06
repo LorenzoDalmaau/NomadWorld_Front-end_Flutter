@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             child: Column(
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.033),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.0265),
                 Padding(
                     padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.height * 0.02, 0, MediaQuery.of(context).size.height * 0.02, MediaQuery.of(context).size.height * 0.02),
                     child: Row(
