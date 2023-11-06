@@ -26,7 +26,7 @@ class CardILWidget extends StatelessWidget {
         },
         child: Container(
           width: 380,
-          height: 110,
+          height: 130,
           decoration: const BoxDecoration(
             color: Colors.white,
             boxShadow: [
