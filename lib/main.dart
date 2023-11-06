@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      initialRoute: '/create-il',
+      initialRoute: '/login',
       getPages: AppRoutes.routes,
     );
   }

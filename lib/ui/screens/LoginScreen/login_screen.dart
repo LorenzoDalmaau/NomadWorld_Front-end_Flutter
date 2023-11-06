@@ -178,8 +178,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return Center(
       child: ElevatedButton(
         onPressed: () {
-          loginUser(emailController.text.toString(),
-              passwordController.text.toString());
+          //loginUser(emailController.text.toString(),
+           //   passwordController.text.toString());
+          Get.toNamed("/home");
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF195F47),
