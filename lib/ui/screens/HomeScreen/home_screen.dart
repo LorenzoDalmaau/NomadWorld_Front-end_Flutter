@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Container(
             width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.33,
+            height: MediaQuery.of(context).size.height * 0.34,
             decoration: const BoxDecoration(
               boxShadow: [
                 BoxShadow(
@@ -124,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           Container(
-              height: MediaQuery.of(context).size.height * 0.59,
+              height: MediaQuery.of(context).size.height * 0.56,
               child: FutureBuilder<List<Country>>(
                 future: widget.country_list,
                 builder: (context, snapshot) {
