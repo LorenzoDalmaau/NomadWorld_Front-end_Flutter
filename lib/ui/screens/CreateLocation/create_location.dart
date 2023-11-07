@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nomadworld/ui/screens/CreateLocation/widgets/build_subtitle.dart';
+import 'package:nomadworld/ui/screens/CreateLocation/widgets/build_text_fields.dart';
 import 'package:nomadworld/ui/screens/CreateLocation/widgets/build_title.dart';
 
 class CreateLocation extends StatefulWidget {
@@ -43,7 +44,7 @@ class _CreateLocationState extends State<CreateLocation> {
             // Subtitle
             BuildSubtitle(),
             // TextFields
-            BuildTextFields(),
+            const BuildTextFields(),
           ],
         ),
       ),
