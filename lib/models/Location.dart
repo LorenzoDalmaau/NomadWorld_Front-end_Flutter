@@ -1,14 +1,10 @@
 class LocationData{
 
   int id;
-  String name;
+  int creator_id;
   String description;
-  DateTime date;
-  double longitude;
-  double latitude;
-  int countryId;
-  int imageId;
+  int likes;
+  List<String> images;
 
-
-  LocationData(this.id, this.name, this.description, this.date, this.longitude, this.latitude, this.countryId, this.imageId);
+  LocationData(this.id, this.creator_id, this.description, this.likes, this.images);
 }
