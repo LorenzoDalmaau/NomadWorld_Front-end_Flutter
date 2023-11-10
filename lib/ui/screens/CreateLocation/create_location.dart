@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nomadworld/ui/screens/CreateLocation/widgets/build_subtitle.dart';
-import 'package:nomadworld/ui/screens/CreateLocation/widgets/build_text_fields.dart';
+import 'package:nomadworld/ui/screens/CreateLocation/widgets/build_location.dart';
 import 'package:nomadworld/ui/screens/CreateLocation/widgets/build_title.dart';
 
 class CreateLocation extends StatefulWidget {
@@ -34,19 +34,23 @@ class _CreateLocationState extends State<CreateLocation> {
       ),
 
       //BODY
-      body: Padding(
-        padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Title
-            const BuildTitle(),
-            // Subtitle
-            BuildSubtitle(),
-            // TextFields
-            const BuildTextFields(),
-          ],
-        ),
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Title
+                const BuildTitle(),
+                // Subtitle
+                BuildSubtitle(),
+                // TextFields
+                const BuildLocation(),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

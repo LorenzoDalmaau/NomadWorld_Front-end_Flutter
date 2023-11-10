@@ -31,6 +31,10 @@ dependencies:
   http: ^1.1.0
   # SharedPreferences -> Esto es para el manejo de datos en el dispositivo
   shared_preferences: ^2.2.2
+  # ImagePicker -> Para que el usuario pueda subir imagenes de la galería
+  image_picker: ^1.0.4
+  # PermissionHandler -> Permisos en tiempo de ejcución para las imagenes
+  permission_handler: ^11.0.1
 
 
   # The following adds the Cupertino Icons font to your application.
