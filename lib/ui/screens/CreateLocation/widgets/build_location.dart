@@ -114,14 +114,18 @@ class _BuildingLocationDataState extends State<BuildingLocationData> {
             ),
           ),
         ),
+        const SizedBox(height: 20,),
 
-        const SizedBox(height: 20),
-
+        /// TODO Arreglar imagenes
+        /// Mostrar las imagenes
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (image != null)
-              Image.file(image!)
+            SizedBox(
+              height: 55,
+              width: 55,
+              child: checkImage()
+            ),
           ],
         ),
 
@@ -143,4 +147,11 @@ class _BuildingLocationDataState extends State<BuildingLocationData> {
       ],
     );
   }
+
+  checkImage() {
+    if (image != null) {
+      return Image.file(image!);
+    }
+  }
+
 }
