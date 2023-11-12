@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:nomadworld/controllers/app_image_picker.dart';
-
 import '../../../widgets/map_box.dart';
 
 class BuildLocation extends StatelessWidget {
@@ -51,8 +51,9 @@ class BuildingLocationData extends StatefulWidget {
 class _BuildingLocationDataState extends State<BuildingLocationData> {
   // Controllers
   TextEditingController nameLocationController = TextEditingController();
-
   File? image;
+  LatLng? location;
+
 
   pickImage(ImageSource source) {
     AppImagePicker(source: source)
@@ -62,6 +63,10 @@ class _BuildingLocationDataState extends State<BuildingLocationData> {
           },);
     },);
   }
+
+  // TODO Crear función para el POST a la API
+  // A la hora de pasar la lat y long por separadas, debo de pasar lcoation por parametro en la función para después
+  // llamar a position.latitude.toString() y position.longitude.toString()
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +103,13 @@ class _BuildingLocationDataState extends State<BuildingLocationData> {
         // Maps
         Container(
           height: 250,
-          child: const MapBox(),
+          child: MapBox(
+            onLocationChanged: (LatLng location) {
+              setState(() {
+                print('Selected Location $location');
+              });
+            },
+          ),
 
         ),
 
@@ -153,5 +164,4 @@ class _BuildingLocationDataState extends State<BuildingLocationData> {
       return Image.file(image!);
     }
   }
-
 }
