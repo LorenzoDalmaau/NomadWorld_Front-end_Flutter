@@ -54,14 +54,16 @@ class _BuildingLocationDataState extends State<BuildingLocationData> {
   File? image;
   LatLng? location;
 
-
   pickImage(ImageSource source) {
-    AppImagePicker(source: source)
-        .pick(onPick: (File? image){
-          setState(() {
+    AppImagePicker(source: source).pick(
+      onPick: (File? image) {
+        setState(
+          () {
             this.image = image;
-          },);
-    },);
+          },
+        );
+      },
+    );
   }
 
   // TODO Crear función para el POST a la API
@@ -110,7 +112,14 @@ class _BuildingLocationDataState extends State<BuildingLocationData> {
               });
             },
           ),
-
+        ),
+        const SizedBox(height: 5),
+        const Text(
+          'Por favor, en caso de que no le deje continuar, seleccione un marcador de nuevo.',
+          style: TextStyle(
+              fontSize: 8,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic),
         ),
 
         const SizedBox(height: 20),
@@ -125,18 +134,16 @@ class _BuildingLocationDataState extends State<BuildingLocationData> {
             ),
           ),
         ),
-        const SizedBox(height: 20,),
+        const SizedBox(
+          height: 20,
+        ),
 
         /// TODO Arreglar imagenes
         /// Mostrar las imagenes
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 55,
-              width: 55,
-              child: checkImage()
-            ),
+            SizedBox(height: 55, width: 55, child: checkImage()),
           ],
         ),
 
