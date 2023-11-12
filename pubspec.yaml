@@ -39,6 +39,8 @@ dependencies:
   flutter_map: ^6.0.1
   # LatLong -> Biblioteca que nos permite calcular la Lat y Long
   latlong2: ^0.9.0
+  # Geolocator -> Nos permite obtener la ubicación del dispositivo
+  geolocator: ^10.1.0
 
 
   # The following adds the Cupertino Icons font to your application.
