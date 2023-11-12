@@ -11,12 +11,12 @@ class BuildLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 30.0),
+    return const Padding(
+      padding: EdgeInsets.only(top: 30.0),
       child: Column(
         children: [
-          const TNameLocation(),
-          const SizedBox(height: 10),
+          TNameLocation(),
+          SizedBox(height: 10),
           BuildingLocationData(),
         ],
       ),
@@ -96,9 +96,10 @@ class _BuildingLocationDataState extends State<BuildingLocationData> {
 
         const SizedBox(height: 20),
         // Maps
-        const SizedBox(
+        Container(
           height: 250,
-          child: MapBox(),
+          child: const MapBox(),
+
         ),
 
         const SizedBox(height: 20),

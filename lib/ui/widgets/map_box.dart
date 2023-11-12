@@ -5,6 +5,8 @@ import 'package:latlong2/latlong.dart';
 const MAPBOX_ACCESS_TOKEN =
     'pk.eyJ1IjoibG9yZW56b2RhbG1hdSIsImEiOiJjbG92ZXMxemswdzAwMmxsbDF0dWhyNW9rIn0.JyO5o6PltVGdyybgflz7uQ';
 
+const MAPBOX_STYLE = 'mapbox/streets-v12';
+
 final myPosition = LatLng(41.4326948, 2.1733909);
 
 class MapBox extends StatelessWidget {
@@ -17,14 +19,14 @@ class MapBox extends StatelessWidget {
         initialCenter: myPosition,
         minZoom: 5,
         maxZoom: 25,
-        initialZoom: 25,
+        initialZoom: 15,
       ),
       children: [
         TileLayer(
           urlTemplate: 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
           additionalOptions: const {
             'accessToken': MAPBOX_ACCESS_TOKEN,
-            'id': 'mapbox/outdoors-v12',
+            'id': MAPBOX_STYLE,
           },
         ),
         MarkerLayer(
