@@ -35,6 +35,10 @@ dependencies:
   image_picker: ^1.0.4
   # PermissionHandler -> Permisos en tiempo de ejcución para las imagenes
   permission_handler: ^11.0.1
+  # Flutter_map -> Nos permitirá poder cargar mapas en nuestra app
+  flutter_map: ^6.0.1
+  # LatLong -> Biblioteca que nos permite calcular la Lat y Long
+  latlong2: ^0.9.0
 
 
   # The following adds the Cupertino Icons font to your application.

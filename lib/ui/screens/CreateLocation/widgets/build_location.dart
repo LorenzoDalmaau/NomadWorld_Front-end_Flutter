@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nomadworld/controllers/app_image_picker.dart';
 
+import '../../../widgets/map_box.dart';
+
 class BuildLocation extends StatelessWidget {
   const BuildLocation({super.key});
 
@@ -40,7 +42,7 @@ class TNameLocation extends StatelessWidget {
 }
 
 class BuildingLocationData extends StatefulWidget {
-  BuildingLocationData({super.key});
+  const BuildingLocationData({super.key});
 
   @override
   State<BuildingLocationData> createState() => _BuildingLocationDataState();
@@ -94,12 +96,9 @@ class _BuildingLocationDataState extends State<BuildingLocationData> {
 
         const SizedBox(height: 20),
         // Maps
-        Container(
-          color: Colors.green,
+        const SizedBox(
           height: 250,
-          // decoration: BoxDecoration(
-          //   borderRadius: BorderRadius.circular(20),
-          // ),
+          child: MapBox(),
         ),
 
         const SizedBox(height: 20),
