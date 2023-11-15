@@ -74,17 +74,12 @@ class LocationList extends StatelessWidget {
                         child: Row(
                           children: [
                             Text(
-                              "${location.likes} ",
+                              "${location.date} ",
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
                               ),
-                            ),
-                            Image.asset(
-                              "assets/like-black.png",
-                              height: MediaQuery.of(context).size.height * 0.02,
-                              width: MediaQuery.of(context).size.height * 0.02,
                             ),
                           ],
                         ),

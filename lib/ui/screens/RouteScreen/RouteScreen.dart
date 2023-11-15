@@ -20,7 +20,7 @@ class RouteScreen extends StatelessWidget {
                 pinned: true,
                 backgroundColor: Color.fromARGB(255, 20, 134, 94),
                 flexibleSpace: FlexibleSpaceBar(
-                  title: Text(route.title),
+                  title: Text(route.name),
                   centerTitle: true, // Centra el título verticalmente
                   background: checkImageNumber(route),
                 ),
@@ -32,7 +32,7 @@ class RouteScreen extends StatelessWidget {
                     height: MediaQuery.of(context).size.height * 0.15,
                     child: SingleChildScrollView(
                       child: Text(
-                        route.description,
+                        route.descrption,
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold
@@ -86,7 +86,7 @@ class RouteScreen extends StatelessWidget {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                       (BuildContext context, int index) {
-                        return DaysList(day: index+1, locations: route.locations[index]);
+                        return DaysList(day: index+1, locations: route.locations);
                   },
                   childCount: route.locations.length,
                 ),
@@ -97,14 +97,14 @@ class RouteScreen extends StatelessWidget {
   }
 
   checkImageNumber(TravelRoute route){
-    if (route.images.length > 1){
-      return Carousel(images: route.images);
+    if (route.locations[0].images.length > 1){
+      return Carousel(images: route.locations[0].images);
     }
     else {
       return Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(route.images[0]),
+            image: AssetImage(route.locations[0].images[0]),
             fit: BoxFit.cover,
           ),
         ),

@@ -32,7 +32,7 @@ class PopularRoutesList extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(25)),
                   image: DecorationImage(
-                    image: AssetImage(item.images[0]),
+                    image: AssetImage(item.locations[0].images[0]),
                     fit: BoxFit.cover,
                   ),
                   boxShadow: [
@@ -47,7 +47,7 @@ class PopularRoutesList extends StatelessWidget {
                     Align(
                       alignment: Alignment.center,
                       child: Text(
-                        checkTextSize(item.title),
+                        checkTextSize(item.name),
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -61,16 +61,11 @@ class PopularRoutesList extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                            "${item.likes.toString()} ",
+                            "${item.distance}Km",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold
                             ),
-                          ),
-                          Image.asset(
-                            "assets/like-white.png",
-                            height: 12,
-                            width: 12,
                           ),
                         ],
                       ),
