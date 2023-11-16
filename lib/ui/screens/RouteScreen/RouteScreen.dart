@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nomadworld/models/TravelRoute.dart';
 import 'package:nomadworld/ui/screens/RouteScreen/widgets/Carousel.dart';
-import 'package:nomadworld/ui/screens/RouteScreen/widgets/DaysList.dart';
+import 'package:nomadworld/ui/screens/RouteScreen/widgets/Location_Card.dart';
 
 class RouteScreen extends StatelessWidget {
 
@@ -18,9 +18,14 @@ class RouteScreen extends StatelessWidget {
                 expandedHeight: MediaQuery.of(context).size.height * 0.3,
                 floating: false,
                 pinned: true,
-                backgroundColor: Color.fromARGB(255, 20, 134, 94),
+                backgroundColor: const Color.fromARGB(255, 20, 134, 94),
                 flexibleSpace: FlexibleSpaceBar(
-                  title: Text(route.title),
+                  title: Text(
+                    route.name,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
                   centerTitle: true, // Centra el título verticalmente
                   background: checkImageNumber(route),
                 ),
@@ -28,15 +33,12 @@ class RouteScreen extends StatelessWidget {
               SliverToBoxAdapter(
                 child: Padding(
                   padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.03),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.15,
-                    child: SingleChildScrollView(
-                      child: Text(
-                        route.description,
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold
-                        ),
+                  child: Expanded(
+                    child: Text(
+                      route.descrption,
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold
                       ),
                     ),
                   ),
@@ -44,7 +46,7 @@ class RouteScreen extends StatelessWidget {
               ),
               SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.height * 0.01, MediaQuery.of(context).size.height * 0.01, MediaQuery.of(context).size.height * 0.01, MediaQuery.of(context).size.height * 0.04),
+                    padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.height * 0.01, MediaQuery.of(context).size.height * 0.01, MediaQuery.of(context).size.height * 0.01, MediaQuery.of(context).size.height * 0.005),
                     child: Column(
                       children: [
                         Container(
@@ -53,7 +55,7 @@ class RouteScreen extends StatelessWidget {
                               child: Align(
                                 alignment: Alignment.bottomLeft,
                                 child: Text(
-                                  "Itinerario de viaje",
+                                  "Itinerario",
                                   style: TextStyle(
                                       fontSize: 23,
                                       fontWeight: FontWeight.bold
@@ -83,28 +85,60 @@ class RouteScreen extends StatelessWidget {
                   )
               ),
 
-              SliverList(
+              SliverToBoxAdapter(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
+                      child: Text(
+                        "${route.duration} dias",
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
+                      child: Text(
+                        "${route.distance}Km",
+                        style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              SliverGrid(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 0.7,
+                  crossAxisCount: 2,
+                ),
                 delegate: SliverChildBuilderDelegate(
                       (BuildContext context, int index) {
-                        return DaysList(day: index+1, locations: route.locations[index]);
+                    return LocationCard(location: route.locations[index]);
                   },
                   childCount: route.locations.length,
                 ),
               ),
             ],
       ),
-      );
+    );
   }
 
   checkImageNumber(TravelRoute route){
-    if (route.images.length > 1){
-      return Carousel(images: route.images);
+    if (route.locations[0].images.length > 1){
+      return Carousel(images: route.locations[0].images);
     }
     else {
       return Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(route.images[0]),
+            image: AssetImage(route.locations[0].images[0]),
             fit: BoxFit.cover,
           ),
         ),

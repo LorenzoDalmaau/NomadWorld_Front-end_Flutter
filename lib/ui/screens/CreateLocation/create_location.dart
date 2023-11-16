@@ -33,20 +33,9 @@ class _CreateLocationState extends State<CreateLocation> {
       ),
 
       //BODY
-      body: Padding(
-        padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Title
-            const BuildTitle(),
-            // Subtitle
-            BuildSubtitle(),
-            // TextFields
-            BuildTextFields(),
-          ],
-        ),
-      ),
+      body: const Text(
+        "aaa"
+      )
     );
   }
 }
