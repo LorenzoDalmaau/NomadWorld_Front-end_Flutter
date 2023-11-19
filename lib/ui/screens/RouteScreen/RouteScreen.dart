@@ -18,15 +18,16 @@ class RouteScreen extends StatelessWidget {
                 expandedHeight: MediaQuery.of(context).size.height * 0.3,
                 floating: false,
                 pinned: true,
+                title: Text(
+                  route.name,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
                 backgroundColor: const Color.fromARGB(255, 20, 134, 94),
                 flexibleSpace: FlexibleSpaceBar(
-                  title: Text(
-                    route.name,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  centerTitle: true, // Centra el título verticalmente
+                  centerTitle: true,
                   background: checkImageNumber(route),
                 ),
               ),
