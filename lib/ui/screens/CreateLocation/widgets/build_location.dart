@@ -1,9 +1,14 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:latlong2/latlong.dart';
 import '../../../widgets/images_loader.dart';
 import '../../../widgets/map_box.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
+import 'dart:io';
+
 
 class BuildLocation extends StatelessWidget {
   const BuildLocation({super.key});
@@ -50,11 +55,31 @@ class BuildingLocationData extends StatefulWidget {
 class _BuildingLocationDataState extends State<BuildingLocationData> {
   // Controllers
   TextEditingController nameLocationController = TextEditingController();
+  TextEditingController descriptionLocationController = TextEditingController();
   LatLng? location;
+  List<File> images = [];
 
-  // TODO Crear función para el POST a la API
-  // A la hora de pasar la lat y long por separadas, debo de pasar lcoation por parametro en la función para después
-  // llamar a position.latitude.toString() y position.longitude.toString()
+  // Function to register the user
+  void userLocation(String name, String description, List images) async {
+    var url = Uri.parse('http://localhost/create_location');
+
+    // Creating the user object
+    Map<String, dynamic> userLocation = {
+      // TODO añadir los campos
+      "name" : nameLocationController,
+      "latitude": location!.latitude.toString(),
+      "longitude" : location!.longitude.toString(),
+      "image" : images,
+    };
+
+    // Sending the user object to the server
+    var response = await http.post(url,
+        body: convert.jsonEncode(userLocation),
+        headers: {'Content-Type': 'application/json'});
+
+    response.body; // "Envía" la location a la api
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +150,7 @@ class _BuildingLocationDataState extends State<BuildingLocationData> {
           const SizedBox(height: 10),
 
           // Load Images from camera|gallery
-          const ImagesLoader(),
+          ImagesLoader(images: const []),
         ],
       ),
     );

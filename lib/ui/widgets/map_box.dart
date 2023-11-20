@@ -108,7 +108,6 @@ class _MapBoxState extends State<MapBox> {
                   ],
                 ),
               ],
-
             ),
           ],
         );

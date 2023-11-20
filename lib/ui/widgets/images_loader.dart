@@ -4,7 +4,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:nomadworld/controllers/app_image_picker.dart';
 
 class ImagesLoader extends StatefulWidget {
-  const ImagesLoader({super.key});
+  List<File> images = [];
+  ImagesLoader({super.key, required this.images});
 
   @override
   State<StatefulWidget> createState() => _buildImagesLoader();
@@ -12,14 +13,13 @@ class ImagesLoader extends StatefulWidget {
 
 class _buildImagesLoader extends State<ImagesLoader> {
   File? image;
-  List<File> images = [];
 
   pickImage(ImageSource source) {
     AppImagePicker(source: source).pick(
       onPick: (File? image) {
         setState(
           () {
-            images.add(image!);
+            widget.images.add(image!);
           },
         );
       },
@@ -31,7 +31,7 @@ class _buildImagesLoader extends State<ImagesLoader> {
     return Column(
       children: [
         // TODO Agregar ListView.builder
-        ImgListLoader(images: images),
+        ImgListLoader(images: widget.images),
 
         const SizedBox(height: 20), // SizedBox
 
@@ -64,7 +64,7 @@ class _buildImagesLoader extends State<ImagesLoader> {
 
   checkImage() {
     if (image != null) {
-      images.add(image!);
+      widget.images.add(image!);
       return Image.file(image!);
     }
   }
