@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:nomadworld/models/Country.dart';
 import 'package:nomadworld/models/Location.dart';
 import 'package:nomadworld/ui/screens/HomeScreen/Widgets/PopularRoutesList.dart';
-
+import 'package:http/http.dart' as http;
 import '../../../models/TravelRoute.dart';
 import 'Widgets/CountryList.dart';
+
+
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key});
 
@@ -24,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     //Lamar a la funcion que reciba datos de la api y devuelva una lista de rutas y de paises
     widget.route_list = getFakeRoutes();
-    widget.country_list = getFakeCountries();
+    widget.country_list = getAPIData();
   }
 
   @override
@@ -282,25 +286,44 @@ class _HomeScreenState extends State<HomeScreen> {
     await Future.delayed(Duration(seconds: 1));
 
     var countries = [
-      Country("España", "assets/espana.jpg"),
-      Country("Francia", "assets/paris.jpg"),
-      Country("Italia", "assets/Italia.jpg"),
-      Country("Croacia", "assets/croacia.jpg"),
-      Country("Rusia", "assets/rusia.jpg"),
-      Country("Australia", "assets/austaralia.jpg"),
-      Country("Japon", "assets/japan.jpg"),
-      Country("USA", "assets/ny.jpg"),
-      Country("España", "assets/espana.jpg"),
-      Country("Francia", "assets/paris.jpg"),
-      Country("Italia", "assets/Italia.jpg"),
-      Country("Croacia", "assets/croacia.jpg"),
-      Country("Rusia", "assets/rusia.jpg"),
-      Country("Australia", "assets/austaralia.jpg"),
-      Country("Japon", "assets/japan.jpg"),
-      Country("USA", "assets/ny.jpg"),
+      Country("España", "assets/espana.jpg",1),
+      Country("Francia", "assets/paris.jpg",1),
+      Country("Italia", "assets/Italia.jpg",1),
+      Country("Croacia", "assets/croacia.jpg",1),
+      Country("Rusia", "assets/rusia.jpg",1),
+      Country("Australia", "assets/austaralia.jpg",1),
+      Country("Japon", "assets/japan.jpg",1),
+      Country("USA", "assets/ny.jpg",1),
+      Country("España", "assets/espana.jpg",1),
+      Country("Francia", "assets/paris.jpg",1),
+      Country("Italia", "assets/Italia.jpg",1),
+      Country("Croacia", "assets/croacia.jpg",1),
+      Country("Rusia", "assets/rusia.jpg",1),
+      Country("Australia", "assets/austaralia.jpg",1),
+      Country("Japon", "assets/japan.jpg",1),
+      Country("USA", "assets/ny.jpg",1),
     ];
 
     return countries;
+  }
+
+  Future<List<Country>> getAPIData() async{
+
+    List<Country>  countrys= [];
+
+    final response = await http.get(Uri.parse('http://172.23.6.206:8080/country/'));
+    if (response.statusCode == 200){
+      String body = utf8.decode(response.bodyBytes);
+      final jsonData = jsonDecode(body);
+
+      for(var item in jsonData){
+        countrys.add(Country(item["name"], item["image_uri"], item["id"]));
+      }
+      return countrys;
+    }
+    else {
+      throw Exception("Erros al hacer get de paises");
+    }
   }
 
 }

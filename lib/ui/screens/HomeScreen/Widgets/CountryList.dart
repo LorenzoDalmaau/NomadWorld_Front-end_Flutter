@@ -28,7 +28,7 @@ class ContryList extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(25)),
                     image: DecorationImage(
-                      image: AssetImage(item.image),
+                      image: NetworkImage(item.image),
                       fit: BoxFit.cover,
                     ),
                     boxShadow: [
