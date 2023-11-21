@@ -3,6 +3,7 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:nomadworld/ui/screens/CreateLocation/create_location.dart';
 import 'package:nomadworld/ui/screens/CreateRoute/create_route.dart';
 import 'package:nomadworld/ui/screens/HomeScreen/home_screen.dart';
+import 'package:nomadworld/ui/screens/LocationDetailScreen/LocationDetail.dart';
 import 'package:nomadworld/ui/screens/LoginScreen/login_screen.dart';
 import 'package:nomadworld/ui/screens/RegisterScreen/register_screen.dart';
 
@@ -17,9 +18,9 @@ class AppRoutes {
     GetPage(name: '/create-il', page: () => const CreateIL()),
     GetPage(name: '/create_route', page: () => const CreateRoute()),
     GetPage(name: '/create_location', page: () => const CreateLocation()),
+    GetPage(name: '/route', page: () => RouteScreen(),),
     GetPage(
-      name: '/route',
-      page: () => RouteScreen(),
-    ),
+      name: '/location',
+      page: () => LocationDetail()),
   ];
 }

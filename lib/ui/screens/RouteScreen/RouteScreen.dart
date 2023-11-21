@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:nomadworld/models/TravelRoute.dart';
 import 'package:nomadworld/ui/screens/RouteScreen/widgets/Carousel.dart';
 import 'package:nomadworld/ui/screens/RouteScreen/widgets/Location_Card.dart';
+import 'package:nomadworld/ui/widgets/CarrouselAppbar.dart';
+
+import '../../widgets/texts/DescriptionText.dart';
 
 class RouteScreen extends StatelessWidget {
 
@@ -14,36 +17,9 @@ class RouteScreen extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
             slivers: <Widget>[
-              SliverAppBar(
-                expandedHeight: MediaQuery.of(context).size.height * 0.3,
-                floating: false,
-                pinned: true,
-                title: Text(
-                  route.name,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold
-                  ),
-                ),
-                backgroundColor: const Color.fromARGB(255, 20, 134, 94),
-                flexibleSpace: FlexibleSpaceBar(
-                  centerTitle: true,
-                  background: checkImageNumber(route),
-                ),
-              ),
+              CarrouselAppBar(name: route.name, images: route.locations[0].images),
               SliverToBoxAdapter(
-                child: Padding(
-                  padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.03),
-                  child: Expanded(
-                    child: Text(
-                      route.descrption,
-                      style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold
-                      ),
-                    ),
-                  ),
-                )
+                child: DescriptionText(description: route.descrption)
               ),
               SliverToBoxAdapter(
                   child: Padding(
@@ -130,21 +106,4 @@ class RouteScreen extends StatelessWidget {
       ),
     );
   }
-
-  checkImageNumber(TravelRoute route){
-    if (route.locations[0].images.length > 1){
-      return Carousel(images: route.locations[0].images);
-    }
-    else {
-      return Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(route.locations[0].images[0]),
-            fit: BoxFit.cover,
-          ),
-        ),
-      );
-    }
-  }
 }
-
