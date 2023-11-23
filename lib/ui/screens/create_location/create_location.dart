@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:nomadworld/ui/widgets/images_loader.dart';
 import 'dart:io';
-
 import 'package:nomadworld/ui/widgets/map_box.dart';
 
 class CreateLocation extends StatefulWidget {
-  CreateLocation({super.key});
+  const CreateLocation({super.key});
 
   @override
   State<CreateLocation> createState() => _CreateLocationState();
@@ -98,7 +97,7 @@ class _CreateLocationState extends State<CreateLocation> {
 
                 const SizedBox(height: 20),
 
-                Container(
+                SizedBox(
                   height: 250,
                   child: MapBox(
                     onLocationChanged: (LatLng location) {

@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nomadworld/controllers/app_image_picker.dart';
+import 'package:provider/provider.dart';
+import '../../data/provider/provider.dart';
 
 class ImagesLoader extends StatefulWidget {
 
@@ -12,15 +14,17 @@ class ImagesLoader extends StatefulWidget {
 }
 
 class _buildImagesLoader extends State<ImagesLoader> {
-  List<File> images = [];
   File? image;
 
+
   pickImage(ImageSource source) {
+    final provider = Provider.of<NomadProvider>(context);
+    
     AppImagePicker(source: source).pick(
       onPick: (File? image) {
         setState(
           () {
-            images.add(image!);
+            provider.images.add(image!);
           },
         );
       },
@@ -29,6 +33,8 @@ class _buildImagesLoader extends State<ImagesLoader> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<NomadProvider>(context);
+
     return Column(
       children: [
         // TODO Agregar ListView.builder
