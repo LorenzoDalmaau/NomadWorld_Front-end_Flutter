@@ -1,4 +1,3 @@
-
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:nomadworld/ui/screens/CreateRoute/create_route.dart';
 import 'package:nomadworld/ui/screens/HomeScreen/home_screen.dart';

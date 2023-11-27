@@ -4,10 +4,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:nomadworld/controllers/app_image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../data/provider/provider.dart';
+import 'image_list_loader.dart';
 
 class ImagesLoader extends StatefulWidget {
-
-  ImagesLoader({super.key});
+  const ImagesLoader({super.key});
 
   @override
   State<StatefulWidget> createState() => _buildImagesLoader();
@@ -15,16 +15,16 @@ class ImagesLoader extends StatefulWidget {
 
 class _buildImagesLoader extends State<ImagesLoader> {
   File? image;
+  late NomadProvider provider;
 
 
+  /// Función para seleccionar camara o galería
   pickImage(ImageSource source) {
-    final provider = Provider.of<NomadProvider>(context);
-    
     AppImagePicker(source: source).pick(
       onPick: (File? image) {
         setState(
           () {
-            provider.images.add(image!);
+            provider.images.add(image!); /// TODO Agregar función que añada las imagenes a la lista del provider
           },
         );
       },
@@ -33,12 +33,11 @@ class _buildImagesLoader extends State<ImagesLoader> {
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<NomadProvider>(context);
+    provider = Provider.of<NomadProvider>(context);
 
     return Column(
       children: [
-        // TODO Agregar ListView.builder
-        ImgListLoader(images: images),
+        ImgListLoader(),
 
         const SizedBox(height: 20), // SizedBox
 
@@ -52,9 +51,7 @@ class _buildImagesLoader extends State<ImagesLoader> {
               },
               child: const Text('Subir Imagen'),
             ),
-
             const SizedBox(width: 20),
-
             ElevatedButton(
               onPressed: () {
                 pickImage(ImageSource.camera);
@@ -64,50 +61,21 @@ class _buildImagesLoader extends State<ImagesLoader> {
             ),
           ],
         ),
-
       ],
     );
   }
 
   checkImage() {
     if (image != null) {
-      images.add(image!);
+      provider.images.add(image!);
       return Image.file(image!);
     }
   }
-}
-
-class ImgListLoader extends StatelessWidget {
-  late List<File> images;
-
-  ImgListLoader({super.key, required this.images});
 
   @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: setContainerHeigh(context),
-      child: ListView.builder(
-        itemCount: images.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          var image = images[index];
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-            child: Expanded(
-              child: Image.file(image, fit: BoxFit.fill),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  setContainerHeigh(context){
-    if(images.isNotEmpty){
-      return MediaQuery.of(context).size.height * 0.20;
-    }
-    else {
-      return 1.0;
-    }
+  void dispose() {
+    provider.images.clear();
   }
 }
+
+
