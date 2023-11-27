@@ -75,11 +75,12 @@ class _CreateLocationState extends State<CreateLocation> {
           TextButton(
             onPressed: () {},
             child: const Text(
-              'Continuar',
+              'Crear ubicación',
               style: TextStyle(
                 color: Colors.green,
-                fontSize: 15,
-                decoration: TextDecoration.underline,
+                fontWeight: FontWeight.bold,
+                fontSize: 17,
+                //decoration: TextDecoration.underline,
                 letterSpacing: 0.5,
                 height: 1.5,
               ),

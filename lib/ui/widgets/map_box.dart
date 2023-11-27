@@ -7,7 +7,7 @@ import '../../controllers/location_service.dart';
 const MAPBOX_ACCESS_TOKEN =
     'pk.eyJ1IjoibG9yZW56b2RhbG1hdSIsImEiOiJjbG92ZXMxemswdzAwMmxsbDF0dWhyNW9rIn0.JyO5o6PltVGdyybgflz7uQ';
 
-const MAPBOX_STYLE = 'mapbox/streets-v12';
+const MAPBOX_STYLE = 'mapbox/outdoors-v12';
 
 
 class MapBox extends StatefulWidget {
