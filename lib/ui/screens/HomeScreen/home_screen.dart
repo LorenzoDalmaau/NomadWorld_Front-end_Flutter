@@ -27,8 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     //Lamar a la funcion que reciba datos de la api y devuelva una lista de rutas y de paises
-    widget.route_list = getFakeRoutes();
-    widget.country_list = getAPIData();
+    widget.route_list = getAPIRoutes();
+    widget.country_list = getAPICountry();
   }
 
   @override
@@ -151,167 +151,34 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<List<TravelRoute>> getFakeRoutes() async {
-    // Simular la obtención de rutas falsas con un retraso
-    await Future.delayed(Duration(seconds: 1));
+  Future<List<TravelRoute>> getAPIRoutes() async {
 
-    var routes = [
-      TravelRoute(1, "Paris", "Ruta por paris", 123, 5, 4, [
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-      ]
-      ),
-      TravelRoute(1, "Paris", "Ruta por paris", 123, 5, 4, [
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-      ]
-      ),
-      TravelRoute(1, "Paris", "Ruta por paris", 123, 5, 4, [
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-      ]
-      ),
-      TravelRoute(1, "Paris", "Ruta por paris", 123, 5, 4, [
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-      ]
-      ),
-      TravelRoute(1, "Paris", "Ruta por paris", 123, 5, 4, [
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-      ]
-      ),
-      TravelRoute(1, "Paris", "Ruta por paris", 123, 5, 4, [
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-      ]
-      ),
-      TravelRoute(1, "Paris", "Ruta por paris", 123, 5, 4, [
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-      ]
-      ),
-      TravelRoute(1, "Paris", "Ruta por paris", 123, 5, 4, [
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-      ]
-      ),
-      TravelRoute(1, "Paris", "Ruta por paris", 123, 5, 4, [
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-      ]
-      ),
-      TravelRoute(1, "Paris", "Ruta por paris", 123, 5, 4, [
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-        LocationData(id: 1, name: "Torre eiffel", description: "Monumento iconico de paris", date: "10/8/219", Countri_id: 4, images: ["assets/paris.jpg", "assets/Italia.jpg", "assets/espana.jpg", "assets/austaralia.jpg"], longitude: 1.328478, latitude: 2.35873),
-      ]
-      )
-    ];
+    
 
-    return routes;
+    List<TravelRoute>  routes= [];
+
+    final response = await http.get(Uri.parse('http://172.23.6.201:8080/docs#/default/get_media_more_likes_route_route_more_likes__get'));
+
+    if (response.statusCode == 200){
+      String body = utf8.decode(response.bodyBytes);
+      final jsonData = jsonDecode(body);
+
+      for(var item in jsonData){
+        routes.add(TravelRoute(id, name, descrption, distance, duration, country_id, locations));
+      }
+      return routes;
+    }
+    else {
+      throw Exception("Erros al hacer get de paises");
+    }
   }
 
-  Future<List<Country>> getFakeCountries() async {
-    // Simular la obtención de rutas falsas con un retraso
-    await Future.delayed(Duration(seconds: 1));
 
-    var countries = [
-      Country("España", "assets/espana.jpg",1),
-      Country("Francia", "assets/paris.jpg",1),
-      Country("Italia", "assets/Italia.jpg",1),
-      Country("Croacia", "assets/croacia.jpg",1),
-      Country("Rusia", "assets/rusia.jpg",1),
-      Country("Australia", "assets/austaralia.jpg",1),
-      Country("Japon", "assets/japan.jpg",1),
-      Country("USA", "assets/ny.jpg",1),
-      Country("España", "assets/espana.jpg",1),
-      Country("Francia", "assets/paris.jpg",1),
-      Country("Italia", "assets/Italia.jpg",1),
-      Country("Croacia", "assets/croacia.jpg",1),
-      Country("Rusia", "assets/rusia.jpg",1),
-      Country("Australia", "assets/austaralia.jpg",1),
-      Country("Japon", "assets/japan.jpg",1),
-      Country("USA", "assets/ny.jpg",1),
-    ];
-
-    return countries;
-  }
-
-  Future<List<Country>> getAPIData() async{
+  Future<List<Country>> getAPICountry() async{
 
     List<Country>  countrys= [];
 
-    final response = await http.get(Uri.parse('http://172.23.6.206:8080/country/'));
+    final response = await http.get(Uri.parse('http://172.23.6.201/:8080/country/'));
     if (response.statusCode == 200){
       String body = utf8.decode(response.bodyBytes);
       final jsonData = jsonDecode(body);
