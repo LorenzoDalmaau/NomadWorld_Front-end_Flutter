@@ -28,12 +28,15 @@ class _CreateLocationState extends State<CreateLocation> {
   void createLocation(String name, String description, LatLng location, String countryName, List<File?> images) async {
     var url = Uri.parse('http://localhost/create_location');
 
+    //Lista de imagenes en formato base64
+    List<String> base64Images = provider.convertImagesToBase64();
+
     // Creating the location object
     Map<String, dynamic> locationMap = {
       'name': name,
       'description': description,
       'country_name': countryName,
-      'image': images, /// TODO Hacer la conversión a Base64
+      'image': base64Images,
       'latitude': location.latitude,
       'longuitude': location.longitude
     };
