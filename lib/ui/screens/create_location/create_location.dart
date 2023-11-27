@@ -1,8 +1,13 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:nomadworld/ui/widgets/images_loader.dart';
-import 'dart:io';
 import 'package:nomadworld/ui/widgets/map_box.dart';
+import 'package:provider/provider.dart';
+import '../../../domain/provider/provider.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 class CreateLocation extends StatefulWidget {
   const CreateLocation({super.key});
@@ -13,15 +18,56 @@ class CreateLocation extends StatefulWidget {
 
 class _CreateLocationState extends State<CreateLocation> {
   TextEditingController nameLocationController = TextEditingController();
-
   TextEditingController descriptionLocationController = TextEditingController();
 
-  List<File> images = [];
-
+  /// TODO Agregar campo descripción
+  late NomadProvider provider;
   LatLng? location;
+
+  /// Crear post de location
+  void createLocation(String name, String description, LatLng location, int country_id, List<File?> images) async {
+    var url = Uri.parse('http://localhost/create_location');
+
+    // Creating the location object
+    Map<String, dynamic> locationMap = {
+      'name': name,
+      'description': description,
+      'country_id': country_id,
+      'image': images, /// TODO Hacer la conversión a JSONB
+      'latitude': location.latitude,
+      'longuitude': location.longitude
+    };
+
+    // Sending the user object to the server
+    var response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: convert.jsonEncode(locationMap),
+    );
+
+    // Checking the response
+    if (response.statusCode == 200) {
+      var jsonResponse = response.body;
+
+      if (jsonResponse.contains('Location created successfully')) {
+        Get.snackbar('Genial!', 'Has creado una ubicación!',
+            snackPosition: SnackPosition.BOTTOM);
+        Get.offAllNamed('/home');
+      } else {
+        // Mostrar un mensaje de error si la respuesta no contiene el mensaje esperado
+        Get.snackbar('Error', 'Error en la respuesta del servidor',
+            snackPosition: SnackPosition.BOTTOM);
+      }
+    } else {
+      // Mostrar el código de estado HTTP si la respuesta no es 201
+      Get.snackbar('Error', 'HTTP Error: ${response.statusCode}',
+          snackPosition: SnackPosition.BOTTOM);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of<NomadProvider>(context);
     return Scaffold(
       // APPBAR
       appBar: AppBar(
@@ -133,7 +179,7 @@ class _CreateLocationState extends State<CreateLocation> {
                 const SizedBox(height: 10),
 
                 /// Load Images from camera | gallery
-                ImagesLoader(),
+                const ImagesLoader(),
               ],
             ),
           ),

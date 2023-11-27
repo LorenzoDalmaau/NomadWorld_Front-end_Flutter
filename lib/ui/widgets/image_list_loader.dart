@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../data/provider/provider.dart';
+import '../../domain/provider/provider.dart';
 
 class ImgListLoader extends StatelessWidget {
   late NomadProvider provider;

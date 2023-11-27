@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:nomadworld/data/provider/provider.dart';
 import 'package:nomadworld/ui/routes/app_routes.dart';
 import 'package:provider/provider.dart';
+import 'domain/provider/provider.dart';
 
 void main() => runApp(const MyApp());
 

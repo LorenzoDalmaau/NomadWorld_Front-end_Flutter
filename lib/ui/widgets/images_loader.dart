@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nomadworld/controllers/app_image_picker.dart';
 import 'package:provider/provider.dart';
-import '../../data/provider/provider.dart';
+import '../../domain/provider/provider.dart';
 import 'image_list_loader.dart';
 
 class ImagesLoader extends StatefulWidget {
