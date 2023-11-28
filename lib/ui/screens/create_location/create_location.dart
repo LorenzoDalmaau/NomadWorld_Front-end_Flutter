@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:nomadworld/models/Country.dart';
 import 'package:nomadworld/ui/widgets/images_loader.dart';
 import 'package:nomadworld/ui/widgets/map_box.dart';
 import 'package:provider/provider.dart';
@@ -22,10 +23,11 @@ class _CreateLocationState extends State<CreateLocation> {
 
   /// TODO Agregar campo descripción
   late NomadProvider provider;
+  Country dropdownValue = countries.first;
   LatLng? location;
 
   /// Crear post de location
-  void createLocation(String name, String description, LatLng location, String countryName, List<File?> images) async {
+  void createLocation(String name, String description, LatLng location, List<File?> images) async {
     var url = Uri.parse('http://localhost/create_location');
 
     //Lista de imagenes en formato base64
@@ -35,7 +37,7 @@ class _CreateLocationState extends State<CreateLocation> {
     Map<String, dynamic> locationMap = {
       'name': name,
       'description': description,
-      'country_name': countryName,
+      'country_name': dropdownValue,
       'image': base64Images,
       'latitude': location.latitude,
       'longuitude': location.longitude
@@ -94,10 +96,11 @@ class _CreateLocationState extends State<CreateLocation> {
       body: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+            padding: const EdgeInsets.fromLTRB(30, 25, 30, 25),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 /// Title
                 const Text(
                   'Mi ubicación',
@@ -136,6 +139,55 @@ class _CreateLocationState extends State<CreateLocation> {
 
                 const SizedBox(height: 10),
 
+                const Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text(
+                    'Añade una descripción',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                // Textfiel descripción
+                TextFormField(
+                  controller: descriptionLocationController,
+                  maxLength: 180,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                const Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text('¿A que país pertenece?',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                ),
+
+                // TODO Almacenar el país seleccionado en countryName
+                DropdownButton<Country>(
+                  value: dropdownValue,
+                  onChanged: (Country? newDropdownValue) {
+                    setState(() {
+                      dropdownValue = newDropdownValue!;
+                      print(dropdownValue.name);
+                    });
+                  },
+                  items: countries.map((Country country) {
+                    return DropdownMenuItem<Country>(
+                      value: country,
+                      child: Text(country.name),
+                    );
+                  }).toList(),
+                ),
+
+                const SizedBox(height: 20),
+
                 /// Title Location
                 const Align(
                   alignment: AlignmentDirectional.centerStart,
@@ -145,10 +197,11 @@ class _CreateLocationState extends State<CreateLocation> {
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
 
-                SizedBox(
+                Container(
                   height: 250,
+                  color: const Color.fromARGB(192, 25, 95, 71),
                   child: MapBox(
                     onLocationChanged: (LatLng location) {
                       setState(() {
@@ -192,3 +245,23 @@ class _CreateLocationState extends State<CreateLocation> {
     );
   }
 }
+
+
+List<Country> countries = [
+  Country("España", "assets/espana.jpg"),
+  Country("Francia", "assets/paris.jpg"),
+  Country("Italia", "assets/Italia.jpg"),
+  Country("Croacia", "assets/croacia.jpg"),
+  Country("Rusia", "assets/rusia.jpg"),
+  Country("Australia", "assets/austaralia.jpg"),
+  Country("Japon", "assets/japan.jpg"),
+  Country("USA", "assets/ny.jpg"),
+  Country("España", "assets/espana.jpg"),
+  Country("Francia", "assets/paris.jpg"),
+  Country("Italia", "assets/Italia.jpg"),
+  Country("Croacia", "assets/croacia.jpg"),
+  Country("Rusia", "assets/rusia.jpg"),
+  Country("Australia", "assets/austaralia.jpg"),
+  Country("Japon", "assets/japan.jpg"),
+  Country("USA", "assets/ny.jpg"),
+];
