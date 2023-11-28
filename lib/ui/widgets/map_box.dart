@@ -23,13 +23,20 @@ class _MapBoxState extends State<MapBox> {
   LatLng? myPosition;
   LatLng? tappedPosition;
   List<Marker> markers = [];
+  bool isLoadingLocation = true;
 
   void getCurrentLocation() async {
-    Position position = await determinePosition();
-    setState(() {
-      myPosition = LatLng(position.latitude, position.longitude);
-      tappedPosition = myPosition;
-    });
+    try {
+      Position position = await determinePosition();
+      setState(() {
+        myPosition = LatLng(position.latitude, position.longitude);
+        tappedPosition = myPosition;
+      });
+    }catch (error) {
+      setState(() {
+        isLoadingLocation = false; // Indicar que la ubicación no está disponible
+      });
+    }
   }
 
   @override

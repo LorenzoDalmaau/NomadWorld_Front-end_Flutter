@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:nomadworld/controllers/location_service.dart';
 import 'package:nomadworld/models/Country.dart';
 import 'package:nomadworld/ui/widgets/images_loader.dart';
 import 'package:nomadworld/ui/widgets/map_box.dart';
@@ -27,17 +29,16 @@ class _CreateLocationState extends State<CreateLocation> {
   LatLng? location;
 
   /// Crear post de location
-  void createLocation(String name, String description, LatLng location, List<File?> images) async {
-    var url = Uri.parse('http://localhost/create_location');
+  void createLocation(String name, String description, LatLng location, List<String> base64Images) async {
+    String countryName = dropdownValue.name;
 
-    //Lista de imagenes en formato base64
-    List<String> base64Images = provider.convertImagesToBase64();
+    var url = Uri.parse('http://192.168.1.50:2626/create_location/$countryName');
 
     // Creating the location object
     Map<String, dynamic> locationMap = {
       'name': name,
       'description': description,
-      'country_name': dropdownValue,
+      'country_name': countryName,
       'image': base64Images,
       'latitude': location.latitude,
       'longuitude': location.longitude
@@ -78,7 +79,20 @@ class _CreateLocationState extends State<CreateLocation> {
       appBar: AppBar(
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              if (location != null) {
+                List<String> base64Images = provider.convertImagesToBase64();
+                createLocation(
+                  nameLocationController.text.toString(),
+                  descriptionLocationController.text.toString(),
+                  location!,
+                  base64Images,
+                );
+              } else {
+                // Manejar el caso cuando location es nulo
+                print("Error: location es nulo");
+              }
+            },
             child: const Text(
               'Crear ubicación',
               style: TextStyle(
@@ -203,8 +217,9 @@ class _CreateLocationState extends State<CreateLocation> {
                   height: 250,
                   color: const Color.fromARGB(192, 25, 95, 71),
                   child: MapBox(
-                    onLocationChanged: (LatLng location) {
+                    onLocationChanged: (LatLng newLocation) {
                       setState(() {
+                        location = newLocation;
                         print('Selected Location: $location');
                       });
                     },
