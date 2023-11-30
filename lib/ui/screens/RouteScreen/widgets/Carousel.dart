@@ -14,7 +14,7 @@ class Carousel extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(image),
+              image: NetworkImage(image),
               fit: BoxFit.cover,
             ),
           ),

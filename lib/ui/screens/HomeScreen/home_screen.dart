@@ -97,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: PopularRoutesList(routes: snapshot.data!)
                             );
                           } else if (snapshot.hasError) {
+                            print(snapshot);
                             return Text("ERROR");
                           }
                         }
@@ -153,23 +154,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<List<TravelRoute>> getAPIRoutes() async {
 
-    
-
     List<TravelRoute>  routes= [];
-
-    final response = await http.get(Uri.parse('http://172.23.6.201:8080/docs#/default/get_media_more_likes_route_route_more_likes__get'));
-
+    final response = await http.get(Uri.parse('http://172.23.6.201:8080/route/more_likes/'));
+    print("peticion");
     if (response.statusCode == 200){
+      print("Peticion echa");
+
       String body = utf8.decode(response.bodyBytes);
       final jsonData = jsonDecode(body);
-
       for(var item in jsonData){
-        routes.add(TravelRoute(id, name, descrption, distance, duration, country_id, locations));
+        print(item);
+        routes.add(TravelRoute.fromJson(item));
       }
       return routes;
     }
     else {
-      throw Exception("Erros al hacer get de paises");
+      throw Exception("Error al hacer get de rutas populares");
     }
   }
 
@@ -178,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     List<Country>  countrys= [];
 
-    final response = await http.get(Uri.parse('http://172.23.6.201/:8080/country/'));
+    final response = await http.get(Uri.parse('http://172.23.6.201:8080/country/'));
     if (response.statusCode == 200){
       String body = utf8.decode(response.bodyBytes);
       final jsonData = jsonDecode(body);
@@ -189,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return countrys;
     }
     else {
-      throw Exception("Erros al hacer get de paises");
+      throw Exception("Error al hacer get de paises");
     }
   }
 

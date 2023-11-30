@@ -38,7 +38,7 @@ class CarrouselAppBar extends StatelessWidget{
       return Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(images[0]),
+            image: NetworkImage(images[0]),
             fit: BoxFit.cover,
           ),
         ),

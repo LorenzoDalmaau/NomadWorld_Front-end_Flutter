@@ -32,7 +32,7 @@ class PopularRoutesList extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(25)),
                   image: DecorationImage(
-                    image: AssetImage(item.locations[0].images[0]),
+                    image: NetworkImage(item.locations[0].images[0]),
                     fit: BoxFit.cover,
                   ),
                   boxShadow: [
