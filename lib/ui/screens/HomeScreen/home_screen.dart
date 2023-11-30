@@ -7,6 +7,7 @@ import 'package:nomadworld/models/Country.dart';
 import 'package:nomadworld/models/Location.dart';
 import 'package:nomadworld/ui/screens/HomeScreen/Widgets/PopularRoutesList.dart';
 import 'package:http/http.dart' as http;
+import 'package:nomadworld/utils/api/api_service.dart';
 import '../../../models/TravelRoute.dart';
 import 'Widgets/CountryList.dart';
 
@@ -26,9 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    //Lamar a la funcion que reciba datos de la api y devuelva una lista de rutas y de paises
-    widget.route_list = getAPIRoutes();
-    widget.country_list = getAPICountry();
+    widget.route_list = ApiService().getPopularRoutes();
+    widget.country_list = ApiService().getCountryList();
+
   }
 
   @override
@@ -151,46 +152,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  Future<List<TravelRoute>> getAPIRoutes() async {
-
-    List<TravelRoute>  routes= [];
-    final response = await http.get(Uri.parse('http://172.23.6.201:8080/route/more_likes/'));
-    print("peticion");
-    if (response.statusCode == 200){
-      print("Peticion echa");
-
-      String body = utf8.decode(response.bodyBytes);
-      final jsonData = jsonDecode(body);
-      for(var item in jsonData){
-        print(item);
-        routes.add(TravelRoute.fromJson(item));
-      }
-      return routes;
-    }
-    else {
-      throw Exception("Error al hacer get de rutas populares");
-    }
-  }
-
-
-  Future<List<Country>> getAPICountry() async{
-
-    List<Country>  countrys= [];
-
-    final response = await http.get(Uri.parse('http://172.23.6.201:8080/country/'));
-    if (response.statusCode == 200){
-      String body = utf8.decode(response.bodyBytes);
-      final jsonData = jsonDecode(body);
-
-      for(var item in jsonData){
-        countrys.add(Country(item["name"], item["image_uri"], item["id"]));
-      }
-      return countrys;
-    }
-    else {
-      throw Exception("Error al hacer get de paises");
-    }
-  }
-
 }
