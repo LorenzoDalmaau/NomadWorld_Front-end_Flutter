@@ -21,7 +21,7 @@ class LocationCard extends StatelessWidget{
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(25)),
               image: DecorationImage(
-                image: AssetImage(location.images[0]),
+                image: NetworkImage(location.images[0]),
                 fit: BoxFit.cover,
               ),
               boxShadow: const [

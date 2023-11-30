@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nomadworld/models/TravelRoute.dart';
-import 'package:nomadworld/ui/screens/RouteScreen/widgets/Carousel.dart';
 import 'package:nomadworld/ui/screens/RouteScreen/widgets/Location_Card.dart';
 import 'package:nomadworld/ui/widgets/CarrouselAppbar.dart';
 
