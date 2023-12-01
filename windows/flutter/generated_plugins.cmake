@@ -3,6 +3,10 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+<<<<<<< HEAD
+=======
+  file_selector_windows
+>>>>>>> CreateLocation
   geolocator_windows
   permission_handler_windows
 )
