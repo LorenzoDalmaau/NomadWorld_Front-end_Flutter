@@ -32,16 +32,17 @@ class _CreateLocationState extends State<CreateLocation> {
   void createLocation(String name, String description, LatLng location, List<String> base64Images) async {
     String countryName = dropdownValue.name;
 
-    var url = Uri.parse('http://192.168.1.50:2626/create_location/$countryName');
+    var url = Uri.parse('http://192.168.1.50:8000/create_location/$countryName');
 
     // Creating the location object
     Map<String, dynamic> locationMap = {
-      'name': name,
-      'description': description,
-      'country_name': countryName,
-      'image': base64Images,
-      'latitude': location.latitude,
-      'longuitude': location.longitude
+      "image_files": base64Images,
+      "location": {
+        'name': name,
+        'description': description,
+        'latitude': location.latitude,
+        'longitude': location.longitude
+      }
     };
 
     // Sending the user object to the server
@@ -263,20 +264,20 @@ class _CreateLocationState extends State<CreateLocation> {
 
 
 List<Country> countries = [
-  Country("España", "assets/espana.jpg"),
-  Country("Francia", "assets/paris.jpg"),
-  Country("Italia", "assets/Italia.jpg"),
-  Country("Croacia", "assets/croacia.jpg"),
-  Country("Rusia", "assets/rusia.jpg"),
-  Country("Australia", "assets/austaralia.jpg"),
-  Country("Japon", "assets/japan.jpg"),
-  Country("USA", "assets/ny.jpg"),
-  Country("España", "assets/espana.jpg"),
-  Country("Francia", "assets/paris.jpg"),
-  Country("Italia", "assets/Italia.jpg"),
-  Country("Croacia", "assets/croacia.jpg"),
-  Country("Rusia", "assets/rusia.jpg"),
-  Country("Australia", "assets/austaralia.jpg"),
-  Country("Japon", "assets/japan.jpg"),
-  Country("USA", "assets/ny.jpg"),
+  Country("Spain", "assets/espana.jpg"),
+  Country("France", "assets/paris.jpg"),
+  Country("Italy", "assets/Italia.jpg"),
+  Country("Germany", "assets/croacia.jpg"),
+  Country("Australia", "assets/rusia.jpg"),
+  Country("Rusia", "assets/austaralia.jpg"),
+  Country("Usa", "assets/japan.jpg"),
+  Country("Croatia", "assets/ny.jpg"),
+  Country("Japan", "assets/espana.jpg"),
+  Country("Albania", "assets/paris.jpg"),
+  Country("Andorra", "assets/Italia.jpg"),
+  Country("Armenia", "assets/croacia.jpg"),
+  Country("Austria", "assets/rusia.jpg"),
+  Country("Azerbaijan", "assets/austaralia.jpg"),
+  Country("Belgium", "assets/japan.jpg"),
+  Country("Belarus", "assets/ny.jpg"),
 ];
