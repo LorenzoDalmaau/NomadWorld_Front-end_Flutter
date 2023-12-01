@@ -15,16 +15,8 @@ class AppRoutes {
     GetPage(name: '/home', page: () => HomeScreen()),
     GetPage(name: '/create-il', page: () => const CreateIL()),
     GetPage(name: '/create_route', page: () => const CreateRoute()),
-<<<<<<< HEAD
-    GetPage(name: '/create_location', page: () => const CreateLocation()),
-    GetPage(name: '/route', page: () => RouteScreen(),),
-    GetPage(
-      name: '/location',
-      page: () => LocationDetail()),
-=======
     GetPage(name: '/create_location', page: () => CreateLocation()),
     GetPage(name: '/route', page: () => RouteScreen(),
     ),
->>>>>>> CreateLocation
   ];
 }
