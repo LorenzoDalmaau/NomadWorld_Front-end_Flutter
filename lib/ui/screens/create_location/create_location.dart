@@ -105,7 +105,6 @@ class _CreateLocationState extends State<CreateLocation> {
     }
   }
 
-
   Future<void> _getCurrentLocation() async {
     try {
       Position position = await Geolocator.getCurrentPosition(
@@ -120,6 +119,27 @@ class _CreateLocationState extends State<CreateLocation> {
     }
   }
 
+  /// Validate the input fields
+  bool validateFields() {
+    if (nameLocationController.text.isEmpty ||
+        descriptionLocationController.text.isEmpty ||
+        location == null) {
+      // Show a snackbar or any other UI feedback for validation error
+      Get.snackbar('Por favor', 'Introduzca todos los campos',
+          snackPosition: SnackPosition.BOTTOM);
+      return false;
+    }
+
+    if (provider.images.isEmpty) {
+      // Show a snackbar or any other UI feedback for missing images
+      Get.snackbar('Por favor', 'Suba al menos una foto',
+          snackPosition: SnackPosition.BOTTOM);
+      return false;
+    }
+
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<NomadProvider>(context);
@@ -129,7 +149,7 @@ class _CreateLocationState extends State<CreateLocation> {
         actions: [
           TextButton(
             onPressed: () {
-              if (location != null) {
+              if (validateFields()) {
                 List<String> base64Images = provider.convertImagesToBase64();
                 createLocation(
                   nameLocationController.text.toString(),
@@ -137,9 +157,6 @@ class _CreateLocationState extends State<CreateLocation> {
                   location!,
                   base64Images,
                 );
-              } else {
-                // Manejar el caso cuando location es nulo
-                print("Error: location es nulo");
               }
             },
             child: const Text(
@@ -148,7 +165,6 @@ class _CreateLocationState extends State<CreateLocation> {
                 color: Colors.green,
                 fontWeight: FontWeight.bold,
                 fontSize: 17,
-                //decoration: TextDecoration.underline,
                 letterSpacing: 0.5,
                 height: 1.5,
               ),
