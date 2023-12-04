@@ -26,15 +26,23 @@ class _HomeScreenState extends State<HomeScreen> {
   late NomadProvider provider;
   List<Country> country_list = [];
 
+  @override
+  void initState(){
+    getDatas();
+  }
+
   getDatas() async {
     widget.route_list = ApiService().getPopularRoutes();
-    country_list = [];
+    country_list = await ApiService().getCountryList();
+    setState(() {
+
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<NomadProvider>(context);
-    getDatas();
+    provider.setAPIContries(country_list);
     return Scaffold(
       body: Column(
         children: [

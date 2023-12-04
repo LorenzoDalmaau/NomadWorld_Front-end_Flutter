@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:nomadworld/models/Country.dart';
-import 'package:nomadworld/utils/api/api_service.dart';
 
 class NomadProvider extends ChangeNotifier {
   List<File> images = [];
@@ -21,9 +20,8 @@ class NomadProvider extends ChangeNotifier {
     return base64Images;
   }
 
-  getAPIContries() async {
-    List<Country> apiConutries = await ApiService().getCountryList();
-    countries = apiConutries;
+  setAPIContries(List<Country> apiCountries) async {
+    countries = apiCountries;
     notifyListeners();
   }
 }

@@ -16,7 +16,7 @@ class AppRoutes {
     GetPage(name: '/create-il', page: () => const CreateIL()),
     GetPage(name: '/create_route', page: () => const CreateRoute()),
     GetPage(name: '/create_location', page: () => CreateLocation()),
-    GetPage(name: '/route', page: () => RouteScreen(),
-    ),
+    GetPage(name: '/route', page: () => RouteScreen()),
+    GetPage(name: '/location', page: () => LocationDetail()),
   ];
 }
