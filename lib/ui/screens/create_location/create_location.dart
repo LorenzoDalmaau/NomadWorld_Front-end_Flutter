@@ -1,9 +1,6 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:nomadworld/controllers/location_service.dart';
 import 'package:nomadworld/models/Country.dart';
 import 'package:nomadworld/ui/widgets/images_loader.dart';
 import 'package:nomadworld/ui/widgets/map_box.dart';
@@ -25,14 +22,14 @@ class _CreateLocationState extends State<CreateLocation> {
 
   /// TODO Agregar campo descripción
   late NomadProvider provider;
-  Country dropdownValue = countries.first;
+  late Country dropdownValue;
   LatLng? location;
 
   /// Crear post de location
   void createLocation(String name, String description, LatLng location, List<String> base64Images) async {
     String countryName = dropdownValue.name;
 
-    var url = Uri.parse('http://192.168.1.50:8000/create_location/$countryName');
+    var url = Uri.parse('http://172.23.6.201:8080/create_location/$countryName');
 
     // Creating the location object
     Map<String, dynamic> locationMap = {
@@ -75,6 +72,7 @@ class _CreateLocationState extends State<CreateLocation> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<NomadProvider>(context);
+    dropdownValue = provider.countries.first;
     return Scaffold(
       // APPBAR
       appBar: AppBar(
@@ -190,10 +188,9 @@ class _CreateLocationState extends State<CreateLocation> {
                   onChanged: (Country? newDropdownValue) {
                     setState(() {
                       dropdownValue = newDropdownValue!;
-                      print(dropdownValue.name);
                     });
                   },
-                  items: countries.map((Country country) {
+                  items: provider.countries.map((Country country) {
                     return DropdownMenuItem<Country>(
                       value: country,
                       child: Text(country.name),
@@ -261,23 +258,3 @@ class _CreateLocationState extends State<CreateLocation> {
     );
   }
 }
-
-
-List<Country> countries = [
-  Country("Spain", "assets/espana.jpg"),
-  Country("France", "assets/paris.jpg"),
-  Country("Italy", "assets/Italia.jpg"),
-  Country("Germany", "assets/croacia.jpg"),
-  Country("Australia", "assets/rusia.jpg"),
-  Country("Rusia", "assets/austaralia.jpg"),
-  Country("Usa", "assets/japan.jpg"),
-  Country("Croatia", "assets/ny.jpg"),
-  Country("Japan", "assets/espana.jpg"),
-  Country("Albania", "assets/paris.jpg"),
-  Country("Andorra", "assets/Italia.jpg"),
-  Country("Armenia", "assets/croacia.jpg"),
-  Country("Austria", "assets/rusia.jpg"),
-  Country("Azerbaijan", "assets/austaralia.jpg"),
-  Country("Belgium", "assets/japan.jpg"),
-  Country("Belarus", "assets/ny.jpg"),
-];

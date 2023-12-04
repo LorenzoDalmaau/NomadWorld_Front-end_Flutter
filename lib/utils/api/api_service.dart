@@ -9,14 +9,11 @@ class ApiService {
 
     List<TravelRoute>  routes= [];
     final response = await http.get(Uri.parse('http://172.23.6.201:8080/route/more_likes/'));
-    print("peticion");
     if (response.statusCode == 200){
-      print("Peticion echa");
 
       String body = utf8.decode(response.bodyBytes);
       final jsonData = jsonDecode(body);
       for(var item in jsonData){
-        print(item);
         routes.add(TravelRoute.fromJson(item));
       }
       return routes;
@@ -36,7 +33,7 @@ class ApiService {
       final jsonData = jsonDecode(body);
 
       for(var item in jsonData){
-        countrys.add(Country(item["name"], item["image_uri"], item["id"]));
+        countrys.add(Country.fromJson(item));
       }
       return countrys;
     }

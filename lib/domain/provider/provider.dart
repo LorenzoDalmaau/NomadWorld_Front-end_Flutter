@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:nomadworld/models/Country.dart';
+import 'package:nomadworld/utils/api/api_service.dart';
 
 class NomadProvider extends ChangeNotifier {
   List<File> images = [];
-
+  List<Country> countries = [];
 
 
   // Función para convertir la lista de imagenes en base64
@@ -17,5 +19,11 @@ class NomadProvider extends ChangeNotifier {
       base64Images.add(base64Image);
     }
     return base64Images;
+  }
+
+  getAPIContries() async {
+    List<Country> apiConutries = await ApiService().getCountryList();
+    countries = apiConutries;
+    notifyListeners();
   }
 }

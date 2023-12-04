@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:nomadworld/domain/provider/provider.dart';
 import 'package:nomadworld/models/Country.dart';
-import 'package:nomadworld/models/Location.dart';
 import 'package:nomadworld/ui/screens/HomeScreen/Widgets/PopularRoutesList.dart';
-import 'package:http/http.dart' as http;
 import 'package:nomadworld/utils/api/api_service.dart';
+import 'package:provider/provider.dart';
 import '../../../models/TravelRoute.dart';
 import 'Widgets/CountryList.dart';
 
@@ -16,7 +16,6 @@ class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key});
 
   late Future<List<TravelRoute>> route_list;
-  late Future<List<Country>> country_list;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -24,16 +23,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  @override
-  void initState() {
-    super.initState();
-    widget.route_list = ApiService().getPopularRoutes();
-    widget.country_list = ApiService().getCountryList();
+  late NomadProvider provider;
+  List<Country> country_list = [];
 
+  getDatas() async {
+    widget.route_list = ApiService().getPopularRoutes();
+    country_list = [];
   }
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of<NomadProvider>(context);
+    getDatas();
     return Scaffold(
       body: Column(
         children: [
@@ -128,26 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ]
             ),
           ),
-
-          Container(
-              height: MediaQuery.of(context).size.height * 0.56,
-              child: FutureBuilder<List<Country>>(
-                future: widget.country_list,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasData) {
-                      return ContryList(countries: snapshot.data!);
-
-                    } else if (snapshot.hasError) {
-                      return Text("ERROR");
-                    }
-                  }
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              )
-          )
+          ContryList()
         ],
       ),
     );
