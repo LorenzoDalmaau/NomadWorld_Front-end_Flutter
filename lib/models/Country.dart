@@ -1,5 +1,4 @@
 class Country{
-
   int id;
   String name;
   String image;

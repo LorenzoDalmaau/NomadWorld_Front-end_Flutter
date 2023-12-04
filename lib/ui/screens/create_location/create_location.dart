@@ -5,6 +5,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:nomadworld/models/Country.dart';
 import 'package:nomadworld/ui/widgets/images_loader.dart';
 import 'package:nomadworld/ui/widgets/map_box.dart';
+import 'package:nomadworld/utils/api/api_service.dart';
 import 'package:provider/provider.dart';
 import '../../../domain/provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -21,11 +22,11 @@ class CreateLocation extends StatefulWidget {
 class _CreateLocationState extends State<CreateLocation> {
   TextEditingController nameLocationController = TextEditingController();
   TextEditingController descriptionLocationController = TextEditingController();
-
-  /// TODO Agregar campo descripción
+  final ApiService apiService = ApiService();
   late NomadProvider provider;
   late Country dropdownValue;
   LatLng? location;
+
 
   /// Crear post de location
   void createLocation(String name, String description, LatLng location, List<String> base64Images) async {
@@ -63,7 +64,7 @@ class _CreateLocationState extends State<CreateLocation> {
         // Si la creación es exitosa, mostrar Snackbar y navegar a la otra página
         Get.snackbar('¡Localización creada correctamente!', '',
             snackPosition: SnackPosition.BOTTOM);
-        Get.offAllNamed('/create-il');
+
       } else {
         // Si la respuesta no es 200/201, mostrar un mensaje de error
         Get.snackbar('Error', 'No hemos podido crear tu ubicación (carita triste)',
@@ -78,7 +79,20 @@ class _CreateLocationState extends State<CreateLocation> {
   @override
   void initState() {
     super.initState();
+    _loadCountries(); // Cargar la lista de países al inicializar el widget
     _getCurrentLocation();
+  }
+
+  Future<void> _loadCountries() async {
+    try {
+      List<Country> countries = await apiService.getCountryList();
+      provider.setAPIContries(countries);
+      setState(() {
+        dropdownValue = countries.first;
+      });
+    } catch (error) {
+      print('Error al cargar la lista de países: $error');
+    }
   }
 
   Future<void> _getCurrentLocation() async {
@@ -99,7 +113,8 @@ class _CreateLocationState extends State<CreateLocation> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<NomadProvider>(context);
-    dropdownValue = provider.countries.first;
+
+
     return Scaffold(
       // APPBAR
       appBar: AppBar(
@@ -209,21 +224,22 @@ class _CreateLocationState extends State<CreateLocation> {
                       style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
 
-                // TODO Almacenar el país seleccionado en countryName
-                DropdownButton<Country>(
-                  value: dropdownValue,
-                  onChanged: (Country? newDropdownValue) {
+                /// Dropdown Menu
+                DropdownButton<int>(
+                  value: dropdownValue.id,
+                  onChanged: (int? newDropdownValue) {
                     setState(() {
-                      dropdownValue = newDropdownValue!;
+                      dropdownValue = provider.countries.firstWhere((country) => country.id == newDropdownValue)!;
                     });
                   },
                   items: provider.countries.map((Country country) {
-                    return DropdownMenuItem<Country>(
-                      value: country,
+                    return DropdownMenuItem<int>(
+                      value: country.id,
                       child: Text(country.name),
                     );
                   }).toList(),
                 ),
+
 
                 const SizedBox(height: 20),
 
