@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:nomadworld/models/Country.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../../domain/provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+
 
 class CreateLocation extends StatefulWidget {
   const CreateLocation({super.key});
@@ -29,7 +31,13 @@ class _CreateLocationState extends State<CreateLocation> {
   void createLocation(String name, String description, LatLng location, List<String> base64Images) async {
     String countryName = dropdownValue.name;
 
-    var url = Uri.parse('http://172.23.6.201:8080/create_location/$countryName');
+    // Mostrar Snackbar indicando que la ubicación se está creando
+    Get.snackbar('Creando ubicación', 'Por favor, espera...',
+        snackPosition: SnackPosition.BOTTOM,
+        duration: Duration(seconds: 5),
+        isDismissible: false);
+
+    var url = Uri.parse('http://192.168.1.50:8080/create_location/$countryName');
 
     // Creating the location object
     Map<String, dynamic> locationMap = {
@@ -42,32 +50,51 @@ class _CreateLocationState extends State<CreateLocation> {
       }
     };
 
-    // Sending the user object to the server
-    var response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: convert.jsonEncode(locationMap),
-    );
+    try {
+      // Sending the user object to the server
+      var response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: convert.jsonEncode(locationMap),
+      );
 
-    // Checking the response
-    if (response.statusCode == 200) {
-      var jsonResponse = response.body;
-
-      if (jsonResponse.contains('Location created successfully')) {
-        Get.snackbar('Genial!', 'Has creado una ubicación!',
+      // Checking the response
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Si la creación es exitosa, mostrar Snackbar y navegar a la otra página
+        Get.snackbar('¡Localización creada correctamente!', '',
             snackPosition: SnackPosition.BOTTOM);
-        Get.offAllNamed('/home');
+        Get.offAllNamed('/create-il');
       } else {
-        // Mostrar un mensaje de error si la respuesta no contiene el mensaje esperado
-        Get.snackbar('Error', 'Error en la respuesta del servidor',
+        // Si la respuesta no es 200/201, mostrar un mensaje de error
+        Get.snackbar('Error', 'No hemos podido crear tu ubicación (carita triste)',
             snackPosition: SnackPosition.BOTTOM);
       }
-    } else {
-      // Mostrar el código de estado HTTP si la respuesta no es 201
-      Get.snackbar('Error', 'HTTP Error: ${response.statusCode}',
-          snackPosition: SnackPosition.BOTTOM);
+    } catch (error) {
+      // Mostrar un Snackbar en caso de error durante la solicitud HTTP
+      print('Error en la solicitud HTTP: $error');
     }
   }
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
+  Future<void> _getCurrentLocation() async {
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      setState(() {
+        location = LatLng(position.latitude, position.longitude);
+        print('---- Current Location: $location ---- ');
+      });
+    } catch (e) {
+      print('---- Error obtaining current location: $e ----');
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {

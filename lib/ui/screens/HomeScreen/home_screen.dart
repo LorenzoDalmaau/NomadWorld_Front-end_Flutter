@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -83,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         IconButton(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.search,
                             color: Colors.white,
                           ),
@@ -108,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           } else if (snapshot.hasError) {
                             print(snapshot);
-                            return Text("ERROR");
+                            return const Text("ERROR");
                           }
                         }
                         return const Center(
@@ -126,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           Padding(
             padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
-            child: Row(
+            child: const Row(
                 children: [
                   Text("Paises",
                     style: TextStyle(

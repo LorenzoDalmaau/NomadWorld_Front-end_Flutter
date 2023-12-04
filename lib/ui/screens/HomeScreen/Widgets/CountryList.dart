@@ -33,12 +33,12 @@ class ContryList extends StatelessWidget {
               return InkWell(
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                    borderRadius: const BorderRadius.all(Radius.circular(25)),
                     image: DecorationImage(
                       image: NetworkImage(item.image),
                       fit: BoxFit.cover,
                     ),
-                    boxShadow: [
+                    boxShadow: const [
                       BoxShadow(
                         color: Color.fromARGB(150, 0, 0, 0),
                         blurRadius: 6,
@@ -51,7 +51,7 @@ class ContryList extends StatelessWidget {
                         alignment: Alignment.center,
                         child: Text(
                           checkTextSize(item.name),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -72,7 +72,8 @@ class ContryList extends StatelessWidget {
   String checkTextSize(String text) {
     if (text.length > 10) {
       return "${text.substring(0, 7)}...";
-    } else
+    } else {
       return text;
+    }
   }
 }

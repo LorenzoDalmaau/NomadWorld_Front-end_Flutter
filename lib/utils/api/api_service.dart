@@ -8,7 +8,7 @@ class ApiService {
   Future<List<TravelRoute>> getPopularRoutes() async {
 
     List<TravelRoute>  routes= [];
-    final response = await http.get(Uri.parse('http://172.23.6.201:8080/route/more_likes/'));
+    final response = await http.get(Uri.parse('http://192.168.1.50:8080/route/more_likes/'));
     if (response.statusCode == 200){
 
       String body = utf8.decode(response.bodyBytes);
@@ -27,7 +27,7 @@ class ApiService {
 
     List<Country>  countrys= [];
 
-    final response = await http.get(Uri.parse('http://172.23.6.201:8080/country/'));
+    final response = await http.get(Uri.parse('http://192.168.1.50:8080/country/'));
     if (response.statusCode == 200){
       String body = utf8.decode(response.bodyBytes);
       final jsonData = jsonDecode(body);
