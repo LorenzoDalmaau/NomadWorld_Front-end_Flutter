@@ -8,8 +8,6 @@ import 'package:nomadworld/ui/widgets/map_box.dart';
 import 'package:nomadworld/utils/api/api_service.dart';
 import 'package:provider/provider.dart';
 import '../../../domain/provider/provider.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
 
 class CreateLocation extends StatefulWidget {
   const CreateLocation({super.key});
@@ -26,57 +24,6 @@ class _CreateLocationState extends State<CreateLocation> {
   late Country dropdownValue;
   LatLng? location;
   late bool isLoading;
-
-  /// Crear post de location
-  void createLocation(String name, String description, LatLng location,
-      List<String> base64Images) async {
-    String countryName = dropdownValue.name;
-
-    // Mostrar Snackbar indicando que la ubicación se está creando
-    Get.snackbar('Creando ubicación', 'Por favor, espera...',
-        snackPosition: SnackPosition.BOTTOM,
-        duration: const Duration(seconds: 5),
-        isDismissible: false);
-
-    var url =
-        Uri.parse('http://192.168.1.50:8080/create_location/$countryName');
-
-    // Creating the location object
-    Map<String, dynamic> locationMap = {
-      "image_files": base64Images,
-      "location": {
-        'name': name,
-        'description': description,
-        'latitude': location.latitude,
-        'longitude': location.longitude
-      }
-    };
-
-    try {
-      // Sending the user object to the server
-      var response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: convert.jsonEncode(locationMap),
-      );
-
-      // Checking the response
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        // Si la creación es exitosa, mostrar Snackbar y navegar a la otra página
-        Get.snackbar('¡Localización creada correctamente!', '',
-            snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed('/create-location');
-      } else {
-        // Si la respuesta no es 200/201, mostrar un mensaje de error
-        Get.snackbar(
-            'Error', 'No hemos podido crear tu ubicación (carita triste)',
-            snackPosition: SnackPosition.BOTTOM);
-      }
-    } catch (error) {
-      // Mostrar un Snackbar en caso de error durante la solicitud HTTP
-      print('Error en la solicitud HTTP: $error');
-    }
-  }
 
   @override
   void initState() {
@@ -141,9 +88,13 @@ class _CreateLocationState extends State<CreateLocation> {
     return true;
   }
 
+
+  /// --------------------------------------
+
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<NomadProvider>(context);
+
     return Scaffold(
       // APPBAR
       appBar: AppBar(
@@ -152,11 +103,12 @@ class _CreateLocationState extends State<CreateLocation> {
             onPressed: () {
               if (validateFields()) {
                 List<String> base64Images = provider.convertImagesToBase64();
-                createLocation(
+                ApiService().createLocation(
                   nameLocationController.text.toString(),
                   descriptionLocationController.text.toString(),
                   location!,
                   base64Images,
+                  dropdownValue
                 );
               }
             },
@@ -260,7 +212,7 @@ class _CreateLocationState extends State<CreateLocation> {
                         onChanged: (int? newDropdownValue) {
                           setState(() {
                             dropdownValue = provider.countries.firstWhere(
-                                (country) => country.id == newDropdownValue)!;
+                                (country) => country.id == newDropdownValue);
                           });
                         },
                         items: provider.countries.map((Country country) {
