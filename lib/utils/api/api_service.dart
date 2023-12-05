@@ -91,6 +91,7 @@ class ApiService {
         Get.snackbar(
             'Error', 'No hemos podido crear tu ubicación',
             snackPosition: SnackPosition.BOTTOM);
+        Get.toNamed('/create-il');
       }
     } catch (error) {
       // Mostrar un Snackbar en caso de error durante la solicitud HTTP
