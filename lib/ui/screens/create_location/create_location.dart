@@ -8,6 +8,12 @@ import 'package:nomadworld/ui/widgets/map_box.dart';
 import 'package:nomadworld/utils/api/api_service.dart';
 import 'package:provider/provider.dart';
 import '../../../domain/provider/provider.dart';
+import '../../widgets/create_il/create_il_dropdown_title.dart';
+import '../../widgets/create_il/create_il_location_title.dart';
+import '../../widgets/create_il/create_il_name.dart';
+import '../../widgets/create_il/create_il_name_description.dart';
+import '../../widgets/create_il/create_il_subtitle.dart';
+import '../../widgets/create_il/create_il_title.dart';
 
 class CreateLocation extends StatefulWidget {
   const CreateLocation({super.key});
@@ -25,6 +31,7 @@ class _CreateLocationState extends State<CreateLocation> {
   LatLng? location;
   late bool isLoading;
 
+  /// Functions
   @override
   void initState() {
     super.initState();
@@ -89,7 +96,7 @@ class _CreateLocationState extends State<CreateLocation> {
   }
 
 
-  /// --------------------------------------
+  /// Create Location Screen
 
   @override
   Widget build(BuildContext context) {
@@ -137,26 +144,15 @@ class _CreateLocationState extends State<CreateLocation> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       /// Title
-                      const Text(
-                        'Mi ubicación',
-                        style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
-                      ),
+                      CreateILTitle(title: 'Mi ubicación'),
 
                       /// Subtitle
-                      const Text(
-                          'Añade la ubicación, tus fotos y\nrecomendaciones'),
+                      CreateILSubtitle(subtitle: 'Añade la ubicación, tus fotos y\nrecomendaciones'),
 
                       const SizedBox(height: 50),
 
                       /// Location Name
-                      const Align(
-                        alignment: AlignmentDirectional.centerStart,
-                        child: Text(
-                          'Pon un título a tu recuerdo',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                      CreateILName(ilName: 'Pon un título a tu recuerdo'),
 
                       const SizedBox(height: 10),
 
@@ -176,13 +172,7 @@ class _CreateLocationState extends State<CreateLocation> {
 
                       const SizedBox(height: 10),
 
-                      const Align(
-                        alignment: AlignmentDirectional.centerStart,
-                        child: Text(
-                          'Añade una descripción',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                      const create_il_name_description(),
 
                       const SizedBox(height: 10),
 
@@ -200,11 +190,7 @@ class _CreateLocationState extends State<CreateLocation> {
 
                       const SizedBox(height: 10),
 
-                      const Align(
-                        alignment: AlignmentDirectional.centerStart,
-                        child: Text('¿A que país pertenece?',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      ),
+                      const dropdown_menu_title(),
 
                       /// Dropdown Menu
                       DropdownButton<int>(
@@ -226,13 +212,7 @@ class _CreateLocationState extends State<CreateLocation> {
                       const SizedBox(height: 20),
 
                       /// Title Location
-                      const Align(
-                        alignment: AlignmentDirectional.centerStart,
-                        child: Text(
-                          'Ubicación',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                      const create_il_location_title(),
 
                       const SizedBox(height: 10),
 
@@ -283,3 +263,13 @@ class _CreateLocationState extends State<CreateLocation> {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
