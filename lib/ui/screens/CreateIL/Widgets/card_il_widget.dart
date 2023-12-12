@@ -18,56 +18,46 @@ class CardILWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 25, right: 25, top: 50),
-      child: InkWell(
-        onTap: () {
-          Get.toNamed(routing);
-        },
+    return InkWell(
+      onTap: () {
+        Get.toNamed(routing);
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(25.0),
         child: Container(
-          width: 380,
-          height: 130,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
-            boxShadow: [
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: const [
               BoxShadow(
                 color: Color.fromARGB(181, 0, 0, 0),
                 blurRadius: 20,
               ),
             ],
-            borderRadius: BorderRadius.all(
-              Radius.circular(5),
-            ),
           ),
           child: Row(
             children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(5),
-                  bottomLeft: Radius.circular(5),
+              Expanded(
+                flex: 1,
+                child: ClipRRect(
+                  child: image,
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    topLeft: Radius.circular(20),
+                  ),
                 ),
-                child: image,
               ),
               Expanded(
+                flex: 2,
                 child: Padding(
-                  padding:
-                      const EdgeInsets.only(top: 15.0, left: 25.0, right: 25.0),
+                  padding: const EdgeInsets.all(15.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        titleCard,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        subtitleCard,
-                        style: const TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
+                      Text(titleCard, style: const TextStyle(fontWeight: FontWeight.bold)),
+                      const Divider(),
+                      Text(subtitleCard, style: const TextStyle(fontSize: 10)),
                     ],
                   ),
                 ),

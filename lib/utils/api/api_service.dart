@@ -10,11 +10,13 @@ import '../../models/TravelRoute.dart';
 
 class ApiService {
 
+  final baseUrl = 'http://3.230.177.201:8000';
+
   /// Get popular routes
   Future<List<TravelRoute>> getPopularRoutes() async {
 
     List<TravelRoute>  routes= [];
-    final response = await http.get(Uri.parse('http://54.84.108.202:8000/route/more_likes/'));
+    final response = await http.get(Uri.parse('$baseUrl/route/more_likes/'));
     if (response.statusCode == 200){
 
       String body = utf8.decode(response.bodyBytes);
@@ -34,7 +36,7 @@ class ApiService {
 
     List<Country>  countrys= [];
 
-    final response = await http.get(Uri.parse('http://54.84.108.202:8000/country/'));
+    final response = await http.get(Uri.parse('$baseUrl/country/'));
     if (response.statusCode == 200){
       String body = utf8.decode(response.bodyBytes);
       final jsonData = jsonDecode(body);
@@ -59,7 +61,7 @@ class ApiService {
         isDismissible: false);
 
     var url =
-    Uri.parse('http://54.84.108.202:8000/create_location/${country.name}');
+    Uri.parse('$baseUrl/create_location/${country.name}');
 
     // Creating the location object
     Map<String, dynamic> locationMap = {
