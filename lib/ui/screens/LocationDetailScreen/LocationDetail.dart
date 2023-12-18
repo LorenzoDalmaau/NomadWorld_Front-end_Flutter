@@ -13,7 +13,7 @@ class LocationDetail extends StatelessWidget{
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          CarrouselAppBar(name: location.name, images: location.images),
+          CarrouselAppBar(name: location.name!, images: location.images),
           SliverList(delegate: SliverChildListDelegate(
             [
             DescriptionText(description: location.description),

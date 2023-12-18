@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:nomadworld/models/Country.dart';
 import 'package:nomadworld/utils/api/api_service.dart';
-
 import '../../../models/Location.dart';
 import '../RouteScreen/widgets/Location_Card.dart';
 
 class LocationsCountriBuilder extends StatefulWidget {
-  LocationsCountriBuilder({super.key});
+  LocationsCountriBuilder({super.key, required this.country});
 
+  late Country country;
   @override
   State<LocationsCountriBuilder> createState() => _LocationsCountriBuilderState();
 }
@@ -20,7 +21,7 @@ class _LocationsCountriBuilderState extends State<LocationsCountriBuilder> {
   }
 
   getLocations() async {
-    List<LocationData> apiResponse = await ApiService().getCountryLocations();
+    List<LocationData> apiResponse = await ApiService().getCountryLocations(widget.country.name);
     locations = apiResponse;
     setState(() {
 

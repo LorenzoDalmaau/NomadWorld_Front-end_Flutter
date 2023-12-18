@@ -15,7 +15,7 @@ class ApiService {
   Future<List<TravelRoute>> getPopularRoutes() async {
 
     List<TravelRoute>  routes= [];
-    final response = await http.get(Uri.parse('http://54.84.108.202:8000/route/more_likes/'));
+    final response = await http.get(Uri.parse('http://3.230.177.201:8000/route/more_likes/'));
     if (response.statusCode == 200){
 
       String body = utf8.decode(response.bodyBytes);
@@ -35,7 +35,7 @@ class ApiService {
 
     List<Country>  countrys= [];
 
-    final response = await http.get(Uri.parse('http://54.84.108.202:8000/country'));
+    final response = await http.get(Uri.parse('http://3.230.177.201:8000/country'));
     if (response.statusCode == 200){
       String body = utf8.decode(response.bodyBytes);
       final jsonData = jsonDecode(body);
@@ -50,26 +50,41 @@ class ApiService {
     }
   }
 
-  Future<List<LocationData>> getCountryLocations() async {
+  Future<List<LocationData>> getCountryLocations(String country) async {
 
     List<LocationData> locations = [];
 
-    final response = await http.get(Uri.parse('http://54.84.108.202:8000/location/Spain'));
+    final response = await http.get(Uri.parse('http://3.230.177.201:8000/location/${country}'));
     if (response.statusCode == 200){
       String body = utf8.decode(response.bodyBytes);
       final jsonData = jsonDecode(body);
 
       for(var item in jsonData){
-        print(jsonData);
         locations.add(LocationData.fromJson(item));
-      }
-      for(var item in locations){
-        print(item.name);
       }
       return locations;
     }
     else {
       throw Exception("Error al hacer get de localizaciones de un pais");
+    }
+  }
+
+  Future<List<TravelRoute>> getCountryRoutes(String country) async {
+
+    List<TravelRoute> routes = [];
+
+    final response = await http.get(Uri.parse('http://3.230.177.201:8000/route/${country}'));
+    if (response.statusCode == 200){
+      String body = utf8.decode(response.bodyBytes);
+      final jsonData = jsonDecode(body);
+
+      for(var item in jsonData){
+        routes.add(TravelRoute.fromJson(item));
+      }
+      return routes;
+    }
+    else {
+      throw Exception("Error al hacer get de rutas de un pais");
     }
   }
 
@@ -83,7 +98,7 @@ class ApiService {
         isDismissible: false);
 
     var url =
-    Uri.parse('http://54.84.108.202:8000/create_location/${country.name}');
+    Uri.parse('http://3.230.177.201:8000/create_location/${country.name}');
 
     // Creating the location object
     Map<String, dynamic> locationMap = {

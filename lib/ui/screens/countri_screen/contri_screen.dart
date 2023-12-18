@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:nomadworld/models/Country.dart';
 import 'package:nomadworld/ui/screens/countri_screen/locations_countri_builder.dart';
+import 'package:nomadworld/ui/screens/countri_screen/routes_countri_builder.dart';
 
 class CountriScreen extends StatelessWidget {
 
@@ -34,8 +35,8 @@ class CountriScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            Text("RUTAS"),
-            LocationsCountriBuilder()
+            RoutesCountriBuilder(country: country),
+            LocationsCountriBuilder(country: country)
           ],
         ),
       ),

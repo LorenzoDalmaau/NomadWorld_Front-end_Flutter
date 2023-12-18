@@ -1,7 +1,7 @@
 class LocationData{
 
   int id;
-  String name;
+  String? name;
   String description;
   String date;
   int countri_id;
@@ -16,14 +16,14 @@ class LocationData{
     List<String> imagesList = List<String>.from(imagesFromJson);
 
     return LocationData(
-        id : parsedJson["id"],
-        name : parsedJson["name"],
-        description : parsedJson["description"],
-        date : parsedJson["creation_date"],
-        countri_id : parsedJson["image_id"],
-        images : imagesList,
-        longitude : parsedJson["longitude"],
-        latitude : parsedJson["latitude"]
+      id: parsedJson["id"],
+      name: parsedJson["name"],
+      description: parsedJson["description"],
+      date: parsedJson["creation_date"],
+      countri_id: parsedJson["country_id"],
+      images: imagesList,
+      longitude: parsedJson["longitude"],
+      latitude: parsedJson["latitude"],
     );
   }
 }

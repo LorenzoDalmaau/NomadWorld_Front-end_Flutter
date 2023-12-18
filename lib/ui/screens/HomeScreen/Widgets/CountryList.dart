@@ -25,8 +25,8 @@ class ContryList extends StatelessWidget {
               crossAxisCount: 2,
               childAspectRatio:
               MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.3),
-              mainAxisSpacing: 10.0,
-              crossAxisSpacing: 10.0,
+              mainAxisSpacing: 15.0,
+              crossAxisSpacing: 15.0,
             ),
             itemCount: countries.length,
             itemBuilder: (context, index) {
@@ -46,12 +46,6 @@ class ContryList extends StatelessWidget {
                       image: NetworkImage(item.image),
                       fit: BoxFit.cover,
                     ),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color.fromARGB(150, 0, 0, 0),
-                        blurRadius: 6,
-                      ),
-                    ],
                   ),
                   child: Stack(
                     children: [
