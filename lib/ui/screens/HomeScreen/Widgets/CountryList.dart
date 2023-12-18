@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:nomadworld/domain/provider/provider.dart';
 import 'package:nomadworld/models/Country.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +32,13 @@ class ContryList extends StatelessWidget {
             itemBuilder: (context, index) {
               final item = countries[index];
               return InkWell(
+                onTap: (){
+                  Navigator.pushNamed(
+                    context,
+                    '/country',
+                    arguments: item,
+                  );
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(25)),
