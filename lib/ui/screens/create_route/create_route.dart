@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:nomadworld/models/Location.dart';
 import 'package:nomadworld/ui/widgets/create_il/create_il_dropdown_title.dart';
 import 'package:nomadworld/ui/widgets/create_il/create_il_name.dart';
 import 'package:nomadworld/ui/widgets/create_il/create_il_title.dart';
@@ -23,6 +25,7 @@ class _CreateRouteState extends State<CreateRoute> {
   late Country dropdownValue;
 
   TextEditingController nameRouteController = TextEditingController();
+  List<LocationData> countryLocations = [];
 
   @override
   void initState() {
@@ -30,6 +33,7 @@ class _CreateRouteState extends State<CreateRoute> {
     _loadCountries();
   }
 
+  /// Cargar paies dropdown
   Future<void> _loadCountries() async {
     try {
       // Mostrar indicador de carga
@@ -50,6 +54,14 @@ class _CreateRouteState extends State<CreateRoute> {
       });
     }
   }
+
+  /// Peticion de localizaciones de un país
+  getLocations() async {
+    List<LocationData> apiResponse =
+    await ApiService().getCountryLocations(dropdownValue.name);
+    countryLocations = apiResponse;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -123,6 +135,8 @@ class _CreateRouteState extends State<CreateRoute> {
                           setState(() {
                             dropdownValue = provider.countries.firstWhere(
                                 (country) => country.id == newDropdownValue);
+
+                            getLocations();
                           });
                         },
                         items: provider.countries.map((Country country) {
@@ -138,6 +152,31 @@ class _CreateRouteState extends State<CreateRoute> {
                       /// SearchBar
                       const RouteSearchBar(),
 
+                      /// Btn confirmation
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Center(
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF195F47),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 50),
+                              textStyle: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              elevation: 20,
+                            ),
+                            child: const Text(
+                              'Agregar localización',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

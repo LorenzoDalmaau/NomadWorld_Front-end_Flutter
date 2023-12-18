@@ -20,7 +20,7 @@ class LocationData{
         name : parsedJson["name"],
         description : parsedJson["description"],
         date : parsedJson["creation_date"],
-        countri_id : parsedJson["image_id"],
+        countri_id : parsedJson["country_id"],
         images : imagesList,
         longitude : parsedJson["longitude"],
         latitude : parsedJson["latitude"]

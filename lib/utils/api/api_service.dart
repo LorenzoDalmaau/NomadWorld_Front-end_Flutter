@@ -6,6 +6,7 @@ import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 import '../../models/Country.dart';
+import '../../models/Location.dart';
 import '../../models/TravelRoute.dart';
 
 class ApiService {
@@ -50,6 +51,7 @@ class ApiService {
       throw Exception("Error al hacer get de paises");
     }
   }
+
 
   /// Crear post de location
   void createLocation(String name, String description, LatLng location, List<String> base64Images, Country country) async {
@@ -98,6 +100,26 @@ class ApiService {
     } catch (error) {
       // Mostrar un Snackbar en caso de error durante la solicitud HTTP
       print('Error en la solicitud HTTP: $error');
+    }
+  }
+
+  Future<List<LocationData>> getCountryLocations(String country) async {
+    List<LocationData> locations = [];
+
+    final response = await http.get(Uri.parse('http://3.230.177.201:8000/location/$country'));
+    if (response.statusCode == 200){
+      String body = utf8.decode(response.bodyBytes);
+      final jsonData = jsonDecode(body);
+
+      print('JSONDATA: jsonData');
+      for(var item in jsonData){
+        locations.add(LocationData.fromJson(item));
+        print('PAISES: $item');
+      }
+      return locations;
+    }
+    else {
+      throw Exception("Error al hacer get de localizaciones de un pais");
     }
   }
 }
