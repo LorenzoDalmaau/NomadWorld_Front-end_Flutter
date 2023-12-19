@@ -51,7 +51,7 @@ class _RouteSearchBarState extends State<RouteSearchBar> {
                   location.id.toString(),
                   style: const TextStyle(color: Colors.white),
                 ),
-                title: Text(location.name, style: const TextStyle(color: Colors.white)),
+                title: Text(location.name!, style: const TextStyle(color: Colors.white)),
               ),
             ),
           );
