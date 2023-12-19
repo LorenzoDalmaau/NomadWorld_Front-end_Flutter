@@ -103,6 +103,7 @@ class ApiService {
     }
   }
 
+  /// GET Country Locations
   Future<List<LocationData>> getCountryLocations(String country) async {
     List<LocationData> locations = [];
 
@@ -120,6 +121,53 @@ class ApiService {
     }
     else {
       throw Exception("Error al hacer get de localizaciones de un pais");
+    }
+  }
+
+  /// POST Create Route
+  Future<void> createRoute(Country country,String nameRoute, String descriptionRoute, List<int> locationIds) async {
+    var url = Uri.parse('$baseUrl/create_route/${country.name}');
+
+    // Mostrar Snackbar indicando que la ubicación se está creando
+    Get.snackbar('Creando ruta', 'Por favor, espere...',
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 5),
+        isDismissible: false);
+
+    final Map<String, dynamic> routeMap = {
+      'id': 0,
+      'name': nameRoute,
+      'description': descriptionRoute, // TODO Agregar descripción
+      'distance': 0, // TODO Agregar distancia
+      'duration': 0, // TODO Agregar duración
+      'country_id': country.id,
+      'location_id': locationIds,
+    };
+
+    try {
+      // Sending the user object to the server
+      var response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: convert.jsonEncode(routeMap),
+      );
+
+      // Checking the response
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Si la creación es exitosa, mostrar Snackbar y navegar a la otra página
+        Get.snackbar('¡Ruta creada correctamente!', '',
+            snackPosition: SnackPosition.BOTTOM);
+        Get.toNamed('/create-location');
+      } else {
+        // Si la respuesta no es 200/201, mostrar un mensaje de error
+        Get.snackbar(
+            'Error', 'No hemos podido crear tu ruta',
+            snackPosition: SnackPosition.BOTTOM);
+        Get.toNamed('/create-il');
+      }
+    } catch (error) {
+      // Mostrar un Snackbar en caso de error durante la solicitud HTTP
+      print('Error en la solicitud HTTP: $error');
     }
   }
 }

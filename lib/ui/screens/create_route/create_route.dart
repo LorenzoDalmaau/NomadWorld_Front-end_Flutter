@@ -20,6 +20,7 @@ class CreateRoute extends StatefulWidget {
 
 class _CreateRouteState extends State<CreateRoute> {
   final ApiService apiService = ApiService();
+  late List<int> selectedLocations;
   late NomadProvider provider;
   late bool isLoading;
   late Country dropdownValue;
@@ -31,6 +32,7 @@ class _CreateRouteState extends State<CreateRoute> {
   void initState() {
     super.initState();
     _loadCountries();
+    selectedLocations = [];
   }
 
   /// Cargar paies dropdown
@@ -58,10 +60,10 @@ class _CreateRouteState extends State<CreateRoute> {
   /// Peticion de localizaciones de un país
   getLocations() async {
     List<LocationData> apiResponse =
-    await ApiService().getCountryLocations(dropdownValue.name);
+        await ApiService().getCountryLocations(dropdownValue.name);
     countryLocations = apiResponse;
+    setState(() {});
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +73,14 @@ class _CreateRouteState extends State<CreateRoute> {
       appBar: AppBar(
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              apiService.createRoute(
+                dropdownValue,
+                nameRouteController.text.toString(),
+                'descriptionRoute',
+                selectedLocations
+              );
+            },
             child: const Text(
               'Crear ruta',
               style: TextStyle(
@@ -89,98 +98,81 @@ class _CreateRouteState extends State<CreateRoute> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : ListView(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(30, 25, 30, 25),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      /// Title
-                      CreateILTitle(title: 'Crear nueva ruta'),
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 25, 30, 25),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        /// Title
+                        CreateILTitle(title: 'Crear nueva ruta'),
 
-                      /// Subtitle
-                      CreateILSubtitle(
-                          subtitle: 'Pensar una frase\nacorde a su objetivo'),
+                        /// Subtitle
+                        CreateILSubtitle(
+                            subtitle: 'Pensar una frase\nacorde a su objetivo'),
 
-                      const SizedBox(height: 50),
+                        const SizedBox(height: 50),
 
-                      /// Route Name Title
-                      CreateILName(ilName: 'Pon un título a tu ruta'),
+                        /// Route Name Title
+                        CreateILName(ilName: 'Pon un título a tu ruta'),
 
-                      const SizedBox(height: 10),
+                        const SizedBox(height: 10),
 
-                      /// Route Name
-                      TextFormField(
-                        controller: nameRouteController,
-                        maxLines: 1,
-                        maxLength: 25,
-                        minLines: 1,
-                        decoration: InputDecoration(
-                          hintText: 'Por ejemplo: Visita a Pie Picasso',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                        /// Route Name
+                        TextFormField(
+                          controller: nameRouteController,
+                          maxLines: 1,
+                          maxLength: 25,
+                          minLines: 1,
+                          decoration: InputDecoration(
+                            hintText: 'Por ejemplo: Visita a Pie Picasso',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
                           ),
                         ),
-                      ),
 
-                      const SizedBox(height: 10),
+                        const SizedBox(height: 10),
 
-                      const dropdown_menu_title(),
+                        const dropdown_menu_title(),
 
-                      /// Dropdown Menu
-                      DropdownButton<int>(
-                        value: dropdownValue.id,
-                        onChanged: (int? newDropdownValue) {
-                          setState(() {
+                        /// Dropdown Menu
+                        DropdownButton<int>(
+                          value: dropdownValue.id,
+                          onChanged: (int? newDropdownValue) {
                             dropdownValue = provider.countries.firstWhere(
                                 (country) => country.id == newDropdownValue);
 
                             getLocations();
-                          });
-                        },
-                        items: provider.countries.map((Country country) {
-                          return DropdownMenuItem<int>(
-                            value: country.id,
-                            child: Text(country.name),
-                          );
-                        }).toList(),
-                      ),
-
-                      const SizedBox(height: 30),
-
-                      /// SearchBar
-                      const RouteSearchBar(),
-
-                      /// Btn confirmation
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Center(
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF195F47),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 50),
-                              textStyle: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              elevation: 20,
-                            ),
-                            child: const Text(
-                              'Agregar localización',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
+                          },
+                          items: provider.countries.map((Country country) {
+                            return DropdownMenuItem<int>(
+                              value: country.id,
+                              child: Text(country.name),
+                            );
+                          }).toList(),
                         ),
-                      ),
-                    ],
+
+                        const SizedBox(height: 10),
+
+                        /// SearchBar
+                        RouteSearchBar(
+                          locations: countryLocations,
+                          selectedLocations: selectedLocations,
+                          onSelectionChanged: (List<int> selectedLocations) {
+                            setState(() {
+                              this.selectedLocations = selectedLocations;
+                            });
+                            print('Selected Locations in CreateRoute: $selectedLocations');
+                          },
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
     );
   }
