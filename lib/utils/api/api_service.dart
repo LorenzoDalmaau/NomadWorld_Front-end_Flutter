@@ -11,11 +11,15 @@ import '../../models/TravelRoute.dart';
 
 class ApiService {
 
+  final baseUrl = 'http://3.230.177.201:8000';
+
   /// Get popular routes
   Future<List<TravelRoute>> getPopularRoutes() async {
 
     List<TravelRoute>  routes= [];
-    final response = await http.get(Uri.parse('http://3.230.177.201:8000/route/more_likes/'));
+
+    final response = await http.get(Uri.parse('$baseUrl/route/more_likes/'));
+
     if (response.statusCode == 200){
 
       String body = utf8.decode(response.bodyBytes);
@@ -34,8 +38,7 @@ class ApiService {
   Future<List<Country>> getCountryList() async{
 
     List<Country>  countrys= [];
-
-    final response = await http.get(Uri.parse('http://3.230.177.201:8000/country'));
+    final response = await http.get(Uri.parse('$baseUrl/country/'));
     if (response.statusCode == 200){
       String body = utf8.decode(response.bodyBytes);
       final jsonData = jsonDecode(body);
@@ -97,9 +100,7 @@ class ApiService {
         duration: const Duration(seconds: 5),
         isDismissible: false);
 
-    var url =
-    Uri.parse('http://3.230.177.201:8000/create_location/${country.name}');
-
+    var url = Uri.parse('$baseUrl/create_location/${country.name}');
     // Creating the location object
     Map<String, dynamic> locationMap = {
       "image_files": base64Images,
@@ -129,6 +130,53 @@ class ApiService {
         // Si la respuesta no es 200/201, mostrar un mensaje de error
         Get.snackbar(
             'Error', 'No hemos podido crear tu ubicación',
+            snackPosition: SnackPosition.BOTTOM);
+        Get.toNamed('/create-il');
+      }
+    } catch (error) {
+      // Mostrar un Snackbar en caso de error durante la solicitud HTTP
+      print('Error en la solicitud HTTP: $error');
+    }
+  }
+
+  /// POST Create Route
+  Future<void> createRoute(Country country,String nameRoute, String descriptionRoute, List<int> locationIds) async {
+    var url = Uri.parse('$baseUrl/create_route/${country.name}');
+
+    // Mostrar Snackbar indicando que la ubicación se está creando
+    Get.snackbar('Creando ruta', 'Por favor, espere...',
+        snackPosition: SnackPosition.BOTTOM,
+        duration: const Duration(seconds: 5),
+        isDismissible: false);
+
+    final Map<String, dynamic> routeMap = {
+      'id': 0,
+      'name': nameRoute,
+      'description': descriptionRoute, // TODO Agregar descripción
+      'distance': 0, // TODO Agregar distancia
+      'duration': 0, // TODO Agregar duración
+      'country_id': country.id,
+      'location_id': locationIds,
+    };
+
+    try {
+      // Sending the user object to the server
+      var response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: convert.jsonEncode(routeMap),
+      );
+
+      // Checking the response
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Si la creación es exitosa, mostrar Snackbar y navegar a la otra página
+        Get.snackbar('¡Ruta creada correctamente!', '',
+            snackPosition: SnackPosition.BOTTOM);
+        Get.toNamed('/create-location');
+      } else {
+        // Si la respuesta no es 200/201, mostrar un mensaje de error
+        Get.snackbar(
+            'Error', 'No hemos podido crear tu ruta',
             snackPosition: SnackPosition.BOTTOM);
         Get.toNamed('/create-il');
       }

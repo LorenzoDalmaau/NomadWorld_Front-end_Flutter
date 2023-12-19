@@ -7,6 +7,7 @@ import 'package:nomadworld/ui/screens/countri_screen/contri_screen.dart';
 import '../screens/CreateIL/create_il.dart';
 import '../screens/RouteScreen/RouteScreen.dart';
 import '../screens/create_location/create_location.dart';
+import '../screens/create_route/create_route.dart';
 
 class AppRoutes {
   static final List<GetPage> routes = [
