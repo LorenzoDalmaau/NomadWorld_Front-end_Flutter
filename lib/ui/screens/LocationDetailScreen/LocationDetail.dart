@@ -13,13 +13,13 @@ class LocationDetail extends StatelessWidget{
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          CarrouselAppBar(name: location.name, images: location.images),
+          CarrouselAppBar(name: location.name!, images: location.images),
           SliverList(delegate: SliverChildListDelegate(
             [
             DescriptionText(description: location.description),
             Padding(
               padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
-              child: MapBox(cordinades: LatLng(37.7749, -122.4194)),
+              child: MapBox(cordinades: LatLng(location.latitude, location.longitude)),
             )
             ]
           )

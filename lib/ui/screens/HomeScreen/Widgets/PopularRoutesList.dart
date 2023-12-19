@@ -35,12 +35,6 @@ class PopularRoutesList extends StatelessWidget {
                     image: NetworkImage(item.locations[0].images[0]),
                     fit: BoxFit.cover,
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromARGB(150, 0, 0, 0),
-                      blurRadius: 6,
-                    ),
-                  ],
                 ),
                 child: Stack(
                   children: [

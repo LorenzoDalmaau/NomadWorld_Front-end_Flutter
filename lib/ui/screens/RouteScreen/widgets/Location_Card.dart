@@ -12,7 +12,6 @@ class LocationCard extends StatelessWidget{
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        print("AAAA");
         Navigator.pushNamed(context, arguments: location,'/location');
       },
       child: Padding(
@@ -28,7 +27,7 @@ class LocationCard extends StatelessWidget{
               boxShadow: const [
                 BoxShadow(
                   color: Color.fromARGB(150, 0, 0, 0),
-                  blurRadius: 10,
+                  blurRadius: 1,
                 ),
               ],
             ),
@@ -39,7 +38,7 @@ class LocationCard extends StatelessWidget{
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      location.name,
+                      location.name!,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: const TextStyle(
@@ -57,5 +56,4 @@ class LocationCard extends StatelessWidget{
       ),
     );
   }
-
 }
