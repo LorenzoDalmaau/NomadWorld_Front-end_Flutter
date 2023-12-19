@@ -12,7 +12,6 @@ class LocationCard extends StatelessWidget{
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        print("AAAA");
         Navigator.pushNamed(context, arguments: location,'/location');
       },
       child: Padding(
@@ -57,5 +56,4 @@ class LocationCard extends StatelessWidget{
       ),
     );
   }
-
 }
