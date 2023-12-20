@@ -125,7 +125,7 @@ class ApiService {
         // Si la creación es exitosa, mostrar Snackbar y navegar a la otra página
         Get.snackbar('¡Localización creada correctamente!', '',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed('/create-location');
+        Get.toNamed('/create-il');
       } else {
         // Si la respuesta no es 200/201, mostrar un mensaje de error
         Get.snackbar(
