@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
+import 'package:nomadworld/utils/api/api_service.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -12,43 +14,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   late Size mediaSize;
-  
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  
-  // Function to login the user
-  void loginUser(String email, String password) async {
-    var url = Uri.parse('http://192.168.56.1:8000/login');
-
-    // Creating the user object
-    Map<String, dynamic> userMap = {'email': email, 'password': password};
-
-    // Sending the user object to the server
-    var response = await http.post(
-      url,
-      body: convert.jsonEncode(userMap),
-      headers: {'Content-Type': 'application/json'},
-    );
-
-    // Checking the response
-    if (response.statusCode == 200) {
-      var jsonResponse = response.body;
-
-      if (jsonResponse.contains('User logged successfully')) {
-        Get.snackbar('Genial!', 'Has iniciado sesión correctamente',
-            snackPosition: SnackPosition.BOTTOM);
-        Get.offAllNamed('/home');
-      } else {
-        // Mostrar un mensaje de error si la respuesta no contiene el mensaje esperado
-        Get.snackbar('Error', 'Error en la respuesta del servidor',
-            snackPosition: SnackPosition.BOTTOM);
-      }
-    } else {
-      // Mostrar el código de estado HTTP si la respuesta no es 201
-      Get.snackbar('Error', 'HTTP Error: ${response.statusCode}',
-          snackPosition: SnackPosition.BOTTOM);
-    }
-  }
 
   @override
   void initState() {
@@ -91,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-  
+
   Widget _buildTop() {
     return SizedBox(
       width: mediaSize.width,
@@ -178,9 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Center(
       child: ElevatedButton(
         onPressed: () {
-          loginUser(emailController.text.toString(),
-              passwordController.text.toString());
-          //Get.toNamed("/home");
+          ApiService().loginUser(emailController.text.toString(), passwordController.text.toString());
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF195F47),

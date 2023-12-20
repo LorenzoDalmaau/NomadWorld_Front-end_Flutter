@@ -31,6 +31,18 @@ dependencies:
   http: ^1.1.0
   # SharedPreferences -> Esto es para el manejo de datos en el dispositivo
   shared_preferences: ^2.2.2
+  # ImagePicker -> Para que el usuario pueda subir imagenes de la galería
+  image_picker: ^1.0.4
+  # PermissionHandler -> Permisos en tiempo de ejcución para las imagenes
+  permission_handler: ^11.0.1
+  # Flutter_map -> Nos permitirá poder cargar mapas en nuestra app
+  flutter_map: ^6.0.1
+  # LatLong -> Biblioteca que nos permite calcular la Lat y Long
+  latlong2: ^0.9.0
+  # Geolocator -> Nos permite obtener la ubicación del dispositivo
+  geolocator: ^10.1.0
+  # Provider -> Gestión de estados entre widgets
+  provider: ^6.1.1
 
 
   # The following adds the Cupertino Icons font to your application.

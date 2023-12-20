@@ -1,42 +1,51 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nomadworld/domain/provider/provider.dart';
 import 'package:nomadworld/models/Country.dart';
+import 'package:provider/provider.dart';
 
 class ContryList extends StatelessWidget {
-  final List<Country> countries;
-
-  ContryList({required this.countries});
-
   @override
   Widget build(BuildContext context) {
+    List<Country> countries = Provider.of<NomadProvider>(context).countries;
+
     return Padding(
-      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.03, 0, MediaQuery.of(context).size.width * 0.03, MediaQuery.of(context).size.width * 0.01),
+      padding: EdgeInsets.fromLTRB(
+        MediaQuery.of(context).size.width * 0.03,
+        0,
+        MediaQuery.of(context).size.width * 0.03,
+        MediaQuery.of(context).size.width * 0.01,
+      ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(25),
-        child: GridView.builder(
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.57,
+          child: GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.3),
-              mainAxisSpacing: 10.0,
-              crossAxisSpacing: 10.0,
+              childAspectRatio:
+              MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.3),
+              mainAxisSpacing: 15.0,
+              crossAxisSpacing: 15.0,
             ),
             itemCount: countries.length,
             itemBuilder: (context, index) {
               final item = countries[index];
               return InkWell(
+                onTap: (){
+                  Navigator.pushNamed(
+                    context,
+                    '/country',
+                    arguments: item,
+                  );
+                },
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                    borderRadius: const BorderRadius.all(Radius.circular(25)),
                     image: DecorationImage(
-                      image: AssetImage(item.image),
+                      image: NetworkImage(item.image),
                       fit: BoxFit.cover,
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromARGB(150, 0, 0, 0),
-                        blurRadius: 6,
-                      ),
-                    ],
                   ),
                   child: Stack(
                     children: [
@@ -44,7 +53,7 @@ class ContryList extends StatelessWidget {
                         alignment: Alignment.center,
                         child: Text(
                           checkTextSize(item.name),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -55,18 +64,18 @@ class ContryList extends StatelessWidget {
                   ),
                 ),
               );
-            }
+            },
+          ),
         ),
-      )
+      ),
     );
   }
 
-
-  String checkTextSize(String text){
-
-    if(text.length > 10){
-      return "${text.substring(0,7)}...";
+  String checkTextSize(String text) {
+    if (text.length > 10) {
+      return "${text.substring(0, 7)}...";
+    } else {
+      return text;
     }
-    else return text;
   }
 }

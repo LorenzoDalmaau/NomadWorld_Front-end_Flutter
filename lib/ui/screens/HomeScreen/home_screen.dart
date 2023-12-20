@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:nomadworld/domain/provider/provider.dart';
 import 'package:nomadworld/models/Country.dart';
-import 'package:nomadworld/models/Location.dart';
 import 'package:nomadworld/ui/screens/HomeScreen/Widgets/PopularRoutesList.dart';
-
+import 'package:nomadworld/utils/api/api_service.dart';
+import 'package:provider/provider.dart';
 import '../../../models/TravelRoute.dart';
 import 'Widgets/CountryList.dart';
+
+
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key});
 
   late Future<List<TravelRoute>> route_list;
-  late Future<List<Country>> country_list;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -19,22 +21,32 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
+  late NomadProvider provider;
+  List<Country> country_list = [];
+
   @override
-  void initState() {
-    super.initState();
-    //Lamar a la funcion que reciba datos de la api y devuelva una lista de rutas y de paises
-    widget.route_list = getFakeRoutes();
-    widget.country_list = getFakeCountries();
+  void initState(){
+    getDatas();
+  }
+
+  getDatas() async {
+    widget.route_list = ApiService().getPopularRoutes();
+    country_list = await ApiService().getCountryList();
+    setState(() {
+
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of<NomadProvider>(context);
+    provider.setAPIContries(country_list);
     return Scaffold(
       body: Column(
         children: [
           Container(
             width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.33,
+            height: MediaQuery.of(context).size.height * 0.34,
             decoration: const BoxDecoration(
               boxShadow: [
                 BoxShadow(
@@ -69,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         IconButton(
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.search,
                             color: Colors.white,
                           ),
@@ -93,7 +105,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: PopularRoutesList(routes: snapshot.data!)
                             );
                           } else if (snapshot.hasError) {
-                            return Text("ERROR");
+                            print(snapshot);
+                            return const Text("ERROR");
                           }
                         }
                         return const Center(
@@ -111,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           Padding(
             padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
-            child: Row(
+            child: const Row(
                 children: [
                   Text("Paises",
                     style: TextStyle(
@@ -122,103 +135,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ]
             ),
           ),
-
-          Container(
-              height: MediaQuery.of(context).size.height * 0.59,
-              child: FutureBuilder<List<Country>>(
-                future: widget.country_list,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasData) {
-                      return ContryList(countries: snapshot.data!);
-
-                    } else if (snapshot.hasError) {
-                      return Text("ERROR");
-                    }
-                  }
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              )
-          )
+          ContryList()
         ],
       ),
     );
   }
-
-  Future<List<TravelRoute>> getFakeRoutes() async {
-    // Simular la obtención de rutas falsas con un retraso
-    await Future.delayed(Duration(seconds: 1));
-
-    var routes = [
-      TravelRoute(1, 1, "Paris", ["assets/paris.jpg", "assets/espana.jpg"], "description", "creationDate", [
-        [
-          LocationData(1, 5, "Torre Eiffel", 0, ["assets/paris.jpg"]),
-          LocationData(1, 5, "Torre Eiffel", 0, ["assets/paris.jpg"]),
-          LocationData(1, 5, "Torre Eiffel", 0, ["assets/paris.jpg"]),
-          LocationData(1, 5, "Torre Eiffel", 0, ["assets/paris.jpg"]),
-          LocationData(1, 5, "Torre Eiffel", 0, ["assets/paris.jpg"]),
-        ],
-        [
-          LocationData(1, 5, "Torre Eiffel", 0, ["assets/paris.jpg"]),
-        ],
-        [
-          LocationData(1, 5, "Torre Eiffel", 0, ["assets/paris.jpg"]),
-          LocationData(1, 5, "Torre Eiffel", 0, ["assets/paris.jpg"]),
-          LocationData(1, 5, "Torre Eiffel", 0, ["assets/paris.jpg"]),
-        ],
-        [
-          LocationData(1, 5, "Torre Eiffel", 0, ["assets/paris.jpg"]),
-          LocationData(1, 5, "Torre Eiffel", 0, ["assets/paris.jpg"]),
-          LocationData(1, 5, "Torre Eiffel", 0, ["assets/paris.jpg"]),
-          LocationData(1, 5, "Torre Eiffel", 0, ["assets/paris.jpg"]),
-        ],
-        [
-          LocationData(1, 5, "Torre Eiffel", 0, ["assets/paris.jpg"]),
-          LocationData(1, 5, "Torre Eiffel", 0, ["assets/paris.jpg"]),
-        ],
-      ], 50),
-      TravelRoute(2, 2, "New York", ["assets/ny.jpg"], "description", "creationDate", [], 1200),
-      TravelRoute(3, 4, "Japan", ["assets/japan.jpg"], "description", "creationDate", [], 500),
-      TravelRoute(4, 4, "Italy", ["assets/Italia.jpg"], "description", "creationDate", [], 1000000),
-      TravelRoute(5, 1, "Paris", ["assets/paris.jpg"], "description", "creationDate", [], 50),
-      TravelRoute(6, 2, "New York", ["assets/ny.jpg"], "description", "creationDate", [], 1200),
-      TravelRoute(7, 4, "Japan", ["assets/japan.jpg"], "description", "creationDate", [], 500),
-      TravelRoute(8, 4, "Italy", ["assets/Italia.jpg"], "description", "creationDate", [], 1000000),
-      TravelRoute(9, 1, "Paris", ["assets/paris.jpg"], "description", "creationDate", [], 50),
-      TravelRoute(10, 2, "New York", ["assets/ny.jpg"], "description", "creationDate", [], 1200),
-      TravelRoute(11, 4, "Japan", ["assets/japan.jpg"], "description", "creationDate", [], 500),
-      TravelRoute(12, 4, "Italy", ["assets/Italia.jpg"], "description", "creationDate", [], 1000000),
-    ];
-
-    return routes;
-  }
-
-  Future<List<Country>> getFakeCountries() async {
-    // Simular la obtención de rutas falsas con un retraso
-    await Future.delayed(Duration(seconds: 1));
-
-    var countries = [
-      Country("España", "assets/espana.jpg"),
-      Country("Francia", "assets/paris.jpg"),
-      Country("Italia", "assets/Italia.jpg"),
-      Country("Croacia", "assets/croacia.jpg"),
-      Country("Rusia", "assets/rusia.jpg"),
-      Country("Australia", "assets/austaralia.jpg"),
-      Country("Japon", "assets/japan.jpg"),
-      Country("USA", "assets/ny.jpg"),
-      Country("España", "assets/espana.jpg"),
-      Country("Francia", "assets/paris.jpg"),
-      Country("Italia", "assets/Italia.jpg"),
-      Country("Croacia", "assets/croacia.jpg"),
-      Country("Rusia", "assets/rusia.jpg"),
-      Country("Australia", "assets/austaralia.jpg"),
-      Country("Japon", "assets/japan.jpg"),
-      Country("USA", "assets/ny.jpg"),
-    ];
-
-    return countries;
-  }
-
 }
