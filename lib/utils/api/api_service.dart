@@ -13,7 +13,7 @@ class ApiService {
 
   final baseUrl = 'http://3.230.177.201:8000';
 
-  // Function to login the user
+  /// Login User
   void loginUser(String email, String password) async {
     var url = Uri.parse('$baseUrl/login');
 
@@ -46,6 +46,43 @@ class ApiService {
           snackPosition: SnackPosition.BOTTOM);
     }
   }
+
+  /// Register User
+  void registerUser(String username, String email, String password) async {
+    var url = Uri.parse('$baseUrl/register');
+
+    // Creating the user object
+    Map<String, dynamic> userMap = {
+      'username': username,
+      'email': email,
+      'password': password
+    };
+
+    // Sending the user object to the server
+    var response = await http.post(url,
+        body: convert.jsonEncode(userMap),
+        headers: {'Content-Type': 'application/json'});
+
+    // Checking the response
+    if (response.statusCode == 201) {
+      var jsonResponse = response.body;
+
+      if (jsonResponse.contains('User created successfully')) {
+        Get.snackbar('Genial!', 'Usuario registrado correctamente',
+            snackPosition: SnackPosition.BOTTOM);
+        Get.offAllNamed('/login');
+      } else {
+        // Mostrar un mensaje de error si la respuesta no contiene el mensaje esperado
+        Get.snackbar('Error', 'Error en la respuesta del servidor',
+            snackPosition: SnackPosition.BOTTOM);
+      }
+    } else {
+      // Mostrar el código de estado HTTP si la respuesta no es 201
+      Get.snackbar('Error', 'HTTP Error: ${response.statusCode}',
+          snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
 
   /// Get popular routes
   Future<List<TravelRoute>> getPopularRoutes() async {
