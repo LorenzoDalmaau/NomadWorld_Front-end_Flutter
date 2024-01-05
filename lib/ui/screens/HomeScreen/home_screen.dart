@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ]
             ),
           ),
-          ContryList()
+          Expanded(child: ContryList())
         ],
       ),
     );

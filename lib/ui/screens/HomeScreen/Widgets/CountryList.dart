@@ -18,54 +18,52 @@ class ContryList extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(25),
-        child: Container(
-          height: MediaQuery.of(context).size.height * 0.57,
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio:
-              MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.3),
-              mainAxisSpacing: 15.0,
-              crossAxisSpacing: 15.0,
-            ),
-            itemCount: countries.length,
-            itemBuilder: (context, index) {
-              final item = countries[index];
-              return InkWell(
-                onTap: (){
-                  Navigator.pushNamed(
-                    context,
-                    '/country',
-                    arguments: item,
-                  );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(25)),
-                    image: DecorationImage(
-                      image: NetworkImage(item.image),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Stack(
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          checkTextSize(item.name),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
+        child: GridView.builder(
+          shrinkWrap: true,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio:
+            MediaQuery.of(context).size.width / (MediaQuery.of(context).size.height / 1.3),
+            mainAxisSpacing: 15.0,
+            crossAxisSpacing: 15.0,
+          ),
+          itemCount: countries.length,
+          itemBuilder: (context, index) {
+            final item = countries[index];
+            return InkWell(
+              onTap: (){
+                Navigator.pushNamed(
+                  context,
+                  '/country',
+                  arguments: item,
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(25)),
+                  image: DecorationImage(
+                    image: NetworkImage(item.image),
+                    fit: BoxFit.cover,
                   ),
                 ),
-              );
-            },
-          ),
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        checkTextSize(item.name),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
     );

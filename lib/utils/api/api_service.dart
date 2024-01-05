@@ -34,7 +34,7 @@ class ApiService {
       if (jsonResponse.contains('User logged successfully')) {
         Get.snackbar('Genial!', 'Has iniciado sesión correctamente',
             snackPosition: SnackPosition.BOTTOM);
-        Get.offAllNamed('/home');
+        Get.offAllNamed('/navigation');
       } else {
         // Mostrar un mensaje de error si la respuesta no contiene el mensaje esperado
         Get.snackbar('Error', 'Error en la respuesta del servidor',
