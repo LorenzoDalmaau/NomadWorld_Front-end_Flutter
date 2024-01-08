@@ -146,8 +146,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return Center(
       child: ElevatedButton(
         onPressed: () {
-          //ApiService().loginUser(emailController.text.toString(), passwordController.text.toString());
-          Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          ApiService().loginUser(emailController.text.toString(), passwordController.text.toString());
+          // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF195F47),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:nomadworld/models/Location.dart';
 import 'package:nomadworld/ui/widgets/create_il/create_il_dropdown_title.dart';
 import 'package:nomadworld/ui/widgets/create_il/create_il_name.dart';
@@ -29,6 +28,8 @@ class _CreateRouteState extends State<CreateRoute> {
   TextEditingController nameRouteController = TextEditingController();
   TextEditingController descriptionRouteController = TextEditingController();
   List<LocationData> countryLocations = [];
+  int? selectedCountryId; // Cambio aquí para controlar el estado inicial
+
 
   @override
   void initState() {
@@ -39,8 +40,6 @@ class _CreateRouteState extends State<CreateRoute> {
 
   /// Cargar paies dropdown
   Future<void> _loadCountries() async {
-
-
     try {
       // Mostrar indicador de carga
       setState(() {
@@ -51,6 +50,8 @@ class _CreateRouteState extends State<CreateRoute> {
       provider.setAPIContries(countries);
       setState(() {
         dropdownValueDistance = 1;
+        dropdownValue = countries[0];
+
         isLoading = false;
       });
     } catch (error) {
@@ -81,7 +82,7 @@ class _CreateRouteState extends State<CreateRoute> {
               apiService.createRoute(
                   dropdownValue,
                   nameRouteController.text.toString(),
-                  'descriptionRoute',
+                  descriptionRouteController.text.toString(),
                   selectedLocations);
             },
             child: const Text(
@@ -196,26 +197,46 @@ class _CreateRouteState extends State<CreateRoute> {
                         const dropdown_menu_title(),
 
                         /// Dropdown Menu
-
-                        DropdownButton<int>(
-                          value: dropdownValue.id,
+                        /// Este dropdown menu muestra una lista de países donde el usuario puede seleccionar el país de la ruta
+                        /// Si no hay ningún país seleccionado, por defecto, se selecciona el primer país de la lista
+                        DropdownButton<int?>(
+                          value: selectedCountryId,
+                          hint: const Text('Seleccionar un país'), // Texto por defecto
                           onChanged: (int? newDropdownValue) {
-                            dropdownValue = provider.countries.firstWhere(
-                                (country) => country.id == newDropdownValue);
-
-                            getLocations();
+                            setState(() {
+                              selectedCountryId = newDropdownValue;
+                              if (newDropdownValue != null) { // Verificar si se seleccionó un país válido
+                                dropdownValue = provider.countries.firstWhere(
+                                      (country) => country.id == newDropdownValue,
+                                  orElse: () => provider.countries.first, // Selección predeterminada si no encuentra ninguna coincidencia
+                                );
+                                getLocations();
+                              } else {
+                                // Si se selecciona 'Seleccionar un país', puedes limpiar la lista de localizaciones o manejarlo según tus necesidades
+                                countryLocations.clear();
+                              }
+                            });
                           },
-                          items: provider.countries.map((Country country) {
-                            return DropdownMenuItem<int>(
-                              value: country.id,
-                              child: Text(country.name),
-                            );
-                          }).toList(),
+                          items: [
+                            const DropdownMenuItem<int?>(
+                              value: null,
+                              child: Text('Seleccionar un país'), // Opción predeterminada
+                            ),
+                            ...provider.countries.map((Country country) {
+                              return DropdownMenuItem<int>(
+                                value: country.id,
+                                child: Text(country.name),
+                              );
+                            }),
+                          ],
                         ),
+
 
                         const SizedBox(height: 10),
 
                         /// SearchBar
+                        /// Este searcBar muestra una lista de localizaciones del país seleccionado donde el usuario puede seleccionar las localizaciones de la ruta
+                        /// Por defecto, muestra las localizaciones del primer país de la lista
                         RouteSearchBar(
                           locations: countryLocations,
                           selectedLocations: selectedLocations,
