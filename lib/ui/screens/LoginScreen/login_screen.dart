@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:nomadworld/ui/screens/HomeScreen/home_screen.dart';
 import 'dart:convert' as convert;
 import 'package:nomadworld/utils/api/api_service.dart';
 
@@ -145,7 +146,8 @@ class _LoginScreenState extends State<LoginScreen> {
     return Center(
       child: ElevatedButton(
         onPressed: () {
-          ApiService().loginUser(emailController.text.toString(), passwordController.text.toString());
+          //ApiService().loginUser(emailController.text.toString(), passwordController.text.toString());
+          Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF195F47),

@@ -24,8 +24,10 @@ class _CreateRouteState extends State<CreateRoute> {
   late NomadProvider provider;
   late bool isLoading;
   late Country dropdownValue;
+  late int dropdownValueDistance;
 
   TextEditingController nameRouteController = TextEditingController();
+  TextEditingController descriptionRouteController = TextEditingController();
   List<LocationData> countryLocations = [];
 
   @override
@@ -37,6 +39,8 @@ class _CreateRouteState extends State<CreateRoute> {
 
   /// Cargar paies dropdown
   Future<void> _loadCountries() async {
+
+
     try {
       // Mostrar indicador de carga
       setState(() {
@@ -46,7 +50,7 @@ class _CreateRouteState extends State<CreateRoute> {
       List<Country> countries = await apiService.getCountryList();
       provider.setAPIContries(countries);
       setState(() {
-        dropdownValue = countries[0];
+        dropdownValueDistance = 1;
         isLoading = false;
       });
     } catch (error) {
@@ -75,11 +79,10 @@ class _CreateRouteState extends State<CreateRoute> {
           TextButton(
             onPressed: () {
               apiService.createRoute(
-                dropdownValue,
-                nameRouteController.text.toString(),
-                'descriptionRoute',
-                selectedLocations
-              );
+                  dropdownValue,
+                  nameRouteController.text.toString(),
+                  'descriptionRoute',
+                  selectedLocations);
             },
             child: const Text(
               'Crear ruta',
@@ -136,9 +139,64 @@ class _CreateRouteState extends State<CreateRoute> {
 
                         const SizedBox(height: 10),
 
+                        CreateILName(
+                            ilName: 'Añade una descripción a tu nueva ruta'),
+
+                        const SizedBox(height: 10),
+
+                        /// Route Description
+                        TextFormField(
+                          controller: descriptionRouteController,
+                          maxLength: 180,
+                          maxLines: 5,
+                          decoration: InputDecoration(
+                            hintText: 'Añadir descripción',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        /// Distance
+                        CreateILName(
+                            ilName: 'Selecciona la distancia de tu ruta'),
+
+                        const SizedBox(height: 10),
+
+                        /// Dropdown Menu
+                        // Este dropdown menu muestra una lista de enteros del 1 a +500 donde el usuario puede seleccionar la distancia de la ruta
+                        DropdownButton<int>(
+                          value: dropdownValueDistance,
+                          // Valor inicial del dropdown menu
+                          // Actualizar el valor del dropdown menu por el valor seleccionado
+                          onChanged: (int? newDropdownValue) {
+                            setState(() {
+                              dropdownValueDistance = newDropdownValue!;
+                            });
+                          },
+                          // Lista de items del dropdown menu
+                          items: <DropdownMenuItem<int>>[
+                            for (int i = 1; i <= 500; i++)
+                              DropdownMenuItem<int>(
+                                value: i,
+                                child: Text('$i km'),
+                              ),
+                            // Mostrar la opción de más de 500 km
+                            const DropdownMenuItem<int>(
+                              value: 501,
+                              child: Text('Más de 500 km'),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 10),
+
                         const dropdown_menu_title(),
 
                         /// Dropdown Menu
+
                         DropdownButton<int>(
                           value: dropdownValue.id,
                           onChanged: (int? newDropdownValue) {
@@ -165,7 +223,8 @@ class _CreateRouteState extends State<CreateRoute> {
                             setState(() {
                               this.selectedLocations = selectedLocations;
                             });
-                            print('Selected Locations in CreateRoute: $selectedLocations');
+                            print(
+                                'Selected Locations in CreateRoute: $selectedLocations');
                           },
                         )
                       ],

@@ -182,6 +182,7 @@ class _CreateLocationState extends State<CreateLocation> {
                         maxLength: 180,
                         maxLines: 5,
                         decoration: InputDecoration(
+                          hintText: 'Añadir descripción',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
