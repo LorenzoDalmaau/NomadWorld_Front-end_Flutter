@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nomadworld/utils/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../screens/RouteScreen/widgets/Carousel.dart';
 
@@ -6,8 +8,13 @@ class CarrouselAppBar extends StatelessWidget{
 
   late String name;
   late List<String> images;
+  late bool isLocationRoute; //TRUE significa que es una ruta, false significa que es una localizacion
 
   CarrouselAppBar({required this.name, required this.images});
+
+  bool checkSaved(){
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +22,11 @@ class CarrouselAppBar extends StatelessWidget{
       expandedHeight: MediaQuery.of(context).size.height * 0.3,
       floating: false,
       pinned: true,
+      actions: [
+        isLocationRoute
+          ? IconButton(onPressed: onPressed, icon: icon)
+          : IconButton(onPressed: onPressed, icon: icon)
+      ],
       title: Text(
         name,
         style: const TextStyle(

@@ -31,6 +31,14 @@ class ApiService {
     // Checking the response
     if (response.statusCode == 200) {
       var jsonResponse = response.body;
+      print("------------------------------------------------------");
+      print("------------------------------------------------------");
+      print("------------------------------------------------------");
+      print("------------------------------------------------------");
+      print(response.body);
+      print("------------------------------------------------------");
+      print("------------------------------------------------------");
+      print("------------------------------------------------------");
 
       return UserBase.fromJson(jsonDecode(jsonResponse));
 
@@ -41,25 +49,6 @@ class ApiService {
 
       return null;
     }
-
-    // // Checking the response
-    // if (response.statusCode == 200) {
-    //   var jsonResponse = response.body;
-    //
-    //   if (jsonResponse.contains('User logged successfully')) {
-    //     Get.snackbar('Genial!', 'Has iniciado sesión correctamente',
-    //         snackPosition: SnackPosition.BOTTOM);
-    //     Get.offAllNamed('/navigation');
-    //   } else {
-    //     // Mostrar un mensaje de error si la respuesta no contiene el mensaje esperado
-    //     Get.snackbar('Error', 'Error en la respuesta del servidor',
-    //         snackPosition: SnackPosition.BOTTOM);
-    //   }
-    // } else {
-    //   // Mostrar el código de estado HTTP si la respuesta no es 201
-    //   Get.snackbar('Error', 'HTTP Error: ${response.statusCode}',
-    //       snackPosition: SnackPosition.BOTTOM);
-    // }
 
   }
 
