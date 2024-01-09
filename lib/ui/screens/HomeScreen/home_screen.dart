@@ -39,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     provider = Provider.of<NomadProvider>(context);
     provider.setAPIContries(country_list);
     return Scaffold(

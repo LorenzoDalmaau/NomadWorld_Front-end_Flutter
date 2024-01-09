@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:nomadworld/ui/screens/HomeScreen/home_screen.dart';
-import 'dart:convert' as convert;
+import 'package:nomadworld/models/user_base.dart';
 import 'package:nomadworld/utils/api/api_service.dart';
+import 'package:nomadworld/utils/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -145,8 +145,17 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildLoginButton() {
     return Center(
       child: ElevatedButton(
-        onPressed: () {
-          ApiService().loginUser(emailController.text.toString(), passwordController.text.toString());
+        onPressed: () async {
+          var newUser = await ApiService().loginUser(emailController.text.toString(), passwordController.text.toString());
+
+          if (newUser != null) {
+            Provider.of<UserProvider>(context, listen: false).initUser(newUser);
+
+            Get.snackbar('Genial!', 'Has iniciado sesión correctamente',
+                snackPosition: SnackPosition.BOTTOM);
+            Get.offAllNamed('/navigation');
+          }
+
           // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
         },
         style: ElevatedButton.styleFrom(

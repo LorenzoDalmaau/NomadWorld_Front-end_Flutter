@@ -8,13 +8,14 @@ import 'package:latlong2/latlong.dart';
 import '../../models/Country.dart';
 import '../../models/Location.dart';
 import '../../models/TravelRoute.dart';
+import '../../models/user_base.dart';
 
 class ApiService {
 
   final baseUrl = 'http://3.230.177.201:8000';
 
   /// Login User
-  void loginUser(String email, String password) async {
+  Future<UserBase?> loginUser(String email, String password) async {
     var url = Uri.parse('$baseUrl/login');
 
     // Creating the user object
@@ -31,20 +32,35 @@ class ApiService {
     if (response.statusCode == 200) {
       var jsonResponse = response.body;
 
-      if (jsonResponse.contains('User logged successfully')) {
-        Get.snackbar('Genial!', 'Has iniciado sesión correctamente',
-            snackPosition: SnackPosition.BOTTOM);
-        Get.offAllNamed('/navigation');
-      } else {
-        // Mostrar un mensaje de error si la respuesta no contiene el mensaje esperado
-        Get.snackbar('Error', 'Error en la respuesta del servidor',
-            snackPosition: SnackPosition.BOTTOM);
-      }
+      return UserBase.fromJson(jsonDecode(jsonResponse));
+
     } else {
       // Mostrar el código de estado HTTP si la respuesta no es 201
-      Get.snackbar('Error', 'HTTP Error: ${response.statusCode}',
+      Get.snackbar('No se ha podido iniciar sesión', 'Prueba de nuevo o contactanos',
           snackPosition: SnackPosition.BOTTOM);
+
+      return null;
     }
+
+    // // Checking the response
+    // if (response.statusCode == 200) {
+    //   var jsonResponse = response.body;
+    //
+    //   if (jsonResponse.contains('User logged successfully')) {
+    //     Get.snackbar('Genial!', 'Has iniciado sesión correctamente',
+    //         snackPosition: SnackPosition.BOTTOM);
+    //     Get.offAllNamed('/navigation');
+    //   } else {
+    //     // Mostrar un mensaje de error si la respuesta no contiene el mensaje esperado
+    //     Get.snackbar('Error', 'Error en la respuesta del servidor',
+    //         snackPosition: SnackPosition.BOTTOM);
+    //   }
+    // } else {
+    //   // Mostrar el código de estado HTTP si la respuesta no es 201
+    //   Get.snackbar('Error', 'HTTP Error: ${response.statusCode}',
+    //       snackPosition: SnackPosition.BOTTOM);
+    // }
+
   }
 
   /// Register User

@@ -13,10 +13,10 @@ class UserBase {
 
   factory UserBase.fromJson(Map<String, dynamic> parsedJson) {
 
-    var locationsDataList = parsedJson['location_id'] as List;
+    var locationsDataList = parsedJson['saved_locations'] as List;
     List<LocationData> locationsList = locationsDataList.map((i) => LocationData.fromJson(i)).toList();
 
-    var routesDataList = parsedJson['location_id'] as List;
+    var routesDataList = parsedJson['saved_routes'] as List;
     List<TravelRoute> routesList = routesDataList.map((i) => TravelRoute.fromJson(i)).toList();
 
     return UserBase(

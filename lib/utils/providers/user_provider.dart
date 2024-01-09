@@ -9,10 +9,10 @@ class UserProvider extends ChangeNotifier{
   List<TravelRoute> savedRoutes = [];
   List<LocationData> savedLocations = [];
 
-  initUser(UserBase userDatas){
+  initUser(UserBase? userDatas){
     user = userDatas;
-    savedRoutes = userDatas.savedRoutes;
-    savedLocations = userDatas.savedLocations;
+    savedRoutes = userDatas!.savedRoutes;
+    savedLocations = userDatas!.savedLocations;
     notifyListeners();
   }
 
