@@ -41,7 +41,7 @@ class CreateIL extends StatelessWidget {
                             fontSize: 35,
                             fontWeight: FontWeight.bold,
                             color: Colors.white)),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                     const Text(
                       creationPageSubtitle,
                       style: TextStyle(color: Colors.white),

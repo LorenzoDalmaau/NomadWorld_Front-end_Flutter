@@ -12,13 +12,13 @@ import '../screens/create_route/create_route.dart';
 
 class AppRoutes {
   static final List<GetPage> routes = [
-    GetPage(name: '/navigation', page: () => BottomNav()),
+    GetPage(name: '/navigation', page: () => const BottomNav()),
     GetPage(name: '/login', page: () => const LoginScreen()),
     GetPage(name: '/register', page: () => const RegisterScreen()),
     GetPage(name: '/home', page: () => HomeScreen()),
     GetPage(name: '/create-il', page: () => const CreateIL()),
     GetPage(name: '/create_route', page: () => const CreateRoute()),
-    GetPage(name: '/create_location', page: () => CreateLocation()),
+    GetPage(name: '/create_location', page: () => const CreateLocation()),
     GetPage(name: '/route', page: () => RouteScreen()),
     GetPage(name: '/location', page: () => LocationDetail()),
     GetPage(name: '/country', page: () => CountriScreen()),

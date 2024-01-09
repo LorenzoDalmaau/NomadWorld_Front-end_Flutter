@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:nomadworld/models/Location.dart';
 import 'package:nomadworld/ui/widgets/create_il/create_il_dropdown_title.dart';
 import 'package:nomadworld/ui/widgets/create_il/create_il_name.dart';
@@ -24,9 +23,13 @@ class _CreateRouteState extends State<CreateRoute> {
   late NomadProvider provider;
   late bool isLoading;
   late Country dropdownValue;
+  late int dropdownValueDistance;
 
   TextEditingController nameRouteController = TextEditingController();
+  TextEditingController descriptionRouteController = TextEditingController();
   List<LocationData> countryLocations = [];
+  int? selectedCountryId; // Cambio aquí para controlar el estado inicial
+
 
   @override
   void initState() {
@@ -46,7 +49,9 @@ class _CreateRouteState extends State<CreateRoute> {
       List<Country> countries = await apiService.getCountryList();
       provider.setAPIContries(countries);
       setState(() {
+        dropdownValueDistance = 1;
         dropdownValue = countries[0];
+
         isLoading = false;
       });
     } catch (error) {
@@ -75,11 +80,10 @@ class _CreateRouteState extends State<CreateRoute> {
           TextButton(
             onPressed: () {
               apiService.createRoute(
-                dropdownValue,
-                nameRouteController.text.toString(),
-                'descriptionRoute',
-                selectedLocations
-              );
+                  dropdownValue,
+                  nameRouteController.text.toString(),
+                  descriptionRouteController.text.toString(),
+                  selectedLocations);
             },
             child: const Text(
               'Crear ruta',
@@ -136,28 +140,103 @@ class _CreateRouteState extends State<CreateRoute> {
 
                         const SizedBox(height: 10),
 
-                        const dropdown_menu_title(),
+                        CreateILName(
+                            ilName: 'Añade una descripción a tu nueva ruta'),
 
-                        /// Dropdown Menu
-                        DropdownButton<int>(
-                          value: dropdownValue.id,
-                          onChanged: (int? newDropdownValue) {
-                            dropdownValue = provider.countries.firstWhere(
-                                (country) => country.id == newDropdownValue);
+                        const SizedBox(height: 10),
 
-                            getLocations();
-                          },
-                          items: provider.countries.map((Country country) {
-                            return DropdownMenuItem<int>(
-                              value: country.id,
-                              child: Text(country.name),
-                            );
-                          }).toList(),
+                        /// Route Description
+                        TextFormField(
+                          controller: descriptionRouteController,
+                          maxLength: 180,
+                          maxLines: 5,
+                          decoration: InputDecoration(
+                            hintText: 'Añadir descripción',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
                         ),
 
                         const SizedBox(height: 10),
 
+                        /// Distance
+                        CreateILName(
+                            ilName: 'Selecciona la distancia de tu ruta'),
+
+                        const SizedBox(height: 10),
+
+                        /// Dropdown Menu
+                        // Este dropdown menu muestra una lista de enteros del 1 a +500 donde el usuario puede seleccionar la distancia de la ruta
+                        DropdownButton<int>(
+                          value: dropdownValueDistance,
+                          // Valor inicial del dropdown menu
+                          // Actualizar el valor del dropdown menu por el valor seleccionado
+                          onChanged: (int? newDropdownValue) {
+                            setState(() {
+                              dropdownValueDistance = newDropdownValue!;
+                            });
+                          },
+                          // Lista de items del dropdown menu
+                          items: <DropdownMenuItem<int>>[
+                            for (int i = 1; i <= 500; i++)
+                              DropdownMenuItem<int>(
+                                value: i,
+                                child: Text('$i km'),
+                              ),
+                            // Mostrar la opción de más de 500 km
+                            const DropdownMenuItem<int>(
+                              value: 501,
+                              child: Text('Más de 500 km'),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        const dropdown_menu_title(),
+
+                        /// Dropdown Menu
+                        /// Este dropdown menu muestra una lista de países donde el usuario puede seleccionar el país de la ruta
+                        /// Si no hay ningún país seleccionado, por defecto, se selecciona el primer país de la lista
+                        DropdownButton<int?>(
+                          value: selectedCountryId,
+                          hint: const Text('Seleccionar un país'), // Texto por defecto
+                          onChanged: (int? newDropdownValue) {
+                            setState(() {
+                              selectedCountryId = newDropdownValue;
+                              if (newDropdownValue != null) { // Verificar si se seleccionó un país válido
+                                dropdownValue = provider.countries.firstWhere(
+                                      (country) => country.id == newDropdownValue,
+                                  orElse: () => provider.countries.first, // Selección predeterminada si no encuentra ninguna coincidencia
+                                );
+                                getLocations();
+                              } else {
+                                // Si se selecciona 'Seleccionar un país', puedes limpiar la lista de localizaciones o manejarlo según tus necesidades
+                                countryLocations.clear();
+                              }
+                            });
+                          },
+                          items: [
+                            const DropdownMenuItem<int?>(
+                              value: null,
+                              child: Text('Seleccionar un país'), // Opción predeterminada
+                            ),
+                            ...provider.countries.map((Country country) {
+                              return DropdownMenuItem<int>(
+                                value: country.id,
+                                child: Text(country.name),
+                              );
+                            }),
+                          ],
+                        ),
+
+
+                        const SizedBox(height: 10),
+
                         /// SearchBar
+                        /// Este searcBar muestra una lista de localizaciones del país seleccionado donde el usuario puede seleccionar las localizaciones de la ruta
+                        /// Por defecto, muestra las localizaciones del primer país de la lista
                         RouteSearchBar(
                           locations: countryLocations,
                           selectedLocations: selectedLocations,
@@ -165,7 +244,8 @@ class _CreateRouteState extends State<CreateRoute> {
                             setState(() {
                               this.selectedLocations = selectedLocations;
                             });
-                            print('Selected Locations in CreateRoute: $selectedLocations');
+                            print(
+                                'Selected Locations in CreateRoute: $selectedLocations');
                           },
                         )
                       ],
