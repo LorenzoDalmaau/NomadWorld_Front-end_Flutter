@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nomadworld/ui/screens/CreateIL/create_il.dart';
 import 'package:nomadworld/ui/screens/HomeScreen/home_screen.dart';
 
-import '../../user_profile/user_profile_screen.dart';
+import '../../screens/user_profile/user_profile_screen.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
