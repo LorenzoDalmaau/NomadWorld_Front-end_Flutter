@@ -16,7 +16,28 @@ class RouteScreen extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
             slivers: <Widget>[
-              CarrouselAppBar(name: route.name, images: route.locations[0].images),
+              SliverAppBar(
+                expandedHeight: MediaQuery.of(context).size.height * 0.3,
+                floating: false,
+                pinned: true,
+                actions: [
+                  // isLocationRoute
+                  //     ? IconButton(onPressed: onPressed, icon: icon)
+                  //     : IconButton(onPressed: onPressed, icon: icon)
+                ],
+                title: Text(
+                  route.name,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+                backgroundColor: const Color.fromARGB(255, 20, 134, 94),
+                flexibleSpace: FlexibleSpaceBar(
+                  centerTitle: true,
+                  background: CarrouselAppBar(images: getAllImages(route)),
+                ),
+              ),
               SliverToBoxAdapter(
                 child: DescriptionText(description: route.descrption)
               ),
@@ -104,5 +125,17 @@ class RouteScreen extends StatelessWidget {
             ],
       ),
     );
+
   }
+
+  List<String> getAllImages(TravelRoute route){
+    List<String> images = [];
+
+    for( var location in route.locations){
+      images.addAll(location.images);
+    }
+
+    return images;
+  }
+
 }

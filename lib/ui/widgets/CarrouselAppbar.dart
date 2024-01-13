@@ -6,40 +6,13 @@ import '../screens/RouteScreen/widgets/Carousel.dart';
 
 class CarrouselAppBar extends StatelessWidget{
 
-  late String name;
   late List<String> images;
-  late bool isLocationRoute; //TRUE significa que es una ruta, false significa que es una localizacion
 
-  CarrouselAppBar({required this.name, required this.images});
-
-  bool checkSaved(){
-
-  }
+  CarrouselAppBar({required this.images});
 
   @override
   Widget build(BuildContext context) {
-    return SliverAppBar(
-      expandedHeight: MediaQuery.of(context).size.height * 0.3,
-      floating: false,
-      pinned: true,
-      actions: [
-        isLocationRoute
-          ? IconButton(onPressed: onPressed, icon: icon)
-          : IconButton(onPressed: onPressed, icon: icon)
-      ],
-      title: Text(
-        name,
-        style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold
-        ),
-      ),
-      backgroundColor: const Color.fromARGB(255, 20, 134, 94),
-      flexibleSpace: FlexibleSpaceBar(
-        centerTitle: true,
-        background: checkImageNumber(images),
-      ),
-    );
+    return checkImageNumber(images);
   }
 
   checkImageNumber(List<String> images){
