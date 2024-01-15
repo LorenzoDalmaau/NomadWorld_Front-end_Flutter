@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nomadworld/ui/screens/LoginScreen/login_screen.dart';
+import 'package:nomadworld/ui/screens/edit_user_profile/user_edit_profile_screen.dart';
 import 'package:nomadworld/ui/screens/user_profile/widgets/my_saved_locations.dart';
 import 'package:nomadworld/ui/screens/user_profile/widgets/my_saved_routes.dart';
 import 'package:provider/provider.dart';
@@ -19,12 +21,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context);
 
-    if (_userProvider.user!.savedLocations.length == 0) {
-      print("@@@@@@@No hay rutas guardadas@@@@@@@");
-      print(_userProvider.user!.savedLocations.length);
+    /// Saber si hay localizaciones guardadas en consola
+    if (_userProvider.savedLocations.isEmpty) {
+      print("@@@@@@@No hay localizaciones guardadas@@@@@@@");
+      print(_userProvider.savedLocations.length);
     } else {
-      print("@@@@@@@Hay rutas guardadas@@@@@@@");
-      print(_userProvider.user!.savedLocations.length);
+      print("@@@@@@@Hay localizaciones guardadas@@@@@@@");
+      print(_userProvider.savedLocations.length);
+    }
+
+    /// Saber si hay rutas guardadas en consola
+    if (_userProvider.savedRoutes.isEmpty) {
+      print("@@@@@@@No hay rutas guardadas@@@@@@@");
+      print(_userProvider.savedLocations.length);
+    } else {
+      print("@@@@@@@Hay localizaciones guardadas@@@@@@@");
+      print(_userProvider.savedLocations.length);
     }
 
     return Scaffold(
@@ -52,7 +64,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   child: TabBarView(
                     children: [
                       MySavedRoutes(),
-                      MySavedLocations(),
+                      const MySavedLocations(),
                     ],
                   ),
                 ),
@@ -64,6 +76,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
+  /// Green Card
   Widget _buildGreenCard(BuildContext context) {
     return Stack(
       children: [
@@ -94,7 +107,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   // Nombre del usuario
                   Padding(
                     padding:
-                        const EdgeInsets.only(left: 50, right: 50, top: 50),
+                        const EdgeInsets.only(left: 20, right: 20, top: 50),
                     child: Text(
                       _userProvider.user!.username,
                       style: const TextStyle(
@@ -118,10 +131,71 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
                   // Icono del usuario
                   CircleAvatar(
-                    radius: 65,
+                    radius: 50,
                     backgroundImage: NetworkImage(_userProvider.user!.image),
                   ),
                 ],
+              ),
+            ),
+          ),
+        ),
+
+        /// Menú
+        SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Positioned(
+              top: 0,
+              right: 0,
+              child: PopupMenuButton(
+                icon: const Icon(Icons.settings),
+                color: Colors.white,
+                elevation: 10.0,
+                iconSize: 25,
+                itemBuilder: (BuildContext bc) {
+                  return [
+                    PopupMenuItem(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const UserEditProfileScreen(),
+                          ),
+                        );
+                      },
+                      child: const Row(
+                        children: [
+                          Icon(
+                            Icons.edit,
+                            size: 20,
+                            color: Color(0xff257155),
+                          ),
+                          SizedBox(width: 10),
+                          Text("Editar perfil"),
+                        ],
+                      ),
+                    ),
+                    PopupMenuItem(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginScreen()));
+                      },
+                      child: const Row(
+                        children: [
+                          Icon(
+                            Icons.logout,
+                            size: 20,
+                            color: Color(0xff257155),
+                          ),
+                          SizedBox(width: 10),
+                          Text("Cerrar sesión"),
+                        ],
+                      ),
+                    ),
+                  ];
+                },
               ),
             ),
           ),
@@ -130,6 +204,3 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 }
-
-
-
