@@ -31,14 +31,6 @@ class ApiService {
     // Checking the response
     if (response.statusCode == 200) {
       var jsonResponse = response.body;
-      print("------------------------------------------------------");
-      print("------------------------------------------------------");
-      print("------------------------------------------------------");
-      print("------------------------------------------------------");
-      print(response.body);
-      print("------------------------------------------------------");
-      print("------------------------------------------------------");
-      print("------------------------------------------------------");
 
       return UserBase.fromJson(jsonDecode(jsonResponse));
 
@@ -133,7 +125,7 @@ class ApiService {
 
     List<LocationData> locations = [];
 
-    final response = await http.get(Uri.parse('http://3.230.177.201:8000/location/${country}'));
+    final response = await http.get(Uri.parse('$baseUrl/location/${country}'));
     if (response.statusCode == 200){
       String body = utf8.decode(response.bodyBytes);
       final jsonData = jsonDecode(body);
@@ -152,7 +144,8 @@ class ApiService {
 
     List<TravelRoute> routes = [];
 
-    final response = await http.get(Uri.parse('http://3.230.177.201:8000/route/${country}'));
+    final response = await http.get(Uri.parse('$baseUrl/route/${country}'));
+
     if (response.statusCode == 200){
       String body = utf8.decode(response.bodyBytes);
       final jsonData = jsonDecode(body);

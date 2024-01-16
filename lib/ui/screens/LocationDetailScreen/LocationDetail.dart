@@ -8,59 +8,89 @@ import 'package:nomadworld/ui/widgets/texts/DescriptionText.dart';
 import 'package:nomadworld/utils/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
-class LocationDetail extends StatelessWidget{
+class LocationDetail extends StatefulWidget {
+  @override
+  State<LocationDetail> createState() => _LocationDetailState();
+}
+
+class _LocationDetailState extends State<LocationDetail> {
   @override
   Widget build(BuildContext context) {
-
     UserProvider provider = Provider.of<UserProvider>(context);
 
     final LocationData location = Get.arguments as LocationData;
     return SafeArea(
       child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              expandedHeight: MediaQuery.of(context).size.height * 0.3,
-              floating: false,
-              pinned: true,
-              actions: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 20, 134, 94),
-                    borderRadius: BorderRadius.all(Radius.circular(100))
+        body: Stack(
+          children: [
+            CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  expandedHeight: MediaQuery.of(context).size.height * 0.3,
+                  floating: false,
+                  pinned: true,
+                  title: Text(
+                    location.name!,
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
                   ),
-                  child: provider.savedLocations.contains(location)
-                      ? IconButton(onPressed: (){}, icon: const Icon(Icons.bookmark, size: 30,))
-                      : IconButton(onPressed: (){}, icon: const Icon(Icons.bookmark_border, size: 30,)),
-                )
+                  backgroundColor: const Color.fromARGB(255, 20, 134, 94),
+                  flexibleSpace: FlexibleSpaceBar(
+                    centerTitle: true,
+                    background: CarrouselAppBar(images: location.images),
+                  ),
+                ),
+                SliverList(
+                    delegate: SliverChildListDelegate([
+                  DescriptionText(description: location.description),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                    child: MapBox(
+                        cordinades:
+                            LatLng(location.latitude, location.longitude)),
+                  )
+                ]))
               ],
-              title: Text(
-                location.name!,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold
+            ),
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(100))),
+                  child: provider.savedLocations.contains(location)
+                      ? IconButton(
+                          onPressed: () {
+                            provider.savedLocations.remove(location);
+                            setState(() {
+
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.bookmark,
+                            color: Color.fromARGB(255, 20, 134, 94),
+                            size: 30,
+                          ))
+                      : IconButton(
+                          onPressed: () {
+                            provider.savedLocations.add(location);
+                            setState(() {
+
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.bookmark_border,
+                            size: 30,
+                          )),
                 ),
               ),
-              backgroundColor: const Color.fromARGB(255, 20, 134, 94),
-              flexibleSpace: FlexibleSpaceBar(
-                centerTitle: true,
-                background: CarrouselAppBar(images: location.images),
-              ),
             ),
-            SliverList(delegate: SliverChildListDelegate(
-              [
-              DescriptionText(description: location.description),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
-                child: MapBox(cordinades: LatLng(location.latitude, location.longitude)),
-              )
-              ]
-            )
-            )
           ],
         ),
       ),
     );
   }
-
 }
