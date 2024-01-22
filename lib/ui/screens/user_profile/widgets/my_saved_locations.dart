@@ -25,6 +25,6 @@ class _MySavedLocationsState extends State<MySavedLocations> {
         ? const Center(
             child: Text('No hay localizaciones guardadas'),
           )
-        : Center(child: const Text('Hay localizaciones guardadas'));
+        : const Center(child: Text('Hay localizaciones guardadas'));
   }
 }
