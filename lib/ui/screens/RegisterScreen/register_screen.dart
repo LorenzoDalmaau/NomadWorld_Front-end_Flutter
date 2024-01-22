@@ -14,11 +14,15 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   late Size mediaSize;
+
   // Controllers for the text fields
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordConfirmationController = TextEditingController();
+
+  bool _obscureText = true;
+  bool _obscureText2 = true;
 
   @override
   void initState() {
@@ -73,7 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             image: AssetImage("assets/Nomad.png"),
             width: 200,
             height: 200,
-          ), 
+          ),
         ],
       ),
     );
@@ -111,16 +115,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _buildGreenText("Please register with your information"),
         const SizedBox(height: 25),
         _buildGreenText("Username"),
-        _buildInputField(usernameController),
+        // _buildInputField(usernameController),
+        /// Username
+        _buildUsernameInputField(),
         const SizedBox(height: 20),
         _buildGreenText("Email Address"),
-        _buildInputField(emailController),
+        // _buildInputField(emailController),
+        _buildEmailInputField(),
         const SizedBox(height: 20),
         _buildGreenText("Password"),
-        _buildInputField(passwordController, isPassword: true),
+        // _buildInputField(passwordController, isPassword: true),
+        _buildPasswordInputField(),
         const SizedBox(height: 20),
         _buildGreenText("Password Confirmation"),
-        _buildInputField(passwordConfirmationController, isPassword: true),
+        // _buildInputField(passwordConfirmationController, isPassword: true),
+        /// Password confirmation
+        _buildSeccondPasswordInputField(),
         const SizedBox(height: 20),
         _buildRegisterButton(),
       ],
@@ -137,16 +147,106 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildInputField(TextEditingController controller,
-      {isPassword = false}) {
+  Widget _buildUsernameInputField() {
     return TextField(
-      controller: controller,
+      controller: usernameController,
       decoration: InputDecoration(
-        suffixIcon: isPassword
-            ? const Icon(Icons.remove_red_eye)
-            : const Icon(Icons.person_2_outlined),
+        hintText: 'Username',
+        hintStyle: const TextStyle(
+          color: Colors.grey,
+          fontSize: 16.0,
+        ),
       ),
-      obscureText: isPassword,
+    );
+  }
+
+  Widget _buildEmailInputField() {
+    return TextField(
+      controller: emailController,
+      decoration: InputDecoration(
+        hintText: 'Email',
+        hintStyle: const TextStyle(
+          color: Colors.grey,
+          fontSize: 16.0,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        prefixIcon: const Icon(
+          Icons.email,
+          color: Colors.grey,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPasswordInputField() {
+    return TextField(
+      controller: passwordController,
+      obscureText: _obscureText,
+      decoration: InputDecoration(
+        hintText: 'Password',
+        hintStyle: const TextStyle(
+          color: Colors.grey,
+          fontSize: 16.0,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        prefixIcon: const Icon(
+          Icons.lock,
+          color: Colors.grey,
+        ),
+        suffixIcon: Padding(
+          padding: const EdgeInsetsDirectional.only(end: 5.0),
+          child: InkWell(
+            onTap: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
+            child: Icon(
+              _obscureText ? Icons.visibility : Icons.visibility_off,
+              color: Colors.grey,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSeccondPasswordInputField() {
+    return TextField(
+      controller: passwordConfirmationController,
+      obscureText: _obscureText2,
+      decoration: InputDecoration(
+        hintText: 'Password',
+        hintStyle: const TextStyle(
+          color: Colors.grey,
+          fontSize: 16.0,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        prefixIcon: const Icon(
+          Icons.lock,
+          color: Colors.grey,
+        ),
+        suffixIcon: Padding(
+          padding: const EdgeInsetsDirectional.only(end: 5.0),
+          child: InkWell(
+            onTap: () {
+              setState(() {
+                _obscureText2 = !_obscureText2;
+              });
+            },
+            child: Icon(
+              _obscureText2 ? Icons.visibility : Icons.visibility_off,
+              color: Colors.grey,
+            ),
+          ),
+        ),
+      ),
     );
   }
 
