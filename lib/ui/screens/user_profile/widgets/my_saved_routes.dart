@@ -22,8 +22,8 @@ class _MySavedRoutesState extends State<MySavedRoutes> {
 
     return _userProvider.savedRoutes.isEmpty
         ? const Center(
-      child: Text('No hay localizaciones guardadas'),
-    )
+            child: Text('No hay localizaciones guardadas'),
+          )
         : const Center(child: Text('Hay rutas guardadas'));
   }
 }

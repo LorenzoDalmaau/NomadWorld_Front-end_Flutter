@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../utils/providers/user_provider.dart';
 
 class MySavedLocations extends StatefulWidget {
@@ -25,6 +24,21 @@ class _MySavedLocationsState extends State<MySavedLocations> {
         ? const Center(
             child: Text('No hay localizaciones guardadas'),
           )
-        : const Center(child: Text('Hay localizaciones guardadas'));
+        : ListView.builder(
+            itemCount: _userProvider.savedLocations.length,
+            itemBuilder: (context, index) => Card(
+              child: ListTile(
+                title: Text(_userProvider.savedLocations[index].name!),
+                subtitle:
+                    Text(_userProvider.savedLocations[index].description!),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () {
+                    // TODO deleteSavedLocation
+                  },
+                ),
+              ),
+            ),
+          );
   }
 }

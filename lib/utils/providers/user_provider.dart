@@ -6,13 +6,13 @@ import 'package:nomadworld/models/user_base.dart';
 class UserProvider extends ChangeNotifier{
 
   UserBase? user;
-  List<TravelRoute> savedRoutes = [TravelRoute(id: 1, name: 'name', descrption: 'descrption', distance: 52, duration: 52, country_id: 1, locations: [])]; // TravelRoute(id: 1, name: 'name', descrption: 'descrption', distance: 52, duration: 52, country_id: 1, locations: [])
-  List<LocationData> savedLocations = [LocationData(id: 1, name: 'Hola', description: 'description', date: 'date', countri_id: 1, images: [], longitude: 1.23123, latitude: 1.5123123)]; // LocationData(id: 1, name: 'Hola', description: 'description', date: 'date', countri_id: 1, images: [], longitude: 1.23123, latitude: 1.5123123)
+  List<TravelRoute> savedRoutes = []; // TravelRoute(id: 1, name: 'name', descrption: 'descrption', distance: 52, duration: 52, country_id: 1, locations: [])
+  List<LocationData> savedLocations = []; // LocationData(id: 1, name: 'Hola', description: 'description', date: 'date', countri_id: 1, images: [], longitude: 1.23123, latitude: 1.5123123)
 
   initUser(UserBase? userDatas){
     user = userDatas;
-    // savedRoutes = userDatas!.savedRoutes;
-    // savedLocations = userDatas!.savedLocations;
+    savedRoutes = userDatas!.savedRoutes;
+    savedLocations = userDatas!.savedLocations;
     notifyListeners();
   }
 
