@@ -61,10 +61,10 @@ class _LocationDetailState extends State<LocationDetail> {
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(100))),
-                  child: provider.savedLocations.contains(location)
+                  child: _checkLocationSaved(provider, location.id)
                       ? IconButton(
                           onPressed: () {
-                            provider.savedLocations.remove(location);
+                            provider.deleteSavedLocation(location.id);
                             setState(() {
 
                             });
@@ -76,7 +76,7 @@ class _LocationDetailState extends State<LocationDetail> {
                           ))
                       : IconButton(
                           onPressed: () {
-                            provider.savedLocations.add(location);
+                            provider.saveLocation(location);
                             setState(() {
 
                             });
@@ -84,7 +84,8 @@ class _LocationDetailState extends State<LocationDetail> {
                           icon: const Icon(
                             Icons.bookmark_border,
                             size: 30,
-                          )),
+                          )
+                  ),
                 ),
               ),
             ),
@@ -93,4 +94,14 @@ class _LocationDetailState extends State<LocationDetail> {
       ),
     );
   }
+
+  bool _checkLocationSaved(UserProvider provider, int locaiton){
+    for (var locationsSaved in provider.savedLocations){
+      if(locationsSaved.id == locaiton){
+        return true;
+      }
+    }
+    return false;
+  }
+
 }
