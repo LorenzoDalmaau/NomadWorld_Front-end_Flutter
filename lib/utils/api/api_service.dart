@@ -30,7 +30,6 @@ class ApiService {
     // Checking the response
     if (response.statusCode == 200) {
       var jsonResponse = response.body;
-
       return UserBase.fromJson(jsonDecode(jsonResponse));
 
     } else {
@@ -288,14 +287,14 @@ class ApiService {
 
     try {
       print("00000000000000000000000000000");
-      print(Uri.parse('$baseUrl/save/save/route/?user_id=$userID&route_id=$routeId'));
+      print(Uri.parse('$baseUrl/save/route/?user_id=$userID&route_id=$routeId'));
       final response = await http.patch(
-        Uri.parse('$baseUrl/save/save/route/?user_id=$userID&route_id=$routeId'),
+        Uri.parse('$baseUrl/save/route/?user_id=$userID&route_id=$routeId'),
         headers: {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          'location': routeId,
+          'route': routeId,
           'user': userID,
         }),
       );
@@ -316,11 +315,6 @@ class ApiService {
   }
 
   unsaveLocation(int userID, int locationId) async {
-
-    final Map<String, dynamic> saveRL = {
-      'user_id': userID,
-      'location_id': locationId
-    };
 
     try {
       final response = await http.patch(
@@ -352,12 +346,12 @@ class ApiService {
 
     try {
       final response = await http.patch(
-        Uri.parse('$baseUrl/unsave/route/?user_id=$userID&location_id=$routeId'),
+        Uri.parse('$baseUrl/unsave/route/?user_id=$userID&route_id=$routeId'),
         headers: {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
-          'location': routeId,
+          'route': routeId,
           'user': userID,
         }),
       );
@@ -367,8 +361,6 @@ class ApiService {
       } else if (response.statusCode == 200) {
         print('Solicitud exitosa: ${response.body}');
       } else {
-        print("USer_id : $userID");
-        print("Locacion_id: $routeId");
         print('Error desconocido: ${response.body}');
       }
     } catch (e) {
