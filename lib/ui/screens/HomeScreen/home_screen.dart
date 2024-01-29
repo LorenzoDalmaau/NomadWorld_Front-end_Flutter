@@ -6,7 +6,9 @@ import 'package:nomadworld/models/Country.dart';
 import 'package:nomadworld/ui/screens/HomeScreen/Widgets/PopularRoutesList.dart';
 import 'package:nomadworld/utils/api/api_service.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/TravelRoute.dart';
+import '../../../utils/providers/user_provider.dart';
 import 'Widgets/CountryList.dart';
 
 
@@ -30,6 +32,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   getDatas() async {
+
+    if(Provider.of<UserProvider>(context, listen: false).user == null){
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      var logedUserId = prefs.getInt("userId");
+      Provider.of<UserProvider>(context, listen: false).initUser(await ApiService().getUserById(logedUserId!));
+    }
     widget.route_list = ApiService().getPopularRoutes();
     country_list = await ApiService().getCountryList();
     setState(() {

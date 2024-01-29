@@ -4,6 +4,7 @@ import 'package:nomadworld/models/user_base.dart';
 import 'package:nomadworld/utils/api/api_service.dart';
 import 'package:nomadworld/utils/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,7 +21,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
+    setInitialRoute(context);
     super.initState();
+  }
+
+
+  setInitialRoute(BuildContext context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var logedUserId = prefs.getInt("userId");
+    if(logedUserId != null){
+      Get.offAllNamed('/navigation');
+    }
   }
 
   @override
@@ -149,6 +160,8 @@ class _LoginScreenState extends State<LoginScreen> {
           var newUser = await ApiService().loginUser(emailController.text.toString(), passwordController.text.toString());
 
           if (newUser != null) {
+            final SharedPreferences prefs = await SharedPreferences.getInstance();
+            await prefs.setInt('userId', newUser.id);
             Provider.of<UserProvider>(context, listen: false).initUser(newUser);
 
             Get.snackbar('Genial!', 'Has iniciado sesión correctamente',

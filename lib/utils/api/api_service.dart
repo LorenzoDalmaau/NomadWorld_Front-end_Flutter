@@ -14,6 +14,21 @@ class ApiService {
 
   final baseUrl = 'http://3.230.177.201:8000';
 
+  /// Get user by id
+  Future<UserBase> getUserById(int userId) async {
+
+    final response = await http.get(Uri.parse('$baseUrl/users/${userId}'));
+
+    if (response.statusCode == 200) {
+      String body = utf8.decode(response.bodyBytes);
+      final jsonData = jsonDecode(body);
+      return UserBase.fromJson(jsonData);
+    }
+    else {
+      throw Exception("Error al hacer get de un usuario");
+    }
+  }
+
   /// Login User
   Future<UserBase?> loginUser(String email, String password) async {
     var url = Uri.parse('$baseUrl/login');
