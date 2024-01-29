@@ -123,7 +123,7 @@ class ApiService {
 
     List<LocationData> locations = [];
 
-    final response = await http.get(Uri.parse('$baseUrl/location/${country}'));
+    final response = await http.get(Uri.parse('$baseUrl/location/$country'));
     if (response.statusCode == 200){
       String body = utf8.decode(response.bodyBytes);
       final jsonData = jsonDecode(body);
