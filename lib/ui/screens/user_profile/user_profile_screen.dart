@@ -177,7 +177,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     ),
                     PopupMenuItem(
                       onTap: () {
-                        Navigator.push(
+                        Navigator.pop(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const LoginScreen()));
