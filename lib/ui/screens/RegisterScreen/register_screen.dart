@@ -160,25 +160,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  static const shadowFocused = BoxShadow(color: Colors.teal, blurRadius: 8.0);
+  static const shadowNorm = BoxShadow(color: Colors.transparent, blurRadius: 0.0);
+  
   Widget _buildEmailInputField() {
-    return TextField(
-      controller: emailController,
-      decoration: InputDecoration(
-        hintText: 'Email',
-        hintStyle: const TextStyle(
-          color: Colors.grey,
-          fontSize: 16.0,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        prefixIcon: const Icon(
-          Icons.email,
-          color: Colors.grey,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20.0),
+        boxShadow: const [shadowFocused],
+      ),
+      child: TextField(
+        controller: emailController,
+        decoration: InputDecoration(
+          hoverColor: Colors.blue,
+          hintText: 'Email',
+          hintStyle: const TextStyle(
+            color: Colors.grey,
+            fontSize: 16.0,
+          ),
+          prefixIcon: const Icon(
+            Icons.email,
+            color: Colors.grey,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            borderSide: const BorderSide(
+              color: Colors.blueAccent, // Border color when focused
+            ),
+          ),
         ),
       ),
     );
   }
+
+
+
 
   Widget _buildPasswordInputField() {
     return TextField(

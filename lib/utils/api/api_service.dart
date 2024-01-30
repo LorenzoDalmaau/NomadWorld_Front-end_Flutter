@@ -27,6 +27,7 @@ class ApiService {
       headers: {'Content-Type': 'application/json'},
     );
 
+
     // Checking the response
     if (response.statusCode == 200) {
       var jsonResponse = response.body;
@@ -42,7 +43,7 @@ class ApiService {
       }
     } else {
       // Mostrar el código de estado HTTP si la respuesta no es 201
-      Get.snackbar('Error', 'HTTP Error: ${response.statusCode}',
+      Get.snackbar('Error', 'HTTP Error: ${response.statusCode} - ${response.body.split('"')[3]}',
           snackPosition: SnackPosition.BOTTOM);
     }
   }
@@ -78,7 +79,7 @@ class ApiService {
       }
     } else {
       // Mostrar el código de estado HTTP si la respuesta no es 201
-      Get.snackbar('Error', 'HTTP Error: ${response.statusCode}',
+      Get.snackbar('Error', 'HTTP Error: ${response.statusCode} - ${response.body.split('"')[3]}',
           snackPosition: SnackPosition.BOTTOM);
     }
   }
