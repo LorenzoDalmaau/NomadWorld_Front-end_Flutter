@@ -32,12 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   getDatas() async {
-
-    if(Provider.of<UserProvider>(context, listen: false).user == null){
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      var logedUserId = prefs.getInt("userId");
-      Provider.of<UserProvider>(context, listen: false).initUser(await ApiService().getUserById(logedUserId!));
-    }
     widget.route_list = ApiService().getPopularRoutes();
     country_list = await ApiService().getCountryList();
     setState(() {

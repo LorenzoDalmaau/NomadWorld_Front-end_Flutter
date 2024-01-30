@@ -21,18 +21,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    setInitialRoute(context);
     super.initState();
   }
 
-
-  setInitialRoute(BuildContext context) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var logedUserId = prefs.getInt("userId");
-    if(logedUserId != null){
-      Get.offAllNamed('/navigation');
-    }
-  }
 
   @override
   void didChangeDependencies() {

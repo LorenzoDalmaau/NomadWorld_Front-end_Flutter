@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: true,
         ),
-        initialRoute: '/login',
+        initialRoute: '/splash',
         getPages: AppRoutes.routes,
       ),
     );
