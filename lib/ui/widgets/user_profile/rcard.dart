@@ -69,7 +69,7 @@ class Rcard extends StatelessWidget {
                 onPressed: () {
                   // Eliminar utilizando el provider la ruta guardada
                   Provider.of<UserProvider>(context, listen: false)
-                      .deleteSavedLocation(savedRoute!.id);
+                      .deleteSavedRoute(savedRoute!.id);
                 },
                 icon: const Icon(Icons.delete),
               ),

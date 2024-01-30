@@ -16,6 +16,10 @@ class _MySavedRoutesState extends State<MySavedRoutes> {
   // Instancia of the UserProvider
   late UserProvider _userProvider;
 
+  // Primero se crea la lista vacía
+  // Añades la lista que tiene localizaciones de la función de ApiService en esa lista
+  // Interactuas con esa lista vacía
+
   @override
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context);
@@ -28,7 +32,7 @@ class _MySavedRoutesState extends State<MySavedRoutes> {
             child: Text('No hay rutas guardadas'),
           )
         : ListView.builder(
-            itemCount: _userProvider.savedLocations.length,
+            itemCount: _userProvider.savedRoutes.length,
             itemBuilder: (context, index) => Padding(
               padding: const EdgeInsets.all(8.0),
               child: Rcard(

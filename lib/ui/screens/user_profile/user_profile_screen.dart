@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:nomadworld/ui/screens/LoginScreen/login_screen.dart';
 import 'package:nomadworld/ui/screens/edit_user_profile/user_edit_profile_screen.dart';
 import 'package:nomadworld/ui/screens/user_profile/widgets/my_saved_locations.dart';
