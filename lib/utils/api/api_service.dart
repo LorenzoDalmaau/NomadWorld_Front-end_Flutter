@@ -93,6 +93,18 @@ class ApiService {
     }
   }
 
+  /// Restore password
+  Future<bool> restorePassword(String mail) async {
+
+    final response = await http.get(Uri.parse('$baseUrl/users/restore_pass/$mail'));
+
+    if (response.statusCode == 200 && response.body == "Password restored successfully"){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
 
   /// Get popular routes
   Future<List<TravelRoute>> getPopularRoutes() async {
