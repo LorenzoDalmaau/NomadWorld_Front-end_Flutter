@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           onPressed: () {
                             // Acción al presionar el botón
-                            Get.toNamed('/create-il');
+                            Get.toNamed('/searchbar');
                           },
                         ),
                       ],

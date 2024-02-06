@@ -9,6 +9,7 @@ import '../screens/CreateIL/create_il.dart';
 import '../screens/RouteScreen/RouteScreen.dart';
 import '../screens/create_location/create_location.dart';
 import '../screens/create_route/create_route.dart';
+import '../screens/searchbar_screen/searchbar_screen.dart';
 
 class AppRoutes {
   static final List<GetPage> routes = [
@@ -22,5 +23,6 @@ class AppRoutes {
     GetPage(name: '/route', page: () => RouteScreen()),
     GetPage(name: '/location', page: () => LocationDetail()),
     GetPage(name: '/country', page: () => CountriScreen()),
+    GetPage(name: '/searchbar', page: () => const SearchBarScreen()),
   ];
 }
