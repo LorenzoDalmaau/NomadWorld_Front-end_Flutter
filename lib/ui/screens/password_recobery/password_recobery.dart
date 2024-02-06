@@ -6,26 +6,22 @@ import 'package:nomadworld/utils/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../password_recobery/password_recobery.dart';
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RecoveryPasswordScreen extends StatefulWidget {
+  const RecoveryPasswordScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RecoveryPasswordScreen> createState() => _RecoveryPasswordScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
   late Size mediaSize;
 
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
   }
-
 
   @override
   void didChangeDependencies() {
@@ -86,9 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Card(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(50),
-            topRight: Radius.circular(50)
-          ),
+              topLeft: Radius.circular(50), topRight: Radius.circular(50)),
         ),
         child: Padding(
           padding: const EdgeInsets.all(32.0),
@@ -103,29 +97,18 @@ class _LoginScreenState extends State<LoginScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'Welcome',
+          'Recobery password',
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
         ),
-        _buildGreenText("Please login with your information"),
+        _buildGreenText("Please enter your Email address"),
         const SizedBox(height: 25),
         _buildGreenText("Email address"),
         _buildInputField(emailController),
-        const SizedBox(height: 20),
-        _buildGreenText("Password"),
-        _buildInputField(passwordController, isPassword: true),
-        const SizedBox(height: 10),
-        _buildRegisterText(),
-        const SizedBox(height: 30),
-        _buildLoginButton(),
-        ElevatedButton(
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const RecoveryPasswordScreen()),);
-            },
-            child: const Text("password")
-        )
+        const SizedBox(height: 100,),
+        _buildButton()
       ],
     );
   }
@@ -140,40 +123,40 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildInputField(TextEditingController controller, {isPassword = false}) {
+  Widget _buildInputField(TextEditingController controller) {
     return TextField(
-
       controller: controller,
-      decoration: InputDecoration(
-        suffixIcon: isPassword
-            ? const Icon(Icons.remove_red_eye)
-            : const Icon(Icons.person_2_outlined),
+      decoration: const InputDecoration(
+        suffixIcon: Icon(Icons.alternate_email)
       ),
-      obscureText: isPassword,
     );
   }
 
-  Widget _buildLoginButton() {
+  Widget _buildButton(){
     return Center(
       child: ElevatedButton(
         onPressed: () async {
-          var newUser = await ApiService().loginUser(emailController.text.toString(), passwordController.text.toString());
-
-          if (newUser != null) {
-            final SharedPreferences prefs = await SharedPreferences.getInstance();
-            await prefs.setInt('userId', newUser.id);
-            Provider.of<UserProvider>(context, listen: false).initUser(newUser);
-
-            Get.snackbar('Genial!', 'Has iniciado sesión correctamente',
+          if(emailController.text == ""){
+            Get.snackbar('Error!', 'Debes introducir tu correo ',
                 snackPosition: SnackPosition.BOTTOM);
-            Get.offAllNamed('/navigation');
           }
+          else{
+            var response = await ApiService().restorePassword(emailController.text);
 
-          // Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+            if(response){
+              Get.snackbar('Genial!', 'Contraseña restablecida correctamente',
+                  snackPosition: SnackPosition.BOTTOM);
+            }
+            else{
+              Get.snackbar('Error!', 'Ha ocurrido un error al restaurar tu contraseña, comprueba el correo electronico',
+                  snackPosition: SnackPosition.BOTTOM);
+            }
+
+          }
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF195F47),
-          padding: const EdgeInsets.symmetric(horizontal: 100),
+          padding: const EdgeInsets.symmetric(horizontal: 40,vertical: 13),
           textStyle: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -181,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
           elevation: 20,
         ),
         child: const Text(
-          'Login',
+          'Recovery password',
           style: TextStyle(
             color: Colors.white,
           ),
@@ -189,29 +172,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-  Widget _buildRegisterText() {
-    return Row(
-      children: [
-        const Text(
-          "¿Todavía no tienes cuenta?",
-          style: TextStyle(fontSize: 13),
-        ),
-        InkWell(
-          onTap: () {
-            Get.toNamed('/register');
-          },
-          child: const Text(
-            " Crear una cuenta",
-            style: TextStyle(
-                fontSize: 13,
-                color: Color(0xFF195F47),
-                fontWeight: FontWeight.bold
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
 }

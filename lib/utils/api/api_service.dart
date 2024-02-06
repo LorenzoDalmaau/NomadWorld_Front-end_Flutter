@@ -67,7 +67,8 @@ class ApiService {
       'email': email,
       'password': password
     };
-
+    print("-----");
+    print(url);
     // Sending the user object to the server
     var response = await http.post(url,
         body: convert.jsonEncode(userMap),
@@ -95,10 +96,8 @@ class ApiService {
 
   /// Restore password
   Future<bool> restorePassword(String mail) async {
-
-    final response = await http.get(Uri.parse('$baseUrl/users/restore_pass/$mail'));
-
-    if (response.statusCode == 200 && response.body == "Password restored successfully"){
+    final response = await http.patch(Uri.parse('$baseUrl/users/restore_pass/$mail'));
+    if (response.statusCode == 200){
       return true;
     }
     else{
