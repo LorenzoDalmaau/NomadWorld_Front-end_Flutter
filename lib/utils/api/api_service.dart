@@ -279,19 +279,16 @@ class ApiService {
     List<LocationData> locations = [];
     //TODO cambiar url de locations
     final response = await http.get(Uri.parse('$baseUrl/location'));
-    print('$baseUrl/location/');
     if (response.statusCode == 200){
       String body = utf8.decode(response.bodyBytes);
       final jsonData = jsonDecode(body);
 
       for(var item in jsonData){
-        print(item);
         locations.add(LocationData.fromJson(item));
       }
       return locations;
     }
     else {
-      print(response.body);
       throw Exception("Error al hacer get de localizaciones de un pais");
     }
   }

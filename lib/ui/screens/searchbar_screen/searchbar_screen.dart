@@ -21,17 +21,19 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
   SearchController _searchController = SearchController();
 
   List<LocationData> locationList = [];
+
+  List<LocationData> _filteredLocationList = [];
+  final TextEditingController _textController = TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final ScrollController _scrollController = ScrollController();
+
   List<TravelRoute> routeList = [];
   List<Country> countryList = [];
 
-
-
-  ///Llamar a provider
-  late DataProvider _dataProvider;
+  String busqueda = '';
 
   /// Variable to check if the user is searching
   bool _isSearching = false;
-
 
   void startSearching() {
     setState(() {
@@ -44,7 +46,8 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
       _isSearching = false;
     });
   }
-  void goBack(){
+
+  void goBack() {
     navigator?.pop(context);
   }
 
@@ -58,14 +61,25 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
     super.initState();
   }
 
+  void _filterLogListBySearchText(String searchText) {
+    setState(() {
+      _filteredLocationList = locationList
+          .where((location) =>
+              location.name!.toLowerCase().contains(searchText.toLowerCase()))
+          .toList();
+    });
+  }
+
   getSearchDatas() async {
     locationList = await ApiService().getLocations();
+
     routeList = await ApiService().getPopularRoutes();
     countryList = await ApiService().getCountryList();
     setState(() {
-
+      _filteredLocationList = locationList;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,43 +90,54 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
             appBar: AppBar(
               backgroundColor: const Color.fromARGB(255, 37, 113, 85),
               elevation: 0.0,
-              toolbarHeight: kToolbarHeight + MediaQuery.of(context).size.height * 0.03,
+              toolbarHeight:
+                  kToolbarHeight + MediaQuery.of(context).size.height * 0.03,
               leading: IconButton(
                   icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                   onPressed: () {
                     goBack();
                   }),
-            bottom: const TabBar(
-              tabs: [
-
-                  Tab(
-                    child: Text('Country', style: TextStyle(color: Colors.white)),
-
-
-                  ),
-                  Tab(
-                    child: Text('Location', style: TextStyle(color: Colors.white)),
-
-                  ),
-                  Tab(
-                    child: Text('Route', style: TextStyle(color: Colors.white)),
-                  ),
-                ], indicatorColor: Colors.white),
-
-              title: miSearchBar(_searchController),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.search, color: Colors.white),
-                  onPressed: () {
-
-                  },
+              bottom: const TabBar(tabs: [
+                Tab(
+                  child: Text('Country', style: TextStyle(color: Colors.white)),
                 ),
-              ],
+                Tab(
+                  child:
+                      Text('Location', style: TextStyle(color: Colors.white)),
+                ),
+                Tab(
+                  child: Text('Route', style: TextStyle(color: Colors.white)),
+                ),
+              ], indicatorColor: Colors.white),
+              title: Container(
+                height: 45,
+                decoration: BoxDecoration(
+                    color: const Color(0xffF5F5F5),
+                    borderRadius: BorderRadius.circular(5)),
+                child: TextField(
+                  controller: _textController,
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                        icon: const Icon(
+                          Icons.clear_rounded,
+                          color: Color(0xFF257155),
+                        ),
+                        onPressed: () {
+                          _textController.text = "";
+                          _filterLogListBySearchText("");
+                        }),
+                    hintText: '   Search...',
+                    border: InputBorder.none,
+                  ),
+                  onChanged: (value) => _filterLogListBySearchText(value),
+                  onSubmitted: (value) => _filterLogListBySearchText(value),
+                ),
+              ),
             ),
             body: TabBarView(
               children: [
                 searchCountryList(countryList: countryList),
-                searchLocationList(locationList: locationList),
+                searchLocationList(locationList: _filteredLocationList),
                 searchRouteList(routeList: routeList),
               ],
             ),
@@ -122,28 +147,26 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
     );
   }
 }
-String busqueda = '';
-Widget miSearchBar(SearchController _searchController) {
 
-
-  return SearchBar(
-    controller: _searchController,
-    hintText: 'Search',
-    elevation: MaterialStateProperty.all(0.0),
-    onTap: () {
-      SearchController();
-    },
-    onChanged: (value) {
-      busqueda = value;
-      // Do something with the value
-      DataProvider().routeList.length;
-      ListView.builder(
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(DataProvider().routeList[index].name),
-          );
-        },
-      );
-    },
-  );
-}
+// Widget miSearchBar(SearchController _searchController) {
+//   return SearchBar(
+//     controller: _searchController,
+//     hintText: 'Search',
+//     elevation: MaterialStateProperty.all(0.0),
+//     onTap: () {
+//       SearchController();
+//     },
+//     onChanged: (value) {
+//       busqueda = value;
+//       // Do something with the value
+//       DataProvider().routeList.length;
+//       ListView.builder(
+//         itemBuilder: (context, index) {
+//           return ListTile(
+//             title: Text(DataProvider().routeList[index].name),
+//           );
+//         },
+//       );
+//     },
+//   );
+// }
