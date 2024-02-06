@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:io';
+import '../../../utils/helpers/image_picker_helper.dart';
 import '../../../utils/providers/user_provider.dart';
 
 class UserEditProfileScreen extends StatefulWidget {
@@ -13,11 +14,12 @@ class UserEditProfileScreen extends StatefulWidget {
 class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
   late UserProvider _userProvider;
 
-  TextEditingController _imageController = TextEditingController();
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _passwordConfirmationController =
-      TextEditingController();
+  final TextEditingController _imageController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordConfirmationController = TextEditingController();
+
+  File? _imageSelected; // Image selected from user
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,6 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
         children: [
           _buildGreenCard(context),
           // Formulario de edición de usuario
-
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
@@ -86,7 +87,9 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.black),
                     ),
+
                     const SizedBox(height: 10),
+
                     TextFormField(
                       controller: _passwordConfirmationController,
                       maxLines: 1,
@@ -131,6 +134,16 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> _selectedImage() async {
+    await ImagePickerHelper.showImagePickerDialog(context, (File? image) {
+      if (image != null) {
+        setState(() {
+          _imageSelected = image;
+        });
+      }
+    });
   }
 
   /// Green Card
@@ -184,16 +197,15 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                         color: Colors.white),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 25),
 
-                  // Icono del usuario
                   // Icono del usuario
                   Stack(
                     children: [
                       CircleAvatar(
-                        radius: 50,
+                        radius: 65,
                         backgroundImage:
-                            NetworkImage(_userProvider.user!.image),
+                            FileImage(_imageSelected!)
                       ),
 
                       // Icono de edición
@@ -202,14 +214,12 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                         right: 0,
                         child: InkWell(
                           onTap: () {
-                            // Implementa aquí la lógica para cambiar la imagen
-                            // Puedes abrir un diálogo de selección de imagen, por ejemplo.
-                            // También puedes utilizar Navigator para navegar a otra pantalla de edición de imagen.
-                            // Ejemplo: Navigator.push(context, MaterialPageRoute(builder: (context) => ImageEditScreen()));
+                            // Implementa aquí ImagePicker
+                            _selectedImage();
                           },
                           child: Container(
                             padding: const EdgeInsets.all(4),
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white,
                             ),
