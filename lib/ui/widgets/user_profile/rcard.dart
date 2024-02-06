@@ -10,7 +10,7 @@ class Rcard extends StatelessWidget {
   TravelRoute? savedRoute;
   late Function updateList;
 
-  Rcard({required this.savedRoute, required this.updateList});
+   Rcard({required this.savedRoute, required this.updateList});
 
   @override
   Widget build(BuildContext context) {

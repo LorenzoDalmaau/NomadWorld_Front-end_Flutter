@@ -131,7 +131,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
                   // Icono del usuario
                   CircleAvatar(
-                    radius: 50,
+                    radius: 65,
                     backgroundImage: NetworkImage(_userProvider.user!.image),
                   ),
                 ],

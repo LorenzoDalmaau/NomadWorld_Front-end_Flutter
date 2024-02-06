@@ -17,7 +17,8 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
   final TextEditingController _imageController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmationController = TextEditingController();
+  final TextEditingController _passwordConfirmationController =
+      TextEditingController();
 
   File? _imageSelected; // Image selected from user
 
@@ -110,9 +111,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                     Center(
                       child: ElevatedButton(
                         onPressed: () {
-                          // Implementa aquí la lógica para guardar los cambios
-                          // Puedes utilizar el método setState para actualizar los datos del usuario
-                          // Ejemplo: setState(() => _userProvider.user!.username = _usernameController.text);
+                          // Enviar datos al actualizados al sercidor
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xff195f47),
@@ -121,7 +120,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                           ),
                         ),
                         child: const Text(
-                          'Guardar',
+                          'Actualizar perfil',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -136,6 +135,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
     );
   }
 
+  /// Esta función se encargará de permitir al usuario elegir entre imagen de galería o cámara.
   Future<void> _selectedImage() async {
     await ImagePickerHelper.showImagePickerDialog(context, (File? image) {
       if (image != null) {
@@ -181,10 +181,11 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                     child: Text(
                       _userProvider.user!.username,
                       style: const TextStyle(
-                          fontSize: 25,
-                          overflow: TextOverflow.ellipsis,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
+                        fontSize: 25,
+                        overflow: TextOverflow.ellipsis,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
 
@@ -204,8 +205,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                     children: [
                       CircleAvatar(
                         radius: 65,
-                        backgroundImage:
-                            FileImage(_imageSelected!)
+                        backgroundImage: _imageSelected != null ? FileImage(_imageSelected!) : NetworkImage(_userProvider.user!.image!),
                       ),
 
                       // Icono de edición
@@ -219,7 +219,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                           },
                           child: Container(
                             padding: const EdgeInsets.all(4),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white,
                             ),
