@@ -146,18 +146,22 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildEmailInputField() {
     return TextField(
       controller: emailController,
-      decoration: InputDecoration(
+      cursorColor: Color(0xFF195F47),
+      decoration: const InputDecoration(
         hintText: 'Email',
-        hintStyle: const TextStyle(
+        hintStyle: TextStyle(
           color: Colors.grey,
           fontSize: 16.0,
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        prefixIcon: const Icon(
+        prefixIcon: Icon(
           Icons.email,
           color: Colors.grey,
+        ),
+        focusedBorder: UnderlineInputBorder( // Cambia el color de la línea cuando el TextField está enfocado
+          borderSide: BorderSide(
+            color: Color(0xFF195F47), // Cambia este color al que desees
+            width: 2.0,
+          ),
         ),
       ),
     );
@@ -167,14 +171,12 @@ class _LoginScreenState extends State<LoginScreen> {
     return TextField(
       controller: passwordController,
       obscureText: _obscureText,
+      cursorColor: Color(0xFF195F47),
       decoration: InputDecoration(
         hintText: 'Password',
         hintStyle: const TextStyle(
           color: Colors.grey,
           fontSize: 16.0,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0),
         ),
         prefixIcon: const Icon(
           Icons.lock,
@@ -194,7 +196,14 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
+        focusedBorder: const UnderlineInputBorder( // Cambia el color de la línea cuando el TextField está enfocado
+          borderSide: BorderSide(
+            color: Color(0xFF195F47), // Cambia este color al que desees
+            width: 2.0,
+          ),
+        ),
       ),
+
     );
   }
 

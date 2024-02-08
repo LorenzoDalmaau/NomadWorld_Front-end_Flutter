@@ -150,75 +150,76 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildUsernameInputField() {
     return TextField(
       controller: usernameController,
-      decoration: InputDecoration(
-        hintText: 'Username',
-        hintStyle: const TextStyle(
+      cursorColor: Color(0xFF195F47),
+      decoration: const InputDecoration(
+        hintText: 'Enter your Username',
+
+        hintStyle: TextStyle(
           color: Colors.grey,
           fontSize: 16.0,
         ),
-      ),
-    );
-  }
-
-  static const shadowFocused = BoxShadow(color: Colors.teal, blurRadius: 8.0);
-  static const shadowNorm = BoxShadow(color: Colors.transparent, blurRadius: 0.0);
-  
-  Widget _buildEmailInputField() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20.0),
-        boxShadow: const [shadowFocused],
-      ),
-      child: TextField(
-        controller: emailController,
-        decoration: InputDecoration(
-          hoverColor: Colors.blue,
-          hintText: 'Email',
-          hintStyle: const TextStyle(
-            color: Colors.grey,
-            fontSize: 16.0,
-          ),
-          prefixIcon: const Icon(
-            Icons.email,
-            color: Colors.grey,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
-            borderSide: const BorderSide(
-              color: Colors.blueAccent, // Border color when focused
-            ),
+        prefixIcon: Icon(
+          Icons.account_circle,
+          color: Colors.grey,
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Color(0xFF195F47),
+            width: 2.0,
           ),
         ),
       ),
     );
   }
 
-
+    Widget _buildEmailInputField() {
+    return TextField(
+      controller: emailController,
+      cursorColor: Color(0xFF195F47),
+      decoration: const InputDecoration(
+        hintText: 'Enter your Email',
+        hintStyle: TextStyle(
+          color: Colors.grey,
+          fontSize: 16.0,
+        ),
+        prefixIcon: Icon(
+          Icons.mail_rounded,
+          color: Colors.grey,
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Color(0xFF195F47),
+            width: 2.0,
+          ),
+        ),
+      ),
+    );
+  }
 
 
   Widget _buildPasswordInputField() {
     return TextField(
       controller: passwordController,
       obscureText: _obscureText,
+      cursorColor: Color(0xFF195F47),
       decoration: InputDecoration(
-        hintText: 'Password',
-        hintStyle: const TextStyle(
+        hintText: 'Enter your Password',
+        hintStyle: TextStyle(
           color: Colors.grey,
           fontSize: 16.0,
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Color(0xFF195F47),
+            width: 2.0,
+          ),
         ),
         prefixIcon: const Icon(
           Icons.lock,
           color: Colors.grey,
         ),
         suffixIcon: Padding(
-          padding: const EdgeInsetsDirectional.only(end: 5.0),
+          padding: EdgeInsetsDirectional.only(end: 5.0),
           child: InkWell(
             onTap: () {
               setState(() {
@@ -226,12 +227,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
               });
             },
             child: Icon(
-              _obscureText ? Icons.visibility : Icons.visibility_off,
-              color: Colors.grey,
+              _obscureText
+                  ? Icons.visibility
+                  : Icons.visibility_off,
+                  color: Colors.grey,
             ),
           ),
         ),
       ),
+
     );
   }
 
@@ -239,21 +243,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return TextField(
       controller: passwordConfirmationController,
       obscureText: _obscureText2,
+      cursorColor: Color(0xFF195F47),
       decoration: InputDecoration(
-        hintText: 'Password',
-        hintStyle: const TextStyle(
+        hintText: 'Enter your Password',
+        hintStyle: TextStyle(
           color: Colors.grey,
           fontSize: 16.0,
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Color(0xFF195F47),
+            width: 2.0,
+          ),
         ),
         prefixIcon: const Icon(
           Icons.lock,
           color: Colors.grey,
         ),
         suffixIcon: Padding(
-          padding: const EdgeInsetsDirectional.only(end: 5.0),
+          padding: EdgeInsetsDirectional.only(end: 5.0),
           child: InkWell(
             onTap: () {
               setState(() {
@@ -267,6 +275,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
       ),
+
     );
   }
 
