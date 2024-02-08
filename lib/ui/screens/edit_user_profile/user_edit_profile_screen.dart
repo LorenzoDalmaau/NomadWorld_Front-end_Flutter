@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nomadworld/utils/api/api_service.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
+import '../../../domain/provider/provider.dart';
 import '../../../utils/helpers/image_picker_helper.dart';
 import '../../../utils/providers/user_provider.dart';
 
@@ -25,6 +28,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context);
+    var userId = _userProvider.user!.id;
 
     return Scaffold(
       body: Column(
@@ -110,15 +114,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                     /// Botón de guardar
                     Center(
                       child: ElevatedButton(
-                        onPressed: () {
-                          // Enviar datos al actualizados al sercidor
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xff195f47),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
+                        onPressed: () => null,
                         child: const Text(
                           'Actualizar perfil',
                           style: TextStyle(color: Colors.white),
@@ -134,6 +130,32 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
       ),
     );
   }
+
+  modifyUser() {
+    var provider = Provider.of<NomadProvider>(context);
+    String? image;
+    String? username;
+    String? password;
+
+    // Imagen tipo File a base64
+
+
+
+    if (_usernameController.text.isEmpty) {
+      username = null;
+    } else {
+      username = _usernameController.text;
+    }
+
+    if (_passwordController.text.isEmpty) {
+      username = null;
+    } else {
+      username = _passwordController.text;
+    }
+
+
+  }
+
 
   /// Esta función se encargará de permitir al usuario elegir entre imagen de galería o cámara.
   Future<void> _selectedImage() async {
@@ -205,7 +227,12 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                     children: [
                       CircleAvatar(
                         radius: 65,
-                        backgroundImage: _imageSelected != null ? FileImage(_imageSelected!) : NetworkImage(_userProvider.user!.image!),
+                        backgroundImage: _imageSelected != null
+                            ? FileImage(_imageSelected!)
+                            : _userProvider.user!.image != null
+                                ? NetworkImage(_userProvider.user!.image!)
+                                : const AssetImage('assets/user_icon.png')
+                                    as ImageProvider,
                       ),
 
                       // Icono de edición

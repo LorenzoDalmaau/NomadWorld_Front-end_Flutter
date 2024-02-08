@@ -367,4 +367,55 @@ class ApiService {
       print('Error en la solicitud: $e');
     }
   }
+
+  /// Modificar usuario
+
+  Future<void> modifyUser(int userId, String base65Iages, String username, String password) async {
+    // Mostrar snackbar "Actualizando perfil"
+    Get.snackbar(
+      'Actualizando perfil',
+      'Por favor, espere...',
+      showProgressIndicator: true,
+      snackPosition: SnackPosition.BOTTOM,
+      duration: const Duration(seconds: 3),
+      isDismissible: false,
+    );
+
+    // URL del post
+    var url = Uri.parse('$baseUrl/users/modify/$userId');
+
+    // Creación del objeto
+    Map<String, dynamic> userModified = {
+      'id': userId,
+      'image': base65Iages,
+      'username': username,
+      'password': password,
+    };
+
+    try {
+      // Enviando el objeto al servidor
+      var response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: convert.jsonEncode(userModified),
+      );
+
+      // Checking the response
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Si la creación es exitosa, mostrar Snackbar y navegar a la otra página
+        Get.snackbar('¡Usuario modificado correctamente!', '',
+            snackPosition: SnackPosition.BOTTOM);
+        Get.toNamed('/navigation');
+      } else {
+        // Si la respuesta no es 200/201, mostrar un mensaje de error
+        Get.snackbar(
+            'Error', 'No se ha podido modificar tu usario',
+            snackPosition: SnackPosition.BOTTOM);
+        Get.toNamed('/navigation');
+      }
+
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 }

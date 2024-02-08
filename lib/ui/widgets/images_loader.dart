@@ -24,8 +24,6 @@ class _buildImagesLoader extends State<ImagesLoader> {
         setState(
           () {
             provider.images.add(image!);
-
-            /// TODO Agregar función que añada las imagenes a la lista del provider
           },
         );
       },
@@ -73,7 +71,10 @@ class _buildImagesLoader extends State<ImagesLoader> {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              child: const Text('Hacer Foto', style: TextStyle(color: Colors.white),),
+              child: const Text(
+                'Hacer Foto',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),

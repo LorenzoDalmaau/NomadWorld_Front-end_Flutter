@@ -7,6 +7,12 @@ class NomadProvider extends ChangeNotifier {
   List<File> images = [];
   List<Country> countries = [];
 
+  // Función para convertir una imagen en base64
+  String convertImageToBase64(File imageFile) {
+    List<int> imageBytes = imageFile.readAsBytesSync();
+    String base64Image = base64Encode(imageBytes);
+    return base64Image;
+  }
 
   // Función para convertir la lista de imagenes en base64
   List<String> convertImagesToBase64() {
