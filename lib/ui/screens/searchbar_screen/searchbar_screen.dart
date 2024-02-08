@@ -17,42 +17,16 @@ class SearchBarScreen extends StatefulWidget {
 }
 
 class _SearchBarScreenState extends State<SearchBarScreen> {
-  /// Controller for the search bar
-  SearchController _searchController = SearchController();
-
   List<LocationData> locationList = [];
 
   List<LocationData> _filteredLocationList = [];
   final TextEditingController _textController = TextEditingController();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final ScrollController _scrollController = ScrollController();
 
   List<TravelRoute> routeList = [];
   List<Country> countryList = [];
 
-  String busqueda = '';
-
-  /// Variable to check if the user is searching
-  bool _isSearching = false;
-
-  void startSearching() {
-    setState(() {
-      _isSearching = true;
-    });
-  }
-
-  void stopSearching() {
-    setState(() {
-      _isSearching = false;
-    });
-  }
-
   void goBack() {
     navigator?.pop(context);
-  }
-
-  void clearSearch() {
-    _searchController.clear();
   }
 
   @override
@@ -72,7 +46,6 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
 
   getSearchDatas() async {
     locationList = await ApiService().getLocations();
-
     routeList = await ApiService().getPopularRoutes();
     countryList = await ApiService().getCountryList();
     setState(() {
@@ -147,26 +120,3 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
     );
   }
 }
-
-// Widget miSearchBar(SearchController _searchController) {
-//   return SearchBar(
-//     controller: _searchController,
-//     hintText: 'Search',
-//     elevation: MaterialStateProperty.all(0.0),
-//     onTap: () {
-//       SearchController();
-//     },
-//     onChanged: (value) {
-//       busqueda = value;
-//       // Do something with the value
-//       DataProvider().routeList.length;
-//       ListView.builder(
-//         itemBuilder: (context, index) {
-//           return ListTile(
-//             title: Text(DataProvider().routeList[index].name),
-//           );
-//         },
-//       );
-//     },
-//   );
-// }
