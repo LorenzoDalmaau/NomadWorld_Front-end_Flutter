@@ -53,78 +53,89 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
   }
 
   getSearchDatas() async {
+    countryList = await ApiService().getCountryList();
     locationList = await ApiService().getLocations();
     routeList = await ApiService().getPopularRoutes();
-    countryList = await ApiService().getCountryList();
     setState(() {
       _filteredLocationList = locationList;
+      _filteredRouteList = routeList;
+      _filteredCountryList = countryList;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: DefaultTabController(
-          length: 3,
-          child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: const Color.fromARGB(255, 37, 113, 85),
-              elevation: 0.0,
-              toolbarHeight:
-                  kToolbarHeight + MediaQuery.of(context).size.height * 0.03,
-              leading: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }),
-              bottom: const TabBar(tabs: [
-                Tab(
-                  child: Text('Country', style: TextStyle(color: Colors.white)),
+    return SafeArea(
+      child: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: const Color.fromARGB(255, 37, 113, 85),
+            elevation: 0.0,
+            toolbarHeight:
+            kToolbarHeight + MediaQuery.of(context).size.height * 0.03,
+            leading: IconButton(
+                icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
+            bottom: const TabBar(tabs: [
+              Tab(
+                child: Text('Country', style: TextStyle(color: Colors.white)),
+              ),
+              Tab(
+                child:
+                Text('Location', style: TextStyle(color: Colors.white)),
+              ),
+              Tab(
+                child: Text('Route', style: TextStyle(color: Colors.white)),
+              ),
+            ], indicatorColor: Colors.white),
+            title: Container(
+              height: 45,
+              decoration: BoxDecoration(
+                  color: const Color(0xffF5F5F5),
+                  borderRadius: BorderRadius.circular(5)),
+              child: TextField(
+                cursorColor: Color(0xFF257155),
+
+                controller: _textController,
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(top: 10,left: 10,bottom: 10),
+                  suffixIcon: IconButton(
+                      icon: const Icon(
+                        Icons.clear_rounded,
+                        color: Color(0xFF257155),
+                      ),
+                      onPressed: () {
+                        _textController.text = "";
+                        _filterLogListBySearchText("");
+                      }),
+                  hintText: 'Search...',
+                  border: InputBorder.none,
                 ),
-                Tab(
-                  child:
-                      Text('Location', style: TextStyle(color: Colors.white)),
-                ),
-                Tab(
-                  child: Text('Route', style: TextStyle(color: Colors.white)),
-                ),
-              ], indicatorColor: Colors.white),
-              title: Container(
-                height: 45,
-                decoration: BoxDecoration(
-                    color: const Color(0xffF5F5F5),
-                    borderRadius: BorderRadius.circular(5)),
-                child: TextField(
-                  controller: _textController,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                        icon: const Icon(
-                          Icons.clear_rounded,
-                          color: Color(0xFF257155),
-                        ),
-                        onPressed: () {
-                          _textController.text = "";
-                          _filterLogListBySearchText("");
-                        }),
-                    hintText: '   Search...',
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (value) => _filterLogListBySearchText(value),
-                  onSubmitted: (value) => _filterLogListBySearchText(value),
-                ),
+                onChanged: (value) => _filterLogListBySearchText(value),
+                onSubmitted: (value) => _filterLogListBySearchText(value),
               ),
             ),
-            body: TabBarView(
-              children: [
-                searchCountryList(countryList: _filteredCountryList),
-                searchLocationList(locationList: _filteredLocationList),
-                searchRouteList(routeList: _filteredRouteList),
-              ],
-            ),
+          ),
+          body: TabBarView(
+            children: [
+              countryList.isEmpty ? circularIndicator() : searchCountryList(countryList: _filteredCountryList),
+              locationList.isEmpty ? circularIndicator() : SearchLocationList(locationList: _filteredLocationList),
+              routeList.isEmpty ? circularIndicator() : SearchRouteList(routeList: _filteredRouteList),
+            ],
           ),
         ),
       ),
     );
   }
+
+  Widget circularIndicator(){
+    return const Center(
+      child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF257155))),
+    );
+  }
+
 }
+
