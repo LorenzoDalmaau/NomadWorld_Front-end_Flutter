@@ -17,17 +17,17 @@ class SearchBarScreen extends StatefulWidget {
 }
 
 class _SearchBarScreenState extends State<SearchBarScreen> {
-  List<LocationData> locationList = [];
 
-  List<LocationData> _filteredLocationList = [];
   final TextEditingController _textController = TextEditingController();
 
-  List<TravelRoute> routeList = [];
-  List<Country> countryList = [];
+  List<LocationData> locationList = [];
+  List<LocationData> _filteredLocationList = [];
 
-  void goBack() {
-    navigator?.pop(context);
-  }
+  List<TravelRoute> routeList = [];
+  List<TravelRoute> _filteredRouteList = [];
+
+  List<Country> countryList = [];
+  List<Country> _filteredCountryList = [];
 
   @override
   void initState() {
@@ -40,6 +40,14 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
       _filteredLocationList = locationList
           .where((location) =>
               location.name!.toLowerCase().contains(searchText.toLowerCase()))
+          .toList();
+      _filteredRouteList = routeList
+          .where((route) =>
+          route.name!.toLowerCase().contains(searchText.toLowerCase()))
+          .toList();
+      _filteredCountryList = countryList
+          .where((country) =>
+          country.name!.toLowerCase().contains(searchText.toLowerCase()))
           .toList();
     });
   }
@@ -68,7 +76,7 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
               leading: IconButton(
                   icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
                   onPressed: () {
-                    goBack();
+                    Navigator.pop(context);
                   }),
               bottom: const TabBar(tabs: [
                 Tab(
@@ -109,9 +117,9 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
             ),
             body: TabBarView(
               children: [
-                searchCountryList(countryList: countryList),
+                searchCountryList(countryList: _filteredCountryList),
                 searchLocationList(locationList: _filteredLocationList),
-                searchRouteList(routeList: routeList),
+                searchRouteList(routeList: _filteredRouteList),
               ],
             ),
           ),
