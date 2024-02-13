@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    a();
+    chargeApp();
     super.initState();
   }
 
@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  a() async {
+  chargeApp() async {
     await initApp();
   }
 
@@ -43,14 +43,14 @@ class _SplashScreenState extends State<SplashScreen> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var logedUserId = prefs.getInt("userId");
     if(logedUserId != null){
-      Timer(const Duration(seconds: 3), () {
+      Timer(const Duration(seconds: 3), () async {
+
+        if(Provider.of<UserProvider>(context, listen: false).user == null){
+          Provider.of<UserProvider>(context, listen: false).initUser(await ApiService().getUserById(logedUserId!));
+        }
+
         Get.offAllNamed('/navigation');
-
       });
-
-      if(Provider.of<UserProvider>(context, listen: false).user == null){
-        Provider.of<UserProvider>(context, listen: false).initUser(await ApiService().getUserById(logedUserId!));
-      }
 
     }
     else {

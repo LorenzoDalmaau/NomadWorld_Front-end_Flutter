@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nomadworld/utils/api/api_service.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../utils/providers/user_provider.dart';
 
@@ -217,6 +218,10 @@ class _LoginScreenState extends State<LoginScreen> {
           var newUser = await ApiService().loginUser(emailController.text.toString(), passwordController.text.toString());
 
           if (newUser != null) {
+
+            final SharedPreferences prefs = await SharedPreferences.getInstance();
+            var logedUserId = prefs.setInt("userId", newUser.id);
+
             Provider.of<UserProvider>(context, listen: false).initUser(newUser);
 
             Get.snackbar('Genial!', 'Has iniciado sesión correctamente',
