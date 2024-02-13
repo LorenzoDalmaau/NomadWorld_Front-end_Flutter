@@ -14,6 +14,21 @@ class ApiService {
 
   final baseUrl = 'http://3.230.177.201:8000';
 
+  /// Get user by id
+  Future<UserBase> getUserById(int userId) async {
+
+    final response = await http.get(Uri.parse('$baseUrl/users/${userId}'));
+
+    if (response.statusCode == 200) {
+      String body = utf8.decode(response.bodyBytes);
+      final jsonData = jsonDecode(body);
+      return UserBase.fromJson(jsonData);
+    }
+    else {
+      throw Exception("Error al hacer get de un usuario");
+    }
+  }
+
   /// Login User
   Future<UserBase?> loginUser(String email, String password) async {
     var url = Uri.parse('$baseUrl/login');
@@ -27,11 +42,9 @@ class ApiService {
       body: convert.jsonEncode(userMap),
       headers: {'Content-Type': 'application/json'},
     );
-
     // Checking the response
     if (response.statusCode == 200) {
       var jsonResponse = response.body;
-
       return UserBase.fromJson(jsonDecode(jsonResponse));
 
     } else {
@@ -41,25 +54,6 @@ class ApiService {
 
       return null;
     }
-
-    // // Checking the response
-    // if (response.statusCode == 200) {
-    //   var jsonResponse = response.body;
-    //
-    //   if (jsonResponse.contains('User logged successfully')) {
-    //     Get.snackbar('Genial!', 'Has iniciado sesión correctamente',
-    //         snackPosition: SnackPosition.BOTTOM);
-    //     Get.offAllNamed('/navigation');
-    //   } else {
-    //     // Mostrar un mensaje de error si la respuesta no contiene el mensaje esperado
-    //     Get.snackbar('Error', 'Error en la respuesta del servidor',
-    //         snackPosition: SnackPosition.BOTTOM);
-    //   }
-    // } else {
-    //   // Mostrar el código de estado HTTP si la respuesta no es 201
-    //   Get.snackbar('Error', 'HTTP Error: ${response.statusCode}',
-    //       snackPosition: SnackPosition.BOTTOM);
-    // }
 
   }
 
@@ -73,7 +67,8 @@ class ApiService {
       'email': email,
       'password': password
     };
-
+    print("-----");
+    print(url);
     // Sending the user object to the server
     var response = await http.post(url,
         body: convert.jsonEncode(userMap),
@@ -99,6 +94,16 @@ class ApiService {
     }
   }
 
+  /// Restore password
+  Future<bool> restorePassword(String mail) async {
+    final response = await http.patch(Uri.parse('$baseUrl/users/restore_pass/$mail'));
+    if (response.statusCode == 200){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
 
   /// Get popular routes
   Future<List<TravelRoute>> getPopularRoutes() async {
@@ -144,7 +149,7 @@ class ApiService {
 
     List<LocationData> locations = [];
 
-    final response = await http.get(Uri.parse('http://3.230.177.201:8000/location/${country}'));
+    final response = await http.get(Uri.parse('$baseUrl/location/$country'));
     if (response.statusCode == 200){
       String body = utf8.decode(response.bodyBytes);
       final jsonData = jsonDecode(body);
@@ -163,7 +168,8 @@ class ApiService {
 
     List<TravelRoute> routes = [];
 
-    final response = await http.get(Uri.parse('http://3.230.177.201:8000/route/${country}'));
+    final response = await http.get(Uri.parse('$baseUrl/route/${country}'));
+
     if (response.statusCode == 200){
       String body = utf8.decode(response.bodyBytes);
       final jsonData = jsonDecode(body);
@@ -212,13 +218,13 @@ class ApiService {
         // Si la creación es exitosa, mostrar Snackbar y navegar a la otra página
         Get.snackbar('¡Localización creada correctamente!', '',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed('/create-il');
+        Get.toNamed('/navigation');
       } else {
         // Si la respuesta no es 200/201, mostrar un mensaje de error
         Get.snackbar(
             'Error', 'No hemos podido crear tu ubicación',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed('/create-il');
+        Get.toNamed('/navigation');
       }
     } catch (error) {
       // Mostrar un Snackbar en caso de error durante la solicitud HTTP
@@ -251,21 +257,20 @@ class ApiService {
       var response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
-        body: convert.jsonEncode(routeMap),
-      );
+        body: convert.jsonEncode(routeMap),      );
 
       // Checking the response
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Si la creación es exitosa, mostrar Snackbar y navegar a la otra página
-        Get.snackbar('¡Ruta creada correctamente!', '',
+        Get.snackbar('¡Localización creada correctamente!', '',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed('/create-location');
+        Get.toNamed('/navigation');
       } else {
         // Si la respuesta no es 200/201, mostrar un mensaje de error
         Get.snackbar(
-            'Error', 'No hemos podido crear tu ruta',
+            'Error', 'No hemos podido crear tu ubicación',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed('/create-il');
+        Get.toNamed('/navigation');
       }
     } catch (error) {
       // Mostrar un Snackbar en caso de error durante la solicitud HTTP
@@ -273,25 +278,119 @@ class ApiService {
     }
   }
 
-  /// Get Locations list
-  Future<List<LocationData>> getLocations() async {
+  ///GAURDAR RUTAS Y LOCALIZACIONES
 
-    List<LocationData> locations = [];
-    //TODO cambiar url de locations
-    final response = await http.get(Uri.parse('$baseUrl/location'));
-    if (response.statusCode == 200){
-      String body = utf8.decode(response.bodyBytes);
-      final jsonData = jsonDecode(body);
+  saveLocation(int userID, int locationId) async {
 
-      for(var item in jsonData){
-        locations.add(LocationData.fromJson(item));
+    try {
+      final response = await http.patch(
+        Uri.parse('$baseUrl/save/location/?user_id=$userID&location_id=$locationId'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'location': locationId,
+          'user': userID,
+        }),
+      );
+
+      if (response.statusCode == 404) {
+        print('Error 404: ${response.body}');
+      } else if (response.statusCode == 200) {
+        print('Solicitud exitosa: ${response.body}');
+      } else {
+        print("USer_id : $userID");
+        print("Locacion_id: $locationId");
+        print('Error desconocido: ${response.body}');
       }
-      return locations;
+    } catch (e) {
+      print('Error en la solicitud: $e');
     }
-    else {
-      throw Exception("Error al hacer get de localizaciones de un pais");
+
+  }
+
+  saveRoute(int userID, int routeId) async {
+
+    try {
+      print("00000000000000000000000000000");
+      print(Uri.parse('$baseUrl/save/route/?user_id=$userID&route_id=$routeId'));
+      final response = await http.patch(
+        Uri.parse('$baseUrl/save/route/?user_id=$userID&route_id=$routeId'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'route': routeId,
+          'user': userID,
+        }),
+      );
+
+      if (response.statusCode == 404) {
+        print('Error 404: ${response.body}');
+      } else if (response.statusCode == 200) {
+        print('Solicitud exitosa: ${response.body}');
+      } else {
+        print("USer_id : $userID");
+        print("Locacion_id: $routeId");
+        print('Error desconocido: ${response.body}');
+      }
+    } catch (e) {
+      print('Error en la solicitud: $e');
+    }
+
+  }
+
+  unsaveLocation(int userID, int locationId) async {
+
+    try {
+      final response = await http.patch(
+        Uri.parse('$baseUrl/unsave/location/?user_id=$userID&location_id=$locationId'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'location': locationId,
+          'user': userID,
+        }),
+      );
+
+      if (response.statusCode == 404) {
+        print('Error 404: ${response.body}');
+      } else if (response.statusCode == 200) {
+        print('Solicitud exitosa: ${response.body}');
+      } else {
+        print("USer_id : $userID");
+        print("Locacion_id: $locationId");
+        print('Error desconocido: ${response.body}');
+      }
+    } catch (e) {
+      print('Error en la solicitud: $e');
     }
   }
 
+  unsaveRoute(int userID, int routeId) async {
 
+    try {
+      final response = await http.patch(
+        Uri.parse('$baseUrl/unsave/route/?user_id=$userID&route_id=$routeId'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'route': routeId,
+          'user': userID,
+        }),
+      );
+
+      if (response.statusCode == 404) {
+        print('Error 404: ${response.body}');
+      } else if (response.statusCode == 200) {
+        print('Solicitud exitosa: ${response.body}');
+      } else {
+        print('Error desconocido: ${response.body}');
+      }
+    } catch (e) {
+      print('Error en la solicitud: $e');
+    }
+  }
 }

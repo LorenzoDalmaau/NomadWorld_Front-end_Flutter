@@ -2,6 +2,7 @@ import 'package:nomadworld/models/TravelRoute.dart';
 import 'Location.dart';
 
 class UserBase {
+  final int id;
   final String username;
   final String email;
   final String image;
@@ -9,7 +10,7 @@ class UserBase {
   List<TravelRoute> savedRoutes;
   List<LocationData> savedLocations;
 
-  UserBase({required this.username, required this.email, required this.image,required this.password, required this.savedRoutes, required this.savedLocations});
+  UserBase({required this.id, required this.username, required this.email, required this.image,required this.password, required this.savedRoutes, required this.savedLocations});
 
   factory UserBase.fromJson(Map<String, dynamic> parsedJson) {
 
@@ -20,6 +21,7 @@ class UserBase {
     List<TravelRoute> routesList = routesDataList.map((i) => TravelRoute.fromJson(i)).toList();
 
     return UserBase(
+        id: parsedJson['id'],
         username: parsedJson['username'],
         email: parsedJson['email'],
         image: parsedJson['img'],

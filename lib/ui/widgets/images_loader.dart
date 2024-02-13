@@ -17,14 +17,15 @@ class _buildImagesLoader extends State<ImagesLoader> {
   File? image;
   late NomadProvider provider;
 
-
   /// Función para seleccionar camara o galería
   pickImage(ImageSource source) {
     AppImagePicker(source: source).pick(
       onPick: (File? image) {
         setState(
           () {
-            provider.images.add(image!); /// TODO Agregar función que añada las imagenes a la lista del provider
+            provider.images.add(image!);
+
+            /// TODO Agregar función que añada las imagenes a la lista del provider
           },
         );
       },
@@ -49,7 +50,16 @@ class _buildImagesLoader extends State<ImagesLoader> {
                 pickImage(ImageSource.gallery);
                 checkImage();
               },
-              child: const Text('Subir Imagen'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xff195f47),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Text(
+                'Subir Imagen',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
             const SizedBox(width: 20),
             ElevatedButton(
@@ -57,7 +67,13 @@ class _buildImagesLoader extends State<ImagesLoader> {
                 pickImage(ImageSource.camera);
                 checkImage();
               },
-              child: const Text('Hacer Foto'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xff195f47),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Text('Hacer Foto', style: TextStyle(color: Colors.white),),
             ),
           ],
         ),
@@ -77,5 +93,3 @@ class _buildImagesLoader extends State<ImagesLoader> {
     provider.images.clear();
   }
 }
-
-

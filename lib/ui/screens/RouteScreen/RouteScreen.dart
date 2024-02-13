@@ -3,22 +3,48 @@ import 'package:get/get.dart';
 import 'package:nomadworld/models/TravelRoute.dart';
 import 'package:nomadworld/ui/screens/RouteScreen/widgets/Location_Card.dart';
 import 'package:nomadworld/ui/widgets/CarrouselAppbar.dart';
+import 'package:provider/provider.dart';
 
+import '../../../utils/providers/user_provider.dart';
 import '../../widgets/texts/DescriptionText.dart';
 
-class RouteScreen extends StatelessWidget {
+class RouteScreen extends StatefulWidget {
 
   @override
+  State<RouteScreen> createState() => _RouteScreenState();
+}
+
+class _RouteScreenState extends State<RouteScreen> {
+  @override
   Widget build(BuildContext context) {
+    UserProvider provider = Provider.of<UserProvider>(context);
 
     final TravelRoute route = Get.arguments as TravelRoute;
 
     return Scaffold(
-      body: CustomScrollView(
+      body: Stack(
+        children: [
+          CustomScrollView(
             slivers: <Widget>[
-              CarrouselAppBar(name: route.name, images: route.locations[0].images),
+              SliverAppBar(
+                expandedHeight: MediaQuery.of(context).size.height * 0.3,
+                floating: false,
+                pinned: true,
+                title: Text(
+                  route.name,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+                backgroundColor: const Color.fromARGB(255, 20, 134, 94),
+                flexibleSpace: FlexibleSpaceBar(
+                  centerTitle: true,
+                  background: CarrouselAppBar(images: getAllImages(route)),
+                ),
+              ),
               SliverToBoxAdapter(
-                child: DescriptionText(description: route.descrption)
+                  child: DescriptionText(description: route.descrption)
               ),
               SliverToBoxAdapter(
                   child: Padding(
@@ -70,8 +96,8 @@ class RouteScreen extends StatelessWidget {
                       child: Text(
                         "${route.duration} dias",
                         style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold
                         ),
                       ),
                     ),
@@ -102,7 +128,66 @@ class RouteScreen extends StatelessWidget {
                 ),
               ),
             ],
-      ),
+          ),
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(100))),
+                child: _checkLocationSaved(provider, route.id)
+                    ? IconButton(
+                    onPressed: () {
+                      provider.deleteSavedRoute(route.id);
+                      setState(() {
+
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.bookmark,
+                      color: Color.fromARGB(255, 20, 134, 94),
+                      size: 30,
+                    ))
+                    : IconButton(
+                    onPressed: () {
+                      provider.saveRoute(route);
+                      setState(() {
+
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.bookmark_border,
+                      size: 30,
+                    )
+                ),
+              ),
+            ),
+          ),
+        ],
+      )
     );
+
+  }
+
+  bool _checkLocationSaved(UserProvider provider, int routeID){
+    for (var locationsSaved in provider.savedRoutes){
+      if(locationsSaved.id == routeID){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  List<String> getAllImages(TravelRoute route){
+    List<String> images = [];
+
+    for( var location in route.locations){
+      images.addAll(location.images);
+    }
+
+    return images;
   }
 }

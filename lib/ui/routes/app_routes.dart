@@ -4,6 +4,8 @@ import 'package:nomadworld/ui/screens/LocationDetailScreen/LocationDetail.dart';
 import 'package:nomadworld/ui/screens/LoginScreen/login_screen.dart';
 import 'package:nomadworld/ui/screens/RegisterScreen/register_screen.dart';
 import 'package:nomadworld/ui/screens/countri_screen/contri_screen.dart';
+import 'package:nomadworld/ui/screens/password_recobery/password_recobery.dart';
+import 'package:nomadworld/ui/screens/splash_screen.dart';
 import 'package:nomadworld/ui/widgets/navigation/bottom_nav.dart';
 import '../screens/CreateIL/create_il.dart';
 import '../screens/RouteScreen/RouteScreen.dart';
@@ -13,8 +15,10 @@ import '../screens/searchbar_screen/searchbar_screen.dart';
 
 class AppRoutes {
   static final List<GetPage> routes = [
+    GetPage(name: '/splash', page: () => const SplashScreen()),
     GetPage(name: '/navigation', page: () => const BottomNav()),
     GetPage(name: '/login', page: () => const LoginScreen()),
+    GetPage(name: '/recovery_password', page: () => const RecoveryPasswordScreen()),
     GetPage(name: '/register', page: () => const RegisterScreen()),
     GetPage(name: '/home', page: () => HomeScreen()),
     GetPage(name: '/create-il', page: () => const CreateIL()),

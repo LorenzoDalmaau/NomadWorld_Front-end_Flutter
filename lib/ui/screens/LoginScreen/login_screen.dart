@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nomadworld/models/user_base.dart';
 import 'package:nomadworld/utils/api/api_service.dart';
-import 'package:nomadworld/utils/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+
+import '../../../utils/providers/user_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,6 +13,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  bool _obscureText = true;
   late Size mediaSize;
 
   TextEditingController emailController = TextEditingController();
@@ -82,9 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Card(
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(50),
-            topRight: Radius.circular(50)
-          ),
+              topLeft: Radius.circular(50), topRight: Radius.circular(50)),
         ),
         child: Padding(
           padding: const EdgeInsets.all(32.0),
@@ -108,10 +108,12 @@ class _LoginScreenState extends State<LoginScreen> {
         _buildGreenText("Please login with your information"),
         const SizedBox(height: 25),
         _buildGreenText("Email address"),
-        _buildInputField(emailController),
+        // _buildInputField(emailController),
+        _buildEmailInputField(),
         const SizedBox(height: 20),
         _buildGreenText("Password"),
-        _buildInputField(passwordController, isPassword: true),
+        // _buildInputField(passwordController, isPassword: true),
+        _buildPasswordInputField(),
         const SizedBox(height: 10),
         _buildRegisterText(),
         const SizedBox(height: 30),
@@ -130,15 +132,81 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildInputField(TextEditingController controller, {isPassword = false}) {
+  // Widget _buildInputField(TextEditingController controller, {isPassword = false}) {
+  //   return TextField(
+  //     controller: controller,
+  //     decoration: InputDecoration(
+  //       suffixIcon: isPassword
+  //           ? const Icon(Icons.remove_red_eye)
+  //           : const Icon(Icons.person_2_outlined),
+  //     ),
+  //     obscureText: isPassword,
+  //
+  //   );
+  // }
+
+  /// Nuevos textfield
+  Widget _buildEmailInputField() {
     return TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        suffixIcon: isPassword
-            ? const Icon(Icons.remove_red_eye)
-            : const Icon(Icons.person_2_outlined),
+      controller: emailController,
+      cursorColor: Color(0xFF195F47),
+      decoration: const InputDecoration(
+        hintText: 'Email',
+        hintStyle: TextStyle(
+          color: Colors.grey,
+          fontSize: 16.0,
+        ),
+        prefixIcon: Icon(
+          Icons.email,
+          color: Colors.grey,
+        ),
+        focusedBorder: UnderlineInputBorder( // Cambia el color de la línea cuando el TextField está enfocado
+          borderSide: BorderSide(
+            color: Color(0xFF195F47), // Cambia este color al que desees
+            width: 2.0,
+          ),
+        ),
       ),
-      obscureText: isPassword,
+    );
+  }
+
+  Widget _buildPasswordInputField() {
+    return TextField(
+      controller: passwordController,
+      obscureText: _obscureText,
+      cursorColor: Color(0xFF195F47),
+      decoration: InputDecoration(
+        hintText: 'Password',
+        hintStyle: const TextStyle(
+          color: Colors.grey,
+          fontSize: 16.0,
+        ),
+        prefixIcon: const Icon(
+          Icons.lock,
+          color: Colors.grey,
+        ),
+        suffixIcon: Padding(
+          padding: const EdgeInsetsDirectional.only(end: 5.0),
+          child: InkWell(
+            onTap: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
+            child: Icon(
+              _obscureText ? Icons.visibility : Icons.visibility_off,
+              color: Colors.grey,
+            ),
+          ),
+        ),
+        focusedBorder: const UnderlineInputBorder( // Cambia el color de la línea cuando el TextField está enfocado
+          borderSide: BorderSide(
+            color: Color(0xFF195F47), // Cambia este color al que desees
+            width: 2.0,
+          ),
+        ),
+      ),
+
     );
   }
 
@@ -193,12 +261,10 @@ class _LoginScreenState extends State<LoginScreen> {
             style: TextStyle(
                 fontSize: 13,
                 color: Color(0xFF195F47),
-                fontWeight: FontWeight.bold
-            ),
+                fontWeight: FontWeight.bold),
           ),
         ),
       ],
     );
   }
-
 }

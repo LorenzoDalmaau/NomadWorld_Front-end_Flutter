@@ -88,7 +88,7 @@ class _CreateRouteState extends State<CreateRoute> {
             child: const Text(
               'Crear ruta',
               style: TextStyle(
-                color: Colors.green,
+                color: Color(0xff195f47),
                 fontWeight: FontWeight.bold,
                 fontSize: 17,
                 letterSpacing: 0.5,
