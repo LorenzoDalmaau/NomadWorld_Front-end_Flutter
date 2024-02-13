@@ -105,6 +105,25 @@ class ApiService {
     }
   }
 
+  /// Get Locations list
+  Future<List<LocationData>> getLocations() async {
+
+    List<LocationData> locations = [];
+    final response = await http.get(Uri.parse('$baseUrl/location'));
+    if (response.statusCode == 200){
+      String body = utf8.decode(response.bodyBytes);
+      final jsonData = jsonDecode(body);
+
+      for(var item in jsonData){
+        locations.add(LocationData.fromJson(item));
+      }
+      return locations;
+    }
+    else {
+      throw Exception("Error al hacer get de localizaciones de un pais");
+    }
+  }
+
   /// Get popular routes
   Future<List<TravelRoute>> getPopularRoutes() async {
 
