@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:nomadworld/utils/api/api_service.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
@@ -21,7 +20,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordConfirmationController =
-      TextEditingController();
+  TextEditingController();
 
   File? _imageSelected; // Image selected from user
 
@@ -114,7 +113,15 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                     /// Botón de guardar
                     Center(
                       child: ElevatedButton(
-                        onPressed: () => null,
+                        onPressed: () => modifyUser(),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xff195f47),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 30, vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
                         child: const Text(
                           'Actualizar perfil',
                           style: TextStyle(color: Colors.white),
@@ -132,30 +139,49 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
   }
 
   modifyUser() {
-    var provider = Provider.of<NomadProvider>(context);
     String? image;
     String? username;
     String? password;
 
-    // Imagen tipo File a base64
+    // Esta función se encargará de convertir la imagen seleccionada a base64
+    if (_imageSelected != null) {
+      image = ImagePickerHelper().convertImageToBase64(_imageSelected!);
+    } else {
+      image = null;
+    }
 
-
-
+    // Validar que username no esté vacío
     if (_usernameController.text.isEmpty) {
       username = null;
     } else {
       username = _usernameController.text;
     }
 
+    // Validar que password no esté vacío
     if (_passwordController.text.isEmpty) {
-      username = null;
+      password = null;
     } else {
-      username = _passwordController.text;
+      password = _passwordController.text;
     }
 
+    // Validar que password y passwordConfirmation sean iguales
+    if (_passwordController.text != _passwordConfirmationController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Las contraseñas no coinciden'),
+        ),
+      );
+      return;
+    }
 
+    // Llamar a la función de modificar usuario
+    ApiService().modifyUser(
+      _userProvider.user!.id,
+      username,
+      password,
+      image,
+    );
   }
-
 
   /// Esta función se encargará de permitir al usuario elegir entre imagen de galería o cámara.
   Future<void> _selectedImage() async {
@@ -199,7 +225,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                   // Nombre del usuario
                   Padding(
                     padding:
-                        const EdgeInsets.only(left: 20, right: 20, top: 50),
+                    const EdgeInsets.only(left: 20, right: 20, top: 50),
                     child: Text(
                       _userProvider.user!.username,
                       style: const TextStyle(
@@ -230,9 +256,9 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                         backgroundImage: _imageSelected != null
                             ? FileImage(_imageSelected!)
                             : _userProvider.user!.image != null
-                                ? NetworkImage(_userProvider.user!.image!)
-                                : const AssetImage('assets/user_icon.png')
-                                    as ImageProvider,
+                            ? NetworkImage(_userProvider.user!.image!)
+                            : const AssetImage('assets/user_icon.png')
+                        as ImageProvider,
                       ),
 
                       // Icono de edición
@@ -241,7 +267,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                         right: 0,
                         child: InkWell(
                           onTap: () {
-                            // Implementa aquí ImagePicker
+                            // Implementar aquí ImagePicker
                             _selectedImage();
                           },
                           child: Container(
@@ -277,7 +303,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
                 onPressed: () => Navigator.pop(context),
                 icon: const Icon(
                   Icons.arrow_back,
-                  color: Colors.black,
+                  color: Colors.white,
                   size: 30,
                 ),
               ),

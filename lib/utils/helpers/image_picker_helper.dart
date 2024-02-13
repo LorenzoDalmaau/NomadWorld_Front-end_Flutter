@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -59,5 +60,13 @@ class ImagePickerHelper {
         );
       },
     );
+  }
+
+  /// Image to base64
+  // Función para convertir una imagen en base64
+  String convertImageToBase64(File imageFile) {
+    List<int> imageBytes = imageFile.readAsBytesSync();
+    String base64Image = base64Encode(imageBytes);
+    return base64Image;
   }
 }
