@@ -218,13 +218,13 @@ class ApiService {
         // Si la creación es exitosa, mostrar Snackbar y navegar a la otra página
         Get.snackbar('¡Localización creada correctamente!', '',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed('/create-il');
+        Get.toNamed('/navigation');
       } else {
         // Si la respuesta no es 200/201, mostrar un mensaje de error
         Get.snackbar(
             'Error', 'No hemos podido crear tu ubicación',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed('/create-il');
+        Get.toNamed('/navigation');
       }
     } catch (error) {
       // Mostrar un Snackbar en caso de error durante la solicitud HTTP
@@ -262,15 +262,15 @@ class ApiService {
       // Checking the response
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Si la creación es exitosa, mostrar Snackbar y navegar a la otra página
-        Get.snackbar('¡Ruta creada correctamente!', '',
+        Get.snackbar('¡Localización creada correctamente!', '',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed('/create-location');
+        Get.toNamed('/navigation');
       } else {
         // Si la respuesta no es 200/201, mostrar un mensaje de error
         Get.snackbar(
-            'Error', 'No hemos podido crear tu ruta',
+            'Error', 'No hemos podido crear tu ubicación',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed('/create-il');
+        Get.toNamed('/navigation');
       }
     } catch (error) {
       // Mostrar un Snackbar en caso de error durante la solicitud HTTP
