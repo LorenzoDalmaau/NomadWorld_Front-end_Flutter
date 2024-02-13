@@ -1,5 +1,6 @@
 import 'dart:convert' as convert;
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/snackbar/snackbar.dart';
@@ -207,7 +208,7 @@ class ApiService {
   }
 
   /// POST Create Route
-  Future<void> createRoute(Country country,String nameRoute, String descriptionRoute, List<int> locationIds) async {
+  Future<void> createRoute(Country country,String nameRoute, String descriptionRoute, List<int> locationIds, int distance, int duration) async {
     var url = Uri.parse('$baseUrl/create_route/${country.name}');
 
     // Mostrar Snackbar indicando que la ubicación se está creando
@@ -219,9 +220,9 @@ class ApiService {
     final Map<String, dynamic> routeMap = {
       'id': 0,
       'name': nameRoute,
-      'description': descriptionRoute, // TODO Agregar descripción
-      'distance': 0, // TODO Agregar distancia
-      'duration': 0, // TODO Agregar duración
+      'description': descriptionRoute,
+      'distance': distance,
+      'duration': duration,
       'country_id': country.id,
       'location_id': locationIds,
     };

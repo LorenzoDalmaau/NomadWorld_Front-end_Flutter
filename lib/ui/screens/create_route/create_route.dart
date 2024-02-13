@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:nomadworld/models/Location.dart';
 import 'package:nomadworld/ui/widgets/create_il/create_il_dropdown_title.dart';
@@ -24,6 +26,7 @@ class _CreateRouteState extends State<CreateRoute> {
   late bool isLoading;
   late Country dropdownValue;
   late int dropdownValueDistance;
+  late int dropdownValueDuration;
 
   TextEditingController nameRouteController = TextEditingController();
   TextEditingController descriptionRouteController = TextEditingController();
@@ -50,6 +53,7 @@ class _CreateRouteState extends State<CreateRoute> {
       provider.setAPIContries(countries);
       setState(() {
         dropdownValueDistance = 1;
+        dropdownValueDuration = 1;
         dropdownValue = countries[0];
 
         isLoading = false;
@@ -60,9 +64,10 @@ class _CreateRouteState extends State<CreateRoute> {
         isLoading = false; // Ocultar indicador de carga en caso de error
       });
     }
-  }
 
-  /// Peticion de localizaciones de un país
+
+  }
+    /// Peticion de localizaciones de un país
   getLocations() async {
     List<LocationData> apiResponse =
         await ApiService().getCountryLocations(dropdownValue.name);
@@ -83,7 +88,10 @@ class _CreateRouteState extends State<CreateRoute> {
                   dropdownValue,
                   nameRouteController.text.toString(),
                   descriptionRouteController.text.toString(),
-                  selectedLocations);
+                  selectedLocations,
+                  dropdownValueDistance,
+                  dropdownValueDuration
+                  );
             },
             child: const Text(
               'Crear ruta',
@@ -164,6 +172,7 @@ class _CreateRouteState extends State<CreateRoute> {
                         CreateILName(
                             ilName: 'Selecciona la distancia de tu ruta'),
 
+
                         const SizedBox(height: 10),
 
                         /// Dropdown Menu
@@ -193,6 +202,37 @@ class _CreateRouteState extends State<CreateRoute> {
                         ),
 
                         const SizedBox(height: 10),
+
+                        ///Duration
+                        CreateILName(
+                            ilName: 'Selecciona la duración de tu ruta'),
+
+                        DropdownButton<int>(
+                          value: dropdownValueDuration,
+                          // Valor inicial del dropdown menu
+                          // Actualizar el valor del dropdown menu por el valor seleccionado
+                          onChanged: (int? newDropdownValue) {
+                            setState(() {
+                              dropdownValueDuration = newDropdownValue!;
+                            });
+                          },
+                          // Lista de items del dropdown menu
+                          items: <DropdownMenuItem<int>>[
+                            for (int i = 1; i <= 31; i++)
+                              DropdownMenuItem<int>(
+                                value: i,
+                                child: Text('$i dias'),
+                              ),
+                            // Mostrar la opción de más de 500 km
+                            const DropdownMenuItem<int>(
+                              value: 32,
+                              child: Text('Más de 31 dias'),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 10),
+
 
                         const dropdown_menu_title(),
 
@@ -237,6 +277,7 @@ class _CreateRouteState extends State<CreateRoute> {
                         /// SearchBar
                         /// Este searcBar muestra una lista de localizaciones del país seleccionado donde el usuario puede seleccionar las localizaciones de la ruta
                         /// Por defecto, muestra las localizaciones del primer país de la lista
+
                         RouteSearchBar(
                           locations: countryLocations,
                           selectedLocations: selectedLocations,
