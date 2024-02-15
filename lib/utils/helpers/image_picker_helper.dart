@@ -65,8 +65,8 @@ class ImagePickerHelper {
   /// Image to base64
   // Función para convertir una imagen en base64
   String convertImageToBase64(File imageFile) {
-    List<int> imageBytes = imageFile.readAsBytesSync();
-    String base64Image = base64Encode(imageBytes);
+    var imageByte = imageFile.readAsBytesSync();
+    String base64Image = base64Encode(imageByte);
     return base64Image;
   }
 }

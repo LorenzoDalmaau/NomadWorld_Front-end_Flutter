@@ -108,8 +108,10 @@ class _CreateLocationState extends State<CreateLocation> {
         actions: [
           TextButton(
             onPressed: () {
+              List<String> base64Images = provider.convertImagesToBase64();
+              print("BASE64 IMAGES: ${base64Images[1]}");
               if (validateFields()) {
-                List<String> base64Images = provider.convertImagesToBase64();
+
                 ApiService().createLocation(
                   nameLocationController.text.toString(),
                   descriptionLocationController.text.toString(),

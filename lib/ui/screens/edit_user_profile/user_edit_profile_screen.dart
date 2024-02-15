@@ -15,6 +15,7 @@ class UserEditProfileScreen extends StatefulWidget {
 
 class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
   late UserProvider _userProvider;
+  late NomadProvider _nomadProvider;
 
   final TextEditingController _imageController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
@@ -27,7 +28,12 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context);
+    _nomadProvider = Provider.of<NomadProvider>(context);
     var userId = _userProvider.user!.id;
+
+    print(userId);
+
+
 
     return Scaffold(
       body: Column(

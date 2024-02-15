@@ -382,11 +382,13 @@ class ApiService {
 
     // Crear el objeto usuario
     Map<String, dynamic> userMap = {
-      'id': userId,
-      'username': username,
-      'password': password,
-      'image': image,
+      'newUsername': username,
+      'newPassword': password,
+      'newImg': image,
     };
+
+    print("USERMAP");
+    print(userMap);
 
     // Enviar el objeto usuario al servidor
     var response = await http.patch(
@@ -394,6 +396,9 @@ class ApiService {
       headers: {'Content-Type': 'application/json'},
       body: convert.jsonEncode(userMap),
     );
+
+    print("RESPONSE");
+    print(response.body);
 
     // Comprobar la respuesta
     if (response.statusCode == 200) {
