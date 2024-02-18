@@ -2,8 +2,6 @@ import 'dart:convert' as convert;
 import 'dart:convert';
 import 'dart:ffi';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 import '../../models/Country.dart';
