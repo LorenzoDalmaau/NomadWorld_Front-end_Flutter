@@ -15,6 +15,21 @@ class ApiService {
 
   final baseUrl = 'http://3.230.177.201:8000';
 
+  /// Get user by id
+  Future<UserBase> getUserById(int userId) async {
+
+    final response = await http.get(Uri.parse('$baseUrl/users/${userId}'));
+
+    if (response.statusCode == 200) {
+      String body = utf8.decode(response.bodyBytes);
+      final jsonData = jsonDecode(body);
+      return UserBase.fromJson(jsonData);
+    }
+    else {
+      throw Exception("Error al hacer get de un usuario");
+    }
+  }
+
   /// Login User
   Future<UserBase?> loginUser(String email, String password) async {
     var url = Uri.parse('$baseUrl/login');
@@ -53,7 +68,8 @@ class ApiService {
       'email': email,
       'password': password
     };
-
+    print("-----");
+    print(url);
     // Sending the user object to the server
     var response = await http.post(url,
         body: convert.jsonEncode(userMap),
@@ -79,6 +95,35 @@ class ApiService {
     }
   }
 
+  /// Restore password
+  Future<bool> restorePassword(String mail) async {
+    final response = await http.patch(Uri.parse('$baseUrl/users/restore_pass/$mail'));
+    if (response.statusCode == 200){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+  /// Get Locations list
+  Future<List<LocationData>> getLocations() async {
+
+    List<LocationData> locations = [];
+    final response = await http.get(Uri.parse('$baseUrl/location'));
+    if (response.statusCode == 200){
+      String body = utf8.decode(response.bodyBytes);
+      final jsonData = jsonDecode(body);
+
+      for(var item in jsonData){
+        locations.add(LocationData.fromJson(item));
+      }
+      return locations;
+    }
+    else {
+      throw Exception("Error al hacer get de localizaciones de un pais");
+    }
+  }
 
   /// Get popular routes
   Future<List<TravelRoute>> getPopularRoutes() async {
@@ -193,13 +238,13 @@ class ApiService {
         // Si la creación es exitosa, mostrar Snackbar y navegar a la otra página
         Get.snackbar('¡Localización creada correctamente!', '',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed('/create-il');
+        Get.toNamed('/navigation');
       } else {
         // Si la respuesta no es 200/201, mostrar un mensaje de error
         Get.snackbar(
             'Error', 'No hemos podido crear tu ubicación',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed('/create-il');
+        Get.toNamed('/navigation');
       }
     } catch (error) {
       // Mostrar un Snackbar en caso de error durante la solicitud HTTP
@@ -237,15 +282,15 @@ class ApiService {
       // Checking the response
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Si la creación es exitosa, mostrar Snackbar y navegar a la otra página
-        Get.snackbar('¡Ruta creada correctamente!', '',
+        Get.snackbar('¡Localización creada correctamente!', '',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed('/create-location');
+        Get.toNamed('/navigation');
       } else {
         // Si la respuesta no es 200/201, mostrar un mensaje de error
         Get.snackbar(
-            'Error', 'No hemos podido crear tu ruta',
+            'Error', 'No hemos podido crear tu ubicación',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed('/create-il');
+        Get.toNamed('/navigation');
       }
     } catch (error) {
       // Mostrar un Snackbar en caso de error durante la solicitud HTTP

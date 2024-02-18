@@ -122,7 +122,7 @@ class _CreateLocationState extends State<CreateLocation> {
             child: const Text(
               'Crear ubicación',
               style: TextStyle(
-                color: Colors.green,
+                color: Color(0xff195f47),
                 fontWeight: FontWeight.bold,
                 fontSize: 17,
                 letterSpacing: 0.5,
