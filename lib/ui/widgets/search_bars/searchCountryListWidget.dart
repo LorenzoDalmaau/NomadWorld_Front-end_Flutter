@@ -4,29 +4,23 @@ import 'package:get/get_core/src/get_main.dart';
 
 import '../../../models/Country.dart';
 
-class searchCountryList extends StatefulWidget {
+class searchCountryList extends StatelessWidget {
   List<Country> countryList = [];
-
 
   searchCountryList({super.key, required this.countryList});
 
   @override
-  State<searchCountryList> createState() => _searchCountryListState();
-}
-
-class _searchCountryListState extends State<searchCountryList> {
-  @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      child: ListView.builder(
-        itemCount: widget.countryList.length,
-        itemBuilder: (BuildContext context, int index) {
-          print(widget.countryList.length);
-          return CountryInfoCard(country: widget.countryList[index]);
-        },
-      ),
-    );
+    return countryList.isEmpty
+        ? const Center(
+            child: Text("No se han encontrado resultados"),
+          )
+        : ListView.builder(
+            itemCount: countryList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return CountryInfoCard(country: countryList[index]);
+            },
+          );
   }
 }
 
@@ -38,7 +32,7 @@ class CountryInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         Get.toNamed('/country', arguments: country);
       },
       child: Padding(
@@ -46,8 +40,7 @@ class CountryInfoCard extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
               color: Colors.grey[300],
-              borderRadius: const BorderRadius.all(Radius.circular(10))
-          ),
+              borderRadius: const BorderRadius.all(Radius.circular(10))),
           child: Row(
             children: [
               /// Imagen
@@ -65,20 +58,20 @@ class CountryInfoCard extends StatelessWidget {
                   ),
                 ),
               ),
+
               /// Título y descripción
               Expanded(
                 flex: 4,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Text(
-                    country.name,
-                    style: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  )
-                ),
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Text(
+                      country.name,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )),
               )
             ],
           ),

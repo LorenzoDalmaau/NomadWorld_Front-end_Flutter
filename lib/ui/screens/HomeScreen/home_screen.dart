@@ -40,100 +40,102 @@ class _HomeScreenState extends State<HomeScreen> {
     provider = Provider.of<NomadProvider>(context);
     provider.setAPIContries(country_list);
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.34,
-            decoration: const BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Color.fromARGB(150, 0, 0, 0),
-                  blurRadius: 20,
-                ),
-              ],
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(25),
-                bottomRight: Radius.circular(25),
-              ),
-              image: DecorationImage(
-                image: AssetImage('assets/card_background.jpg'),
-                fit: BoxFit.cover,
-              ),
-            ),
-
-            child: Column(
-              children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.0265),
-                Padding(
-                    padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.height * 0.02, 0, MediaQuery.of(context).size.height * 0.02, MediaQuery.of(context).size.height * 0.02),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Rutas Populares",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.search,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/searchbar');
-                          },
-                        ),
-                      ],
-                    )
-                ),
-                Container(
-                    height: MediaQuery.of(context).size.height * 0.20,
-                    child: FutureBuilder<List<TravelRoute>>(
-                      future: widget.route_list,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          if (snapshot.hasData) {
-                            return Padding(
-                                padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.height * 0.02, 0, MediaQuery.of(context).size.height * 0.02, 0),
-                                child: PopularRoutesList(routes: snapshot.data!)
-                            );
-                          } else if (snapshot.hasError) {
-                            print(snapshot);
-                            return const Text("ERROR");
-                          }
-                        }
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                    )
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                )
-              ],
-            ),
-          ),
-
-          Padding(
-            padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
-            child: const Row(
-                children: [
-                  Text("Paises",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold
-                    ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.34,
+              decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(150, 0, 0, 0),
+                    blurRadius: 20,
                   ),
-                ]
+                ],
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(25),
+                  bottomRight: Radius.circular(25),
+                ),
+                image: DecorationImage(
+                  image: AssetImage('assets/card_background.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+        
+              child: Column(
+                children: [
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.0265),
+                  Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Comienza tu viaje!",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.search,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/searchbar');
+                            },
+                          ),
+                        ],
+                      )
+                  ),
+                  Container(
+                      height: MediaQuery.of(context).size.height * 0.20,
+                      child: FutureBuilder<List<TravelRoute>>(
+                        future: widget.route_list,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.done) {
+                            if (snapshot.hasData) {
+                              return Padding(
+                                  padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.height * 0.02, 0, MediaQuery.of(context).size.height * 0.02, 0),
+                                  child: PopularRoutesList(routes: snapshot.data!)
+                              );
+                            } else if (snapshot.hasError) {
+                              print(snapshot);
+                              return const Text("ERROR");
+                            }
+                          }
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      )
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  )
+                ],
+              ),
             ),
-          ),
-          Expanded(child: ContryList())
-        ],
+        
+            Padding(
+              padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+              child: const Row(
+                  children: [
+                    Text("Paises",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ]
+              ),
+            ),
+            Expanded(child: ContryList())
+          ],
+        ),
       ),
     );
   }

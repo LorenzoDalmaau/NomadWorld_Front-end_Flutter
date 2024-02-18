@@ -14,12 +14,17 @@ class SearchLocationList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return locationList.isEmpty
+        ? const Center(
+            child: Text("No se han encontrado resultados"),
+          )
+        : ListView.builder(
       itemCount: locationList.length,
       itemBuilder: (BuildContext context, int index) {
         return LocationInfoCard(location: locationList[index]);
       },
-    );
+    )
+      ;
   }
 }
 

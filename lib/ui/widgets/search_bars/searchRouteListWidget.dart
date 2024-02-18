@@ -10,12 +10,17 @@ class SearchRouteList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return routeList.isEmpty
+        ? const Center(
+            child: Text("No se han encontrado resultados"),
+          )
+        : ListView.builder(
       itemCount: routeList.length,
       itemBuilder: (BuildContext context, int index) {
         return RouteInfoCart(route: routeList[index]);
       },
-    );
+    )
+    ;
   }
 }
 

@@ -22,151 +22,153 @@ class _RouteScreenState extends State<RouteScreen> {
     final TravelRoute route = Get.arguments as TravelRoute;
 
     return Scaffold(
-      body: Stack(
-        children: [
-          CustomScrollView(
-            slivers: <Widget>[
-              SliverAppBar(
-                expandedHeight: MediaQuery.of(context).size.height * 0.3,
-                floating: false,
-                pinned: true,
-                title: Text(
-                  route.name,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold
+      body: SafeArea(
+        child: Stack(
+          children: [
+            CustomScrollView(
+              slivers: <Widget>[
+                SliverAppBar(
+                  expandedHeight: MediaQuery.of(context).size.height * 0.3,
+                  floating: false,
+                  pinned: true,
+                  title: Text(
+                    route.name,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  backgroundColor: const Color.fromARGB(255, 20, 134, 94),
+                  flexibleSpace: FlexibleSpaceBar(
+                    centerTitle: true,
+                    background: CarrouselAppBar(images: getAllImages(route)),
                   ),
                 ),
-                backgroundColor: const Color.fromARGB(255, 20, 134, 94),
-                flexibleSpace: FlexibleSpaceBar(
-                  centerTitle: true,
-                  background: CarrouselAppBar(images: getAllImages(route)),
+                SliverToBoxAdapter(
+                    child: DescriptionText(description: route.descrption)
                 ),
-              ),
-              SliverToBoxAdapter(
-                  child: DescriptionText(description: route.descrption)
-              ),
-              SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.height * 0.01, MediaQuery.of(context).size.height * 0.01, MediaQuery.of(context).size.height * 0.01, MediaQuery.of(context).size.height * 0.005),
-                    child: Column(
-                      children: [
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.035,
-                          child: const SingleChildScrollView(
-                              child: Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Text(
-                                  "Itinerario",
-                                  style: TextStyle(
-                                      fontSize: 23,
-                                      fontWeight: FontWeight.bold
+                SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.height * 0.01, MediaQuery.of(context).size.height * 0.01, MediaQuery.of(context).size.height * 0.01, MediaQuery.of(context).size.height * 0.005),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.035,
+                            child: const SingleChildScrollView(
+                                child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Text(
+                                    "Itinerario",
+                                    style: TextStyle(
+                                        fontSize: 23,
+                                        fontWeight: FontWeight.bold
+                                    ),
                                   ),
-                                ),
-                              )
-                          ),
-                        ),
-
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.005,
-                          decoration: const BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromARGB(150, 0, 0, 0),
-                                blurRadius: 20,
-                              ),
-                            ],
-                            image: DecorationImage(
-                              image: AssetImage('assets/card_background.jpg'),
-                              fit: BoxFit.cover,
+                                )
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  )
-              ),
-
-              SliverToBoxAdapter(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
-                      child: Text(
-                        "${route.duration} dias",
-                        style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold
-                        ),
+        
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.005,
+                            decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromARGB(150, 0, 0, 0),
+                                  blurRadius: 20,
+                                ),
+                              ],
+                              image: DecorationImage(
+                                image: AssetImage('assets/card_background.jpg'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
-                      child: Text(
-                        "${route.distance}Km",
-                        style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              SliverGrid(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 0.7,
-                  crossAxisCount: 2,
-                ),
-                delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                    return LocationCard(location: route.locations[index]);
-                  },
-                  childCount: route.locations.length,
-                ),
-              ),
-            ],
-          ),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(100))),
-                child: _checkLocationSaved(provider, route.id)
-                    ? IconButton(
-                    onPressed: () {
-                      provider.deleteSavedRoute(route.id);
-                      setState(() {
-
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.bookmark,
-                      color: Color.fromARGB(255, 20, 134, 94),
-                      size: 30,
-                    ))
-                    : IconButton(
-                    onPressed: () {
-                      provider.saveRoute(route);
-                      setState(() {
-
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.bookmark_border,
-                      size: 30,
                     )
+                ),
+        
+                SliverToBoxAdapter(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
+                        child: Text(
+                          "${route.duration} dias",
+                          style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
+                        child: Text(
+                          "${route.distance}Km",
+                          style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+        
+                SliverGrid(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: 0.7,
+                    crossAxisCount: 2,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                      return LocationCard(location: route.locations[index]);
+                    },
+                    childCount: route.locations.length,
+                  ),
+                ),
+              ],
+            ),
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(100))),
+                  child: _checkLocationSaved(provider, route.id)
+                      ? IconButton(
+                      onPressed: () {
+                        provider.deleteSavedRoute(route.id);
+                        setState(() {
+        
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.bookmark,
+                        color: Color.fromARGB(255, 20, 134, 94),
+                        size: 30,
+                      ))
+                      : IconButton(
+                      onPressed: () {
+                        provider.saveRoute(route);
+                        setState(() {
+        
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.bookmark_border,
+                        size: 30,
+                      )
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       )
     );
 

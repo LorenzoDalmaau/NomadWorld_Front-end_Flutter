@@ -19,9 +19,9 @@ class _LocationDetailState extends State<LocationDetail> {
     UserProvider provider = Provider.of<UserProvider>(context);
 
     final LocationData location = Get.arguments as LocationData;
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
           children: [
             CustomScrollView(
               slivers: [
@@ -66,7 +66,7 @@ class _LocationDetailState extends State<LocationDetail> {
                           onPressed: () {
                             provider.deleteSavedLocation(location.id);
                             setState(() {
-
+            
                             });
                           },
                           icon: const Icon(
@@ -78,7 +78,7 @@ class _LocationDetailState extends State<LocationDetail> {
                           onPressed: () {
                             provider.saveLocation(location);
                             setState(() {
-
+            
                             });
                           },
                           icon: const Icon(

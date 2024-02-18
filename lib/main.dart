@@ -19,14 +19,17 @@ class MyApp extends StatelessWidget {
         ListenableProvider<NomadProvider>(create: (_) => NomadProvider()),
         ListenableProvider<UserProvider>(create: (_) => UserProvider()),
       ],
-      child: GetMaterialApp(
-        title: 'Nomad World',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          useMaterial3: true,
+      child: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: GetMaterialApp(
+          title: 'Nomad World',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            useMaterial3: true,
+          ),
+          initialRoute: '/splash',
+          getPages: AppRoutes.routes,
         ),
-        initialRoute: '/splash',
-        getPages: AppRoutes.routes,
       ),
     );
   }
