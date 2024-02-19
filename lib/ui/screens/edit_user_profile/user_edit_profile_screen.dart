@@ -3,6 +3,7 @@ import 'package:nomadworld/utils/api/api_service.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 import '../../../domain/provider/provider.dart';
+import '../../../models/user_base.dart';
 import '../../../utils/helpers/image_picker_helper.dart';
 import '../../../utils/providers/user_provider.dart';
 
@@ -180,6 +181,19 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
       return;
     }
 
+    // Actualizar el usuario en el provider
+    _userProvider.modifyUser(
+      UserBase(
+        id: _userProvider.user!.id,
+        username: username == null ? _userProvider.user!.username : username!,
+        password: password == null ? _userProvider.user!.password : password!,
+        email: _userProvider.user!.email,
+        image: image == null ? _userProvider.user!.image : image!,
+        savedRoutes: _userProvider.user!.savedRoutes,
+        savedLocations: _userProvider.user!.savedLocations,
+      ),
+    );
+
     // Llamar a la función de modificar usuario
     ApiService().modifyUser(
       _userProvider.user!.id,
@@ -187,6 +201,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
       password,
       image,
     );
+
   }
 
   /// Esta función se encargará de permitir al usuario elegir entre imagen de galería o cámara.

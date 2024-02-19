@@ -52,9 +52,9 @@ class UserProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  // // Modificar usuario
-  // modifyUser(String username, String password, String){
-  //
-  //   notifyListeners();
-  // }
+  // Modificar usuario
+  modifyUser(UserBase userDatas){
+    user = userDatas;
+    notifyListeners();
+  }
 }

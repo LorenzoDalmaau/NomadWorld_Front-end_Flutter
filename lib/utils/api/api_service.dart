@@ -370,7 +370,7 @@ class ApiService {
 
   /// Modificar usuario
 
-  Future<void> modifyUser(int userId, String? username, String? password, String? image) async {
+  Future<String?> modifyUser(int userId, String? username, String? password, String? image) async {
     // URL del post
     var url = Uri.parse('$baseUrl/users/modify/$userId');
 
@@ -401,17 +401,25 @@ class ApiService {
     print(response.body);
 
     // Comprobar la respuesta
+
+    // Si l
     if (response.statusCode == 200) {
       // Si la modificación es exitosa, mostrar Snackbar y navegar a la otra página
       Get.snackbar('¡Usuario modificado correctamente!', '',
           snackPosition: SnackPosition.BOTTOM);
       Get.toNamed('/navigation');
-    } else {
-      // Si la respuesta no es 200, mostrar un mensaje de error
+      return response.body;
+    } else if (response.statusCode == 404) {
+      // Si la respuesta no es 200/201, mostrar un mensaje de error
       Get.snackbar(
           'Error', 'No hemos podido modificar tu usuario',
           snackPosition: SnackPosition.BOTTOM);
       Get.toNamed('/navigation');
+      return null;
+    } else {
+      // Mostrar un Snackbar en caso de error durante la solicitud HTTP
+      print('Error en la solicitud HTTP: ${response.statusCode}');
+      return null;
     }
   }
 }
