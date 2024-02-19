@@ -5,7 +5,7 @@ class UserBase {
   final int id;
   final String username;
   final String email;
-  final String image;
+  late final String image;
   final String password;
   List<TravelRoute> savedRoutes;
   List<LocationData> savedLocations;

@@ -52,6 +52,12 @@ class UserProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  // Mofiicar foto usuario
+  void updateUserImage(String newImage) {
+    user!.image = newImage;
+    notifyListeners();
+  }
+
   // Modificar usuario
   modifyUser(UserBase userDatas){
     user = userDatas;

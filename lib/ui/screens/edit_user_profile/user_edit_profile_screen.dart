@@ -145,7 +145,7 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
     );
   }
 
-  modifyUser() {
+  modifyUser() async {
     String? image;
     String? username;
     String? password;
@@ -181,6 +181,14 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
       return;
     }
 
+    // Llamar a la función de modificar usuario
+    String? response = await ApiService().modifyUser(
+      _userProvider.user!.id,
+      username,
+      password,
+      image,
+    );
+
     // Actualizar el usuario en el provider
     _userProvider.modifyUser(
       UserBase(
@@ -188,19 +196,15 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
         username: username == null ? _userProvider.user!.username : username!,
         password: password == null ? _userProvider.user!.password : password!,
         email: _userProvider.user!.email,
-        image: image == null ? _userProvider.user!.image : image!,
+        image: image == null ? _userProvider.user!.image : response!,
         savedRoutes: _userProvider.user!.savedRoutes,
         savedLocations: _userProvider.user!.savedLocations,
       ),
     );
-
-    // Llamar a la función de modificar usuario
-    ApiService().modifyUser(
-      _userProvider.user!.id,
-      username,
-      password,
-      image,
-    );
+    print("IMAGEN DEL BACKEND");
+    print(response);
+    print("USER BASE MODIFICADO");
+    print(_userProvider.user!.image);
 
   }
 
@@ -210,6 +214,8 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
       if (image != null) {
         setState(() {
           _imageSelected = image;
+          String newImage = ImagePickerHelper().convertImageToBase64(image);
+          _userProvider.updateUserImage(newImage);
         });
       }
     });
