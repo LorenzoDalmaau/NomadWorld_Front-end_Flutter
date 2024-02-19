@@ -127,6 +127,8 @@ class _RecoveryPasswordScreenState extends State<RecoveryPasswordScreen> {
     return TextField(
       controller: controller,
       decoration: const InputDecoration(
+        hintText: "Email",
+
         suffixIcon: Icon(Icons.alternate_email)
       ),
     );

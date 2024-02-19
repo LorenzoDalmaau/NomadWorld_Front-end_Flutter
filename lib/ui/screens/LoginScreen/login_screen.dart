@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nomadworld/utils/api/api_service.dart';
@@ -118,7 +119,9 @@ class _LoginScreenState extends State<LoginScreen> {
         const SizedBox(height: 10),
         _buildRegisterText(),
         const SizedBox(height: 30),
-        _buildLoginButton()
+        _buildLoginButton(),
+        const SizedBox(height: 10),
+        _buildPasswordText(),
       ],
     );
   }
@@ -132,19 +135,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-  // Widget _buildInputField(TextEditingController controller, {isPassword = false}) {
-  //   return TextField(
-  //     controller: controller,
-  //     decoration: InputDecoration(
-  //       suffixIcon: isPassword
-  //           ? const Icon(Icons.remove_red_eye)
-  //           : const Icon(Icons.person_2_outlined),
-  //     ),
-  //     obscureText: isPassword,
-  //
-  //   );
-  // }
 
   /// Nuevos textfield
   Widget _buildEmailInputField() {
@@ -211,6 +201,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+
+
   Widget _buildLoginButton() {
     return Center(
       child: ElevatedButton(
@@ -245,6 +237,26 @@ class _LoginScreenState extends State<LoginScreen> {
           style: TextStyle(
             color: Colors.white,
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPasswordText(){
+    return Center(
+      child: RichText(
+        text: TextSpan(
+          text: "Has pedido tu contraseña?",
+          style: const TextStyle(color: Colors.black,fontSize: 15),
+          children: [
+            TextSpan(
+              text: " Recuperar contraseña",
+              style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF257155)),
+              recognizer: TapGestureRecognizer()..onTap = () {
+                Get.toNamed('/recovery_password');
+              },
+            )
+          ]
         ),
       ),
     );

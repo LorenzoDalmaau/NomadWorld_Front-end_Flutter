@@ -11,13 +11,13 @@ class DescriptionText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.03),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.025),
       child: Expanded(
         child: Text(
           description,
           style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold
+              fontSize: 15,
+              //fontWeight: FontWeight.bold
           ),
         ),
       ),

@@ -45,14 +45,41 @@ class _RouteScreenState extends State<RouteScreen> {
                   ),
                 ),
                 SliverToBoxAdapter(
-                    child: DescriptionText(description: route.descrption)
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.025, top: MediaQuery.of(context).size.height * 0.025,bottom: MediaQuery.of(context).size.height * 0.010),
+                          child: Text(
+                            route.name,
+                            style: const TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.025),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.005,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('assets/card_background.jpg'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                        DescriptionText(description: route.descrption),
+                      ],
+                    )
                 ),
                 SliverToBoxAdapter(
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.height * 0.01, MediaQuery.of(context).size.height * 0.01, MediaQuery.of(context).size.height * 0.01, MediaQuery.of(context).size.height * 0.005),
+                      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.height * 0.025, MediaQuery.of(context).size.height * 0.025, MediaQuery.of(context).size.height * 0.025, MediaQuery.of(context).size.height * 0.025),
                       child: Column(
                         children: [
-                          Container(
+                          SizedBox(
                             height: MediaQuery.of(context).size.height * 0.035,
                             child: const SingleChildScrollView(
                                 child: Align(
@@ -67,16 +94,10 @@ class _RouteScreenState extends State<RouteScreen> {
                                 )
                             ),
                           ),
-        
+                          const SizedBox(height: 5,),
                           Container(
                             height: MediaQuery.of(context).size.height * 0.005,
                             decoration: const BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color.fromARGB(150, 0, 0, 0),
-                                  blurRadius: 20,
-                                ),
-                              ],
                               image: DecorationImage(
                                 image: AssetImage('assets/card_background.jpg'),
                                 fit: BoxFit.cover,
@@ -87,13 +108,12 @@ class _RouteScreenState extends State<RouteScreen> {
                       ),
                     )
                 ),
-        
                 SliverToBoxAdapter(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
+                        padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01, horizontal: MediaQuery.of(context).size.height * 0.025),
                         child: Text(
                           "${route.duration} dias",
                           style: const TextStyle(
@@ -103,7 +123,7 @@ class _RouteScreenState extends State<RouteScreen> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
+                        padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01, horizontal: MediaQuery.of(context).size.height * 0.025),
                         child: Text(
                           "${route.distance}Km",
                           style: const TextStyle(
@@ -136,7 +156,7 @@ class _RouteScreenState extends State<RouteScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(100))),
                   child: _checkLocationSaved(provider, route.id)

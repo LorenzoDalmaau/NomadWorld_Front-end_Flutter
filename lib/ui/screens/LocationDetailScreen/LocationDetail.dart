@@ -41,7 +41,30 @@ class _LocationDetailState extends State<LocationDetail> {
                   ),
                 ),
                 SliverList(
-                    delegate: SliverChildListDelegate([
+                  delegate: SliverChildListDelegate(
+                  [
+                  Padding(
+                    padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.025, top: MediaQuery.of(context).size.height * 0.025,bottom: MediaQuery.of(context).size.height * 0.010),
+                    child: Text(
+                      location.name!,
+                      style: const TextStyle(
+                          fontSize: 23,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.025),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.005,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/card_background.jpg'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
                   DescriptionText(description: location.description),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),

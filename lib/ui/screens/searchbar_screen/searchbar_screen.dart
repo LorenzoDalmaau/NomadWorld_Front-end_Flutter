@@ -81,14 +81,14 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
                 }),
             bottom: const TabBar(tabs: [
               Tab(
-                child: Text('Country', style: TextStyle(color: Colors.white)),
+                child: Text('Pais', style: TextStyle(color: Colors.white)),
               ),
               Tab(
                 child:
-                Text('Location', style: TextStyle(color: Colors.white)),
+                Text('Localizacion', style: TextStyle(color: Colors.white)),
               ),
               Tab(
-                child: Text('Route', style: TextStyle(color: Colors.white)),
+                child: Text('Ruta', style: TextStyle(color: Colors.white)),
               ),
             ], indicatorColor: Colors.white),
             title: Container(
