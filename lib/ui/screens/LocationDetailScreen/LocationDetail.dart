@@ -19,9 +19,9 @@ class _LocationDetailState extends State<LocationDetail> {
     UserProvider provider = Provider.of<UserProvider>(context);
 
     final LocationData location = Get.arguments as LocationData;
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
           children: [
             CustomScrollView(
               slivers: [
@@ -41,7 +41,30 @@ class _LocationDetailState extends State<LocationDetail> {
                   ),
                 ),
                 SliverList(
-                    delegate: SliverChildListDelegate([
+                  delegate: SliverChildListDelegate(
+                  [
+                  Padding(
+                    padding: EdgeInsets.only(left: MediaQuery.of(context).size.height * 0.025, top: MediaQuery.of(context).size.height * 0.025,bottom: MediaQuery.of(context).size.height * 0.010),
+                    child: Text(
+                      location.name!,
+                      style: const TextStyle(
+                          fontSize: 23,
+                          fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.025),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.005,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/card_background.jpg'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
                   DescriptionText(description: location.description),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
@@ -66,7 +89,7 @@ class _LocationDetailState extends State<LocationDetail> {
                           onPressed: () {
                             provider.deleteSavedLocation(location.id);
                             setState(() {
-
+            
                             });
                           },
                           icon: const Icon(
@@ -78,7 +101,7 @@ class _LocationDetailState extends State<LocationDetail> {
                           onPressed: () {
                             provider.saveLocation(location);
                             setState(() {
-
+            
                             });
                           },
                           icon: const Icon(

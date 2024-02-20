@@ -80,6 +80,8 @@ class PopularRoutesList extends StatelessWidget {
     if(text.length > 10){
       return "${text.substring(0,7)}...";
     }
-    else return text;
+    else {
+      return text;
+    }
   }
 }
