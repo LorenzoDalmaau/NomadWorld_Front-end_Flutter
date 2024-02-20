@@ -97,7 +97,7 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
                   color: const Color(0xffF5F5F5),
                   borderRadius: BorderRadius.circular(5)),
               child: TextField(
-                cursorColor: Color(0xFF257155),
+                cursorColor: const Color(0xFF257155),
 
                 controller: _textController,
                 decoration: InputDecoration(
