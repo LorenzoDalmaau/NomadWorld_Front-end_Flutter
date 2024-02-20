@@ -119,6 +119,9 @@ class _CreateLocationState extends State<CreateLocation> {
                   base64Images,
                   dropdownValue
                 );
+
+                // Eliminar lista de imagenes
+                provider.images.clear();
               }
             },
             child: const Text(

@@ -19,12 +19,12 @@ class CountriScreen extends StatelessWidget {
           backgroundColor: Color(0xFF257155),
           title: Text(
             country.name,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold
             ),
           ),
-          bottom: TabBar(
+          bottom: const TabBar(
             labelColor:  Colors.white,
             indicatorColor: Colors.white,
             tabs: [

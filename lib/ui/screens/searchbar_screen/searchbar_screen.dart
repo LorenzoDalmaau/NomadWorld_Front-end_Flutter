@@ -85,7 +85,7 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
               ),
               Tab(
                 child:
-                Text('Localizacion', style: TextStyle(color: Colors.white)),
+                Text('Localización', style: TextStyle(color: Colors.white)),
               ),
               Tab(
                 child: Text('Ruta', style: TextStyle(color: Colors.white)),
@@ -111,7 +111,7 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
                         _textController.text = "";
                         _filterLogListBySearchText("");
                       }),
-                  hintText: 'Search...',
+                  hintText: 'Buscar...',
                   border: InputBorder.none,
                 ),
                 onChanged: (value) => _filterLogListBySearchText(value),
