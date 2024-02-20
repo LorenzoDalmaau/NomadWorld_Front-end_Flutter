@@ -39,7 +39,7 @@ class _LocationsCountriBuilderState extends State<LocationsCountriBuilder> {
           );
         } else if (snapshot.hasError) {
           return const Center(
-            child: Text('Error al recivir los datos'),
+            child: Text('No hay localizaciones para este país'),
           );
         } else {
           List<LocationData> locations = snapshot.data as List<LocationData>;

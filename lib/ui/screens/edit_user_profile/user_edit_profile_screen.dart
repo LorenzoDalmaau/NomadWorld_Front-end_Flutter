@@ -214,8 +214,8 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
       if (image != null) {
         setState(() {
           _imageSelected = image;
-          String newImage = ImagePickerHelper().convertImageToBase64(image);
-          _userProvider.updateUserImage(newImage);
+          // String newImage = ImagePickerHelper().convertImageToBase64(image);
+          // _userProvider.updateUserImage(newImage);
         });
       }
     });

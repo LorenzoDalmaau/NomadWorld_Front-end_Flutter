@@ -39,7 +39,7 @@ class _RoutesCountriBuilderState extends State<RoutesCountriBuilder> {
           );
         } else if (snapshot.hasError) {
           return const Center(
-            child: Text('Error al recivir los datos'),
+            child: Text('No hay rutas para este país'),
           );
         } else {
           List<TravelRoute> routes = snapshot.data as List<TravelRoute>;
