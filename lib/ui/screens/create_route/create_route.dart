@@ -33,7 +33,6 @@ class _CreateRouteState extends State<CreateRoute> {
   List<LocationData> countryLocations = [];
   int? selectedCountryId; // Cambio aquí para controlar el estado inicial
 
-
   @override
   void initState() {
     super.initState();
@@ -64,10 +63,9 @@ class _CreateRouteState extends State<CreateRoute> {
         isLoading = false; // Ocultar indicador de carga en caso de error
       });
     }
-
-
   }
-    /// Peticion de localizaciones de un país
+
+  /// Peticion de localizaciones de un país
   getLocations() async {
     List<LocationData> apiResponse =
         await ApiService().getCountryLocations(dropdownValue.name);
@@ -85,13 +83,13 @@ class _CreateRouteState extends State<CreateRoute> {
           TextButton(
             onPressed: () {
               apiService.createRoute(
+                  context,
                   dropdownValue,
                   nameRouteController.text.toString(),
                   descriptionRouteController.text.toString(),
                   selectedLocations,
                   dropdownValueDistance,
-                  dropdownValueDuration
-                  );
+                  dropdownValueDuration);
             },
             child: const Text(
               'Crear ruta',
@@ -172,7 +170,6 @@ class _CreateRouteState extends State<CreateRoute> {
                         CreateILName(
                             ilName: 'Selecciona la distancia de tu ruta'),
 
-
                         const SizedBox(height: 10),
 
                         /// Dropdown Menu
@@ -233,7 +230,6 @@ class _CreateRouteState extends State<CreateRoute> {
 
                         const SizedBox(height: 10),
 
-
                         const dropdown_menu_title(),
 
                         /// Dropdown Menu
@@ -241,14 +237,17 @@ class _CreateRouteState extends State<CreateRoute> {
                         /// Si no hay ningún país seleccionado, por defecto, se selecciona el primer país de la lista
                         DropdownButton<int?>(
                           value: selectedCountryId,
-                          hint: const Text('Seleccionar un país'), // Texto por defecto
+                          hint: const Text('Seleccionar un país'),
+                          // Texto por defecto
                           onChanged: (int? newDropdownValue) {
                             setState(() {
                               selectedCountryId = newDropdownValue;
-                              if (newDropdownValue != null) { // Verificar si se seleccionó un país válido
+                              if (newDropdownValue != null) {
+                                // Verificar si se seleccionó un país válido
                                 dropdownValue = provider.countries.firstWhere(
-                                      (country) => country.id == newDropdownValue,
-                                  orElse: () => provider.countries.first, // Selección predeterminada si no encuentra ninguna coincidencia
+                                  (country) => country.id == newDropdownValue,
+                                  orElse: () => provider.countries
+                                      .first, // Selección predeterminada si no encuentra ninguna coincidencia
                                 );
                                 getLocations();
                               } else {
@@ -260,7 +259,8 @@ class _CreateRouteState extends State<CreateRoute> {
                           items: [
                             const DropdownMenuItem<int?>(
                               value: null,
-                              child: Text('Seleccionar un país'), // Opción predeterminada
+                              child: Text(
+                                  'Seleccionar un país'), // Opción predeterminada
                             ),
                             ...provider.countries.map((Country country) {
                               return DropdownMenuItem<int>(
@@ -270,7 +270,6 @@ class _CreateRouteState extends State<CreateRoute> {
                             }),
                           ],
                         ),
-
 
                         const SizedBox(height: 10),
 

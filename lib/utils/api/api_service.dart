@@ -1,6 +1,6 @@
 import 'dart:convert' as convert;
 import 'dart:convert';
-import 'dart:ffi';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
@@ -201,7 +201,7 @@ class ApiService {
   }
 
   /// Crear post de location
-  void createLocation(String name, String description, LatLng location, List<String> base64Images, Country country) async {
+  void createLocation(context, String name, String description, LatLng location, List<String> base64Images, Country country) async {
 
     // Mostrar Snackbar indicando que la ubicación se está creando
     Get.snackbar('Creando ubicación', 'Por favor, espera...',
@@ -234,7 +234,7 @@ class ApiService {
         // Si la creación es exitosa, mostrar Snackbar y navegar a la otra página
         Get.snackbar('¡Localización creada correctamente!', '',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed('/navigation');
+        Navigator.pop(context);
       } else {
         // Si la respuesta no es 200/201, mostrar un mensaje de error
         Get.snackbar(
@@ -249,7 +249,7 @@ class ApiService {
   }
 
   /// POST Create Route
-  Future<void> createRoute(Country country,String nameRoute, String descriptionRoute, List<int> locationIds, int distance, int duration) async {
+  Future<void> createRoute(context, Country country,String nameRoute, String descriptionRoute, List<int> locationIds, int distance, int duration) async {
     var url = Uri.parse('$baseUrl/create_route/${country.name}');
 
     // Mostrar Snackbar indicando que la ubicación se está creando
@@ -280,7 +280,7 @@ class ApiService {
         // Si la creación es exitosa, mostrar Snackbar y navegar a la otra página
         Get.snackbar('¡Localización creada correctamente!', '',
             snackPosition: SnackPosition.BOTTOM);
-        Get.toNamed('/navigation');
+        Navigator.pop(context);
       } else {
         // Si la respuesta no es 200/201, mostrar un mensaje de error
         Get.snackbar(

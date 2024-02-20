@@ -20,7 +20,7 @@ class CardILWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, routing);
+        Navigator.pop(context);
       },
       child: Padding(
         padding: const EdgeInsets.all(25.0),
