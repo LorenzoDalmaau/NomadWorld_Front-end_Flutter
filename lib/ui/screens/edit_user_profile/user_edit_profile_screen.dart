@@ -201,10 +201,6 @@ class _UserEditProfileScreenState extends State<UserEditProfileScreen> {
         savedLocations: _userProvider.user!.savedLocations,
       ),
     );
-    print("IMAGEN DEL BACKEND");
-    print(response);
-    print("USER BASE MODIFICADO");
-    print(_userProvider.user!.image);
 
   }
 

@@ -21,24 +21,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context);
 
-    /// Saber si hay localizaciones guardadas en consola
-    if (_userProvider.savedLocations.isEmpty) {
-      print("@@@@@@@No hay localizaciones guardadas@@@@@@@");
-      print(_userProvider.savedLocations.length);
-    } else {
-      print("@@@@@@@Hay localizaciones guardadas@@@@@@@");
-      print(_userProvider.savedLocations.length);
-    }
-
-    /// Saber si hay rutas guardadas en consola
-    if (_userProvider.savedRoutes.isEmpty) {
-      print("@@@@@@@No hay rutas guardadas@@@@@@@");
-      print(_userProvider.savedLocations.length);
-    } else {
-      print("@@@@@@@Hay localizaciones guardadas@@@@@@@");
-      print(_userProvider.savedLocations.length);
-    }
-
     return Scaffold(
       body: Column(
         children: [

@@ -66,8 +66,6 @@ class ApiService {
       'email': email,
       'password': password
     };
-    print("-----");
-    print(url);
     // Sending the user object to the server
     var response = await http.post(url,
         body: convert.jsonEncode(userMap),
@@ -330,8 +328,6 @@ class ApiService {
   saveRoute(int userID, int routeId) async {
 
     try {
-      print("00000000000000000000000000000");
-      print(Uri.parse('$baseUrl/save/route/?user_id=$userID&route_id=$routeId'));
       final response = await http.patch(
         Uri.parse('$baseUrl/save/route/?user_id=$userID&route_id=$routeId'),
         headers: {
@@ -431,18 +427,12 @@ class ApiService {
       'newImg': image,
     };
 
-    print("USERMAP");
-    print(userMap);
-
     // Enviar el objeto usuario al servidor
     var response = await http.patch(
       url,
       headers: {'Content-Type': 'application/json'},
       body: convert.jsonEncode(userMap),
     );
-
-    print("RESPONSE");
-    print(response.body);
 
     // Comprobar la respuesta
 
