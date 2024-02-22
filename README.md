@@ -28,7 +28,7 @@ Nomad World es un proyecto diseñado para entusiastas de viajar que desean explo
 
 Una vez clonado el el repositorio y despues de instalar flutter abrimos el IDE (android studio y compilamos el proyecto)
 
-![Android studio](readme_assets\android_studio.png) 
+![Android studio](./readme_assets/android_studio.png) 
 
 ## Endpoints API
     
