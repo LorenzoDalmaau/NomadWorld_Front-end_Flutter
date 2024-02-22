@@ -1,9 +1,12 @@
  import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:nomadworld/ui/screens/LoginScreen/login_screen.dart';
 import 'package:nomadworld/ui/screens/edit_user_profile/user_edit_profile_screen.dart';
 import 'package:nomadworld/ui/screens/user_profile/widgets/my_saved_locations.dart';
 import 'package:nomadworld/ui/screens/user_profile/widgets/my_saved_routes.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../utils/providers/user_provider.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -158,11 +161,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ),
                     ),
                     PopupMenuItem(
-                      onTap: () {
-                        Navigator.pop(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginScreen()));
+                      onTap: () async {
+
+                        final SharedPreferences prefs = await SharedPreferences.getInstance();
+                        prefs.remove("userId");
+
+                        //Navigator.pop(context);
+                        Get.offAllNamed('/login');
                       },
                       child: const Row(
                         children: [

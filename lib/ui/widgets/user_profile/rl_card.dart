@@ -13,7 +13,10 @@ class LCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-        color: Colors.grey[200],
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.grey[200],
+        ),
         child: Row(
           children: [
             /// Imagen
@@ -60,16 +63,13 @@ class LCard extends StatelessWidget {
               ),
             ),
 
-            Expanded(
-              flex: 1,
-              child: IconButton(
-                onPressed: () {
-                  // Eliminar utilizando el provider la ruta guardada
-                  Provider.of<UserProvider>(context, listen: false)
-                      .deleteSavedLocation(savedLocation!.id);
-                },
-                icon: const Icon(Icons.delete),
-              ),
+            IconButton(
+              onPressed: () {
+                // Eliminar utilizando el provider la ruta guardada
+                Provider.of<UserProvider>(context, listen: false)
+                    .deleteSavedLocation(savedLocation!.id);
+              },
+              icon: const Icon(Icons.delete),
             ),
           ],
         ),

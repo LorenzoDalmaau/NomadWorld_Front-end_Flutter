@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:nomadworld/utils/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../widgets/user_profile/rcard.dart';
@@ -18,9 +20,6 @@ class _MySavedRoutesState extends State<MySavedRoutes> {
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context);
 
-    /// Muestra el número de rutas guardadas en consola
-    print('@@@@ RUTAS: ${_userProvider.savedRoutes.length}');
-
     return _userProvider.savedRoutes.isEmpty
         ? const Center(
             child: Text('No hay rutas guardadas'),
@@ -29,11 +28,16 @@ class _MySavedRoutesState extends State<MySavedRoutes> {
             itemCount: _userProvider.savedRoutes.length,
             itemBuilder: (context, index) => Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Rcard(
-                savedRoute: _userProvider.savedRoutes[index],
-                updateList: () {
-                  setState(() {});
+              child: InkWell(
+                onTap: (){
+                  Get.toNamed('/route', arguments: _userProvider.savedRoutes[index]);
                 },
+                child: Rcard(
+                  savedRoute: _userProvider.savedRoutes[index],
+                  updateList: () {
+                    setState(() {});
+                  },
+                ),
               ),
             ),
           );
