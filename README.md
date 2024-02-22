@@ -52,19 +52,19 @@ flutter doctor
 
 Para poder utilizar flutter debes intalar el plugin 'Flutter' y 'Dart' en tu proyecto. Para eso dirigete a `File>Settings>Plugins`
 
-![Plugins](readme_assets\pluggins_flutter.png) 
+![Plugins](./readme_assets/pluggins_flutter.png) 
 
 **Pluggins recomendados**
 
 Si tienes intencion de desarollar en flutter es recomentable usar el pluggin ´Flutter snippets´. Este pluggin te permitira autocompletar tu codigo con funciones exclusivas de flutter
 
-![Plugins](readme_assets\extra_pluggins_flutter.png) 
+![Plugins](./readme_assets/extra_pluggins_flutter.png) 
 
 **Indicar path de flutter SDK**
 
 Dentro de Android Studio dirigete a ``File>Settings``, una vez en la pestaña dirigete en el menu de la derecha a ``Language & Frameworks>Flutter`` y indica el path de tu SDK de flutter, una vez echo aplica los cambios
 
-![Plugins](readme_assets\flutter_path.png) 
+![Plugins](./readme_assets/flutter_path.png) 
 
 # Compilar proyecto
 
@@ -82,7 +82,7 @@ flutter pub get
 
 Una vez echo esto ya puedes compilar el proyecto
 
-![Android studio](readme_assets\run_app_android.png) 
+![Android studio](./readme_assets/run_app_android.png) 
 
 
 # Futuras ampliaciones
