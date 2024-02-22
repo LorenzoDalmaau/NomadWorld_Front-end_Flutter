@@ -8,8 +8,11 @@ Nomad World es un proyecto diseñado para entusiastas de viajar que desean explo
 - [@LorenzoDalmaau](https://github.com/LorenzoDalmaau)
 - [@peronaOscar](https://github.com/peronaOscar)
 
+
+## Bakcend project
+- [Nomad World - Backend](https://github.com/AlbertDarchiev/NomadWorld_BackEnd/tree/main)
+
 ## FrontEnd Project
-- [Nomad World - FrontEnd](https://github.com/LorenzoDalmaau/NomadWorld_Front-end_Flutter)
 
 ![App Screenshot](https://ik.imagekit.io/albertITB/readme/Nomad%20World.png?updatedAt=1708598106088) 
 
@@ -17,6 +20,51 @@ Nomad World es un proyecto diseñado para entusiastas de viajar que desean explo
 # Technologies
 ![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white) ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)
 
+
+# Instalar flutter en linux
+
+**Descargar flutter sdk**
+
+[Download sdk](https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.19.1-stable.tar.xz)
+
+**Extrae el archivo descargado en una ubicación de tu elección**
+
+```bash
+cd ~/development
+tar xf ~/Downloads/flutter_linux_vX.X.X-stable.tar.xz
+```
+
+***Agrega la herramienta de Flutter a tu ruta (PATH)**
+
+```bash
+export PATH="$PATH:`pwd`/flutter/bin"
+```
+
+**Verifica tu instalacion**
+
+```bash
+flutter doctor
+```
+
+# Configuracion Android Studio
+
+**Instalacion de pluggins**
+
+Para poder utilizar flutter debes intalar el plugin 'Flutter' y 'Dart' en tu proyecto. Para eso dirigete a `File>Settings>Plugins`
+
+![Plugins](readme_assets\pluggins_flutter.png) 
+
+**Pluggins recomendados**
+
+Si tienes intencion de desarollar en flutter es recomentable usar el pluggin ´Flutter snippets´. Este pluggin te permitira autocompletar tu codigo con funciones exclusivas de flutter
+
+![Plugins](readme_assets\extra_pluggins_flutter.png) 
+
+**Indicar path de flutter SDK**
+
+Dentro de Android Studio dirigete a ``File>Settings``, una vez en la pestaña dirigete en el menu de la derecha a ``Language & Frameworks>Flutter`` y indica el path de tu SDK de flutter, una vez echo aplica los cambios
+
+![Plugins](readme_assets\flutter_path.png) 
 
 # Compilar proyecto
 
@@ -26,193 +74,31 @@ Nomad World es un proyecto diseñado para entusiastas de viajar que desean explo
     
 **Compilar en antroid studio:**
 
-Una vez clonado el el repositorio y despues de instalar flutter abrimos el IDE (android studio y compilamos el proyecto)
+Una vez clonado el el repositorio y despues de instalar flutter abrimos el IDE y hacemos un get de las dependencias, para ello abre el propio terminal del IDE y ejecuta el siguiente comando:
 
-![Android studio](./readme_assets/android_studio.png) 
+```bash
+flutter pub get
+```
 
-## Endpoints API
-    
-### Usuarios
+Una vez echo esto ya puedes compilar el proyecto
 
-#### Obtener todos los usuarios
-
-- **Método:** `GET`
-- **Ruta:** `/users`
-- **Respuesta:** Devuelve una lista de todos los usuarios registrados en el sistema.
-
-#### Obtener un usuario por su ID
-
-- **Método:** `GET`
-- **Ruta:** `/users/{user_id}`
-- **Parámetros de URL:** `user_id` (int) - ID del usuario que se desea obtener.
-- **Respuesta:** Devuelve los detalles del usuario correspondiente al ID proporcionado, incluyendo las rutas y ubicaciones guardadas por ese usuario.
-
-#### Registrar un nuevo usuario
-
-- **Método:** `POST`
-- **Ruta:** `/register`
-- **Parámetros de la solicitud:** Se deben proporcionar los detalles del usuario a registrar en el cuerpo de la solicitud.
-- **Respuesta:** Devuelve los detalles del usuario recién registrado.
-
-#### Iniciar sesión de usuario
-
-- **Método:** `POST`
-- **Ruta:** `/login`
-- **Parámetros de la solicitud:** Se deben proporcionar las credenciales de inicio de sesión del usuario en el cuerpo de la solicitud.
-- **Respuesta:** Devuelve los detalles del usuario si las credenciales son válidas.
-
-### Configuración de usuario
-
-#### Restablecer contraseña del usuario
-
-- **Método:** `PATCH`
-- **Ruta:** `/users/restore_pass/{user_mail}`
-- **Parámetros de URL:** `user_mail` (str) - Correo electrónico del usuario al que se le restablecerá la contraseña.
-- **Respuesta:** Si se encuentra el usuario correspondiente al correo electrónico proporcionado, se restablece la contraseña y se envía al usuario por correo electrónico.
-
-#### Modificar detalles del usuario
-
-- **Método:** `PATCH`
-- **Ruta:** `/users/modify/{user_id}`
-- **Parámetros de URL:** `user_id` (int) - ID del usuario que se desea modificar.
-- **Parámetros de la solicitud:** Se deben proporcionar los detalles actualizados del usuario en el cuerpo de la solicitud.
-- **Respuesta:** Si se encuentra el usuario correspondiente al ID proporcionado, se actualizan los detalles del usuario.
+![Android studio](readme_assets\run_app_android.png) 
 
 
+# Futuras ampliaciones
 
-## Endpoints de Países
+Con NomadWorld tambien se han tenido en cuenta propuestas a futuro para que asi la app pueda crecer y llegar a la gente con mas facilidad, entre las futuras ampliaciones pensadas se pueden destacar:
 
-### Obtener información de país
+- **Comentarios**
+    En un futuro nos gustaria implementer comentarios tanto en las rutas como en las localizaciones para que asi los usuarios puedan dar un feedback a la publicaciones
 
-- **Método:** `GET`
-- **Ruta:** `/country/`
-- **Descripción:** Devuelve información sobre todos los países almacenados en la base de datos.
-- **Respuesta:** Devuelve una lista de objetos que representan información sobre cada país.
+- **Likes**
+    Nos gustaria implemenentar un sistema de likes para que los usuarios puedan valorar los viajes del resto de personas
 
-## Endpoints de Rutas
+- **Chat**
+    Otra idea a implementar seria añadir un chat entre usuarios para poder comunicarse entre ellos y poder hablar de sus viiajes
 
-### Obtener rutas por número de "Me gusta"
 
-- **Método:** `GET`
-- **Ruta:** `/route/more_likes/`
-- **Descripción:** Devuelve las rutas ordenadas por el número de "Me gusta" de forma descendente.
-- **Respuesta:** Devuelve una lista de rutas con sus respectivas ubicaciones y el número total de "Me gusta".
+# App demo
 
-### Obtener todas las rutas
-
-- **Método:** `GET`
-- **Ruta:** `/route/`
-- **Descripción:** Devuelve todas las rutas almacenadas en la base de datos.
-- **Respuesta:** Devuelve una lista de todas las rutas con sus respectivas ubicaciones.
-
-### Obtener rutas por país
-
-- **Método:** `GET`
-- **Ruta:** `/route/{country_name}`
-- **Parámetros de URL:** `country_name` (str) - Nombre del país del que se desean obtener las rutas.
-- **Descripción:** Devuelve todas las rutas asociadas con el país especificado.
-- **Respuesta:** Devuelve una lista de rutas con sus respectivas ubicaciones para el país especificado.
-
-### Crear una nueva ruta
-
-- **Método:** `POST`
-- **Ruta:** `/create_route/{country_name}`
-- **Parámetros de URL:** `country_name` (str) - Nombre del país al que pertenece la ruta que se desea crear.
-- **Descripción:** Crea una nueva ruta asociada al país especificado.
-- **Respuesta:** Devuelve los detalles de la ruta recién creada.
-
-### Guardar una ruta para un usuario
-
-- **Método:** `PATCH`
-- **Ruta:** `/save/route/`
-- **Descripción:** Guarda una ruta específica para un usuario.
-- **Respuesta:** Devuelve los detalles actualizados del usuario después de guardar la ruta.
-
-### Eliminar una ruta guardada de un usuario
-
-- **Método:** `PATCH`
-- **Ruta:** `/unsave/route/`
-- **Descripción:** Elimina una ruta guardada de un usuario.
-- **Respuesta:** Devuelve los detalles actualizados del usuario después de eliminar la ruta.
-
-## Endpoints de Ubicaciones
-
-### Obtener todas las ubicaciones
-
-- **Método:** `GET`
-- **Ruta:** `/location`
-- **Descripción:** Devuelve información sobre todas las ubicaciones almacenadas en la base de datos.
-- **Respuesta:** Devuelve una lista de objetos que representan información sobre cada ubicación.
-
-### Obtener ubicaciones por país
-
-- **Método:** `GET`
-- **Ruta:** `/location/{country_name}`
-- **Parámetros de URL:** `country_name` (str) - Nombre del país del que se desean obtener las ubicaciones.
-- **Descripción:** Devuelve todas las ubicaciones asociadas con el país especificado.
-- **Respuesta:** Devuelve una lista de ubicaciones para el país especificado.
-
-### Obtener una ubicación por su ID
-
-- **Método:** `GET`
-- **Ruta:** `/location/id/{loc_id}`
-- **Parámetros de URL:** `loc_id` (int) - ID de la ubicación que se desea obtener.
-- **Descripción:** Devuelve información detallada sobre una ubicación específica.
-- **Respuesta:** Devuelve detalles sobre la ubicación especificada por su ID.
-
-### Crear una nueva ubicación
-
-- **Método:** `POST`
-- **Ruta:** `/create_location/{country_name}`
-- **Parámetros de URL:** `country_name` (str) - Nombre del país al que pertenece la ubicación que se desea crear.
-- **Descripción:** Crea una nueva ubicación asociada al país especificado.
-- **Respuesta:** Devuelve detalles sobre la ubicación recién creada.
-
-### Guardar una ubicación para un usuario
-
-- **Método:** `PATCH`
-- **Ruta:** `/save/location/`
-- **Descripción:** Guarda una ubicación específica para un usuario.
-- **Respuesta:** Devuelve los detalles actualizados del usuario después de guardar la ubicación.
-
-### Eliminar una ubicación guardada de un usuario
-
-- **Método:** `PATCH`
-- **Ruta:** `/unsave/location/`
-- **Descripción:** Elimina una ubicación guardada de un usuario.
-- **Respuesta:** Devuelve los detalles actualizados del usuario después de eliminar la ubicación.
-
-# Features
-- Crear Rutas / Localizaciones
-- Almazenar datos en BD de fl0
-- Subir imagenes al servidor de ImageKit
-- Restablecer contraseña con EmailSender
-- Hashear contraseñas de usuarios al guardar en BD
-- Excepciones HTTP para manejar los posibles errores y devolver códigos de estado
-
-## EXTRA Features
-- añadir / borrar comentarios de Rutas / Localizaciones
-- añadir / borrar likes de Rutas / Localizaciones
-
-## Screenshots Uvicorn
-![App Screenshot](https://ik.imagekit.io/albertITB/readme/2.png?updatedAt=1708598745336)
-![App Screenshot](https://ik.imagekit.io/albertITB/readme/3.png?updatedAt=1708598745238)
-
-## Evolution of Nomad World
-### Sprint 1
-- [Test VIdeo]
-
-### Sprint 2
-- [Test VIdeo](https://www.youtube.com/watch?v=OyfQn08FZz8)
-
-### Sprint 3
-- [Test VIdeo]
-
-### Sprint 4
-- [Test VIdeo]
-
-### Sprint 5
-- [Test VIdeo](https://www.youtube.com/watch?v=cOfXAh2gW2o)
-
-### Sprint 6
-- [Test VIdeo]
+[![Nomad demo](readme_assets\nomad_logo.png)](https://drive.google.com/file/d/1-0WSB1DX14HbdtZ1kP_jioV7YqaoEEZ8/view)
