@@ -101,4 +101,4 @@ Con NomadWorld tambien se han tenido en cuenta propuestas a futuro para que asi 
 
 # App demo
 
-[![Nomad demo](readme_assets\nomad_logo.png)](https://drive.google.com/file/d/1-0WSB1DX14HbdtZ1kP_jioV7YqaoEEZ8/view)
+[![Nomad demo](./readme_assets\nomad_logo.png)](https://drive.google.com/file/d/1-0WSB1DX14HbdtZ1kP_jioV7YqaoEEZ8/view)
