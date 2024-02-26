@@ -79,6 +79,7 @@ class _CreateRouteState extends State<CreateRoute> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: true,
         actions: [
           TextButton(
             onPressed: () {

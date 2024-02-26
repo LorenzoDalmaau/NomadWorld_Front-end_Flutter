@@ -278,7 +278,7 @@ class ApiService {
       // Checking the response
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Si la creación es exitosa, mostrar Snackbar y navegar a la otra página
-        Get.snackbar('¡Localización creada correctamente!', '',
+        Get.snackbar('¡Ruta creada correctamente!', '',
             snackPosition: SnackPosition.BOTTOM);
         Navigator.pop(context);
       } else {
